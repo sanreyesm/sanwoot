@@ -1,0 +1,2270 @@
+[
+  {
+    "originalName": "A-Skips",
+    "slug": "a-skips",
+    "file": "demos/a-skips.mp4",
+    "sizeBytes": 34934
+  },
+  {
+    "originalName": "Alternate Heel Touchers",
+    "slug": "alternate-heel-touchers",
+    "file": "demos/alternate-heel-touchers.mp4",
+    "sizeBytes": 34896
+  },
+  {
+    "originalName": "Archer",
+    "slug": "archer",
+    "file": "demos/archer.mp4",
+    "sizeBytes": 52381
+  },
+  {
+    "originalName": "Archer Pull-Up",
+    "slug": "archer-pull-up",
+    "file": "demos/archer-pull-up.mp4",
+    "sizeBytes": 25789
+  },
+  {
+    "originalName": "Arnold Press",
+    "slug": "arnold-press",
+    "file": "demos/arnold-press.mp4",
+    "sizeBytes": 38149
+  },
+  {
+    "originalName": "B-Skips",
+    "slug": "b-skips",
+    "file": "demos/b-skips.mp4",
+    "sizeBytes": 38932
+  },
+  {
+    "originalName": "Back And Forth Step",
+    "slug": "back-and-forth-step",
+    "file": "demos/back-and-forth-step.mp4",
+    "sizeBytes": 14533
+  },
+  {
+    "originalName": "Back Extensions",
+    "slug": "back-extensions",
+    "file": "demos/back-extensions.mp4",
+    "sizeBytes": 30187
+  },
+  {
+    "originalName": "Back Stretch",
+    "slug": "back-stretch",
+    "file": "demos/back-stretch.mp4",
+    "sizeBytes": 3799
+  },
+  {
+    "originalName": "Backward Ball Throw",
+    "slug": "backward-ball-throw",
+    "file": "demos/backward-ball-throw.mp4",
+    "sizeBytes": 40030
+  },
+  {
+    "originalName": "Balanced Kick Back",
+    "slug": "balanced-kick-back",
+    "file": "demos/balanced-kick-back.mp4",
+    "sizeBytes": 38412
+  },
+  {
+    "originalName": "Banded Ankle Eversion",
+    "slug": "banded-ankle-eversion",
+    "file": "demos/banded-ankle-eversion.mp4",
+    "sizeBytes": 13639
+  },
+  {
+    "originalName": "Banded Ankle Inversion",
+    "slug": "banded-ankle-inversion",
+    "file": "demos/banded-ankle-inversion.mp4",
+    "sizeBytes": 23936
+  },
+  {
+    "originalName": "Banded Hip Abduction",
+    "slug": "banded-hip-abduction",
+    "file": "demos/banded-hip-abduction.mp4",
+    "sizeBytes": 32706
+  },
+  {
+    "originalName": "Banded Hip Extension",
+    "slug": "banded-hip-extension",
+    "file": "demos/banded-hip-extension.mp4",
+    "sizeBytes": 30357
+  },
+  {
+    "originalName": "Banded Hip flexion",
+    "slug": "banded-hip-flexion",
+    "file": "demos/banded-hip-flexion.mp4",
+    "sizeBytes": 32555
+  },
+  {
+    "originalName": "Banded Kneeling Hip Extensions",
+    "slug": "banded-kneeling-hip-extensions",
+    "file": "demos/banded-kneeling-hip-extensions.mp4",
+    "sizeBytes": 31433
+  },
+  {
+    "originalName": "Banded Press",
+    "slug": "banded-press",
+    "file": "demos/banded-press.mp4",
+    "sizeBytes": 33526
+  },
+  {
+    "originalName": "Banded Shoulder external rotation",
+    "slug": "banded-shoulder-external-rotation",
+    "file": "demos/banded-shoulder-external-rotation.mp4",
+    "sizeBytes": 18009
+  },
+  {
+    "originalName": "Barbell Front Raise",
+    "slug": "barbell-front-raise",
+    "file": "demos/barbell-front-raise.mp4",
+    "sizeBytes": 38966
+  },
+  {
+    "originalName": "Barbell Good Morning",
+    "slug": "barbell-good-morning",
+    "file": "demos/barbell-good-morning.mp4",
+    "sizeBytes": 40855
+  },
+  {
+    "originalName": "Barbell Lying Tricep Extensions",
+    "slug": "barbell-lying-tricep-extensions",
+    "file": "demos/barbell-lying-tricep-extensions.mp4",
+    "sizeBytes": 18704
+  },
+  {
+    "originalName": "Barbell Plate Halo",
+    "slug": "barbell-plate-halo",
+    "file": "demos/barbell-plate-halo.mp4",
+    "sizeBytes": 24474
+  },
+  {
+    "originalName": "Barbell Pullover",
+    "slug": "barbell-pullover",
+    "file": "demos/barbell-pullover.mp4",
+    "sizeBytes": 29907
+  },
+  {
+    "originalName": "Barbell Row",
+    "slug": "barbell-row",
+    "file": "demos/barbell-row.mp4",
+    "sizeBytes": 21636
+  },
+  {
+    "originalName": "Barbell Shrugs",
+    "slug": "barbell-shrugs",
+    "file": "demos/barbell-shrugs.mp4",
+    "sizeBytes": 12951
+  },
+  {
+    "originalName": "Barbell Stiff-Leg Deadlift",
+    "slug": "barbell-stiff-leg-deadlift",
+    "file": "demos/barbell-stiff-leg-deadlift.mp4",
+    "sizeBytes": 76833
+  },
+  {
+    "originalName": "Battle Rope Alternating Waves",
+    "slug": "battle-rope-alternating-waves",
+    "file": "demos/battle-rope-alternating-waves.mp4",
+    "sizeBytes": 22790
+  },
+  {
+    "originalName": "Battle Rope Double Waves",
+    "slug": "battle-rope-double-waves",
+    "file": "demos/battle-rope-double-waves.mp4",
+    "sizeBytes": 27354
+  },
+  {
+    "originalName": "Battle Rope In-and-Out Waves",
+    "slug": "battle-rope-in-and-out-waves",
+    "file": "demos/battle-rope-in-and-out-waves.mp4",
+    "sizeBytes": 14054
+  },
+  {
+    "originalName": "Battle Rope Slams",
+    "slug": "battle-rope-slams",
+    "file": "demos/battle-rope-slams.mp4",
+    "sizeBytes": 49905
+  },
+  {
+    "originalName": "Battle Ropes",
+    "slug": "battle-ropes",
+    "file": "demos/battle-ropes.mp4",
+    "sizeBytes": 25901
+  },
+  {
+    "originalName": "Behind the Neck Press",
+    "slug": "behind-the-neck-press",
+    "file": "demos/behind-the-neck-press.mp4",
+    "sizeBytes": 42930
+  },
+  {
+    "originalName": "Behind the Neck Pulldowns",
+    "slug": "behind-the-neck-pulldowns",
+    "file": "demos/behind-the-neck-pulldowns.mp4",
+    "sizeBytes": 34836
+  },
+  {
+    "originalName": "Bench Dips",
+    "slug": "bench-dips",
+    "file": "demos/bench-dips.mp4",
+    "sizeBytes": 28421
+  },
+  {
+    "originalName": "Bench Press",
+    "slug": "bench-press",
+    "file": "demos/bench-press.mp4",
+    "sizeBytes": 20879
+  },
+  {
+    "originalName": "Bench Press With Bands",
+    "slug": "bench-press-with-bands",
+    "file": "demos/bench-press-with-bands.mp4",
+    "sizeBytes": 26902
+  },
+  {
+    "originalName": "Bent-over Lateral Raise",
+    "slug": "bent-over-lateral-raise",
+    "file": "demos/bent-over-lateral-raise.mp4",
+    "sizeBytes": 31790
+  },
+  {
+    "originalName": "Bicep Curl-Machine",
+    "slug": "bicep-curl-machine",
+    "file": "demos/bicep-curl-machine.mp4",
+    "sizeBytes": 37355
+  },
+  {
+    "originalName": "Bicep Stretch",
+    "slug": "bicep-stretch",
+    "file": "demos/bicep-stretch.mp4",
+    "sizeBytes": 3308
+  },
+  {
+    "originalName": "Biceps Curls With Bands",
+    "slug": "biceps-curls-with-bands",
+    "file": "demos/biceps-curls-with-bands.mp4",
+    "sizeBytes": 42288
+  },
+  {
+    "originalName": "Bicycle Crunches",
+    "slug": "bicycle-crunches",
+    "file": "demos/bicycle-crunches.mp4",
+    "sizeBytes": 60095
+  },
+  {
+    "originalName": "Bird Dog",
+    "slug": "bird-dog",
+    "file": "demos/bird-dog.mp4",
+    "sizeBytes": 73449
+  },
+  {
+    "originalName": "Bird-Dog Balance",
+    "slug": "bird-dog-balance",
+    "file": "demos/bird-dog-balance.mp4",
+    "sizeBytes": 83912
+  },
+  {
+    "originalName": "Bosu Ball Crunches",
+    "slug": "bosu-ball-crunches",
+    "file": "demos/bosu-ball-crunches.mp4",
+    "sizeBytes": 20608
+  },
+  {
+    "originalName": "Bosu Ball High Knee Lunge",
+    "slug": "bosu-ball-high-knee-lunge",
+    "file": "demos/bosu-ball-high-knee-lunge.mp4",
+    "sizeBytes": 33402
+  },
+  {
+    "originalName": "Bosu Ball Push-Ups",
+    "slug": "bosu-ball-push-ups",
+    "file": "demos/bosu-ball-push-ups.mp4",
+    "sizeBytes": 17369
+  },
+  {
+    "originalName": "Bosu Ball Single Leg Hold",
+    "slug": "bosu-ball-single-leg-hold",
+    "file": "demos/bosu-ball-single-leg-hold.mp4",
+    "sizeBytes": 6942
+  },
+  {
+    "originalName": "Bosu Ball Single-Leg Deadlift",
+    "slug": "bosu-ball-single-leg-deadlift",
+    "file": "demos/bosu-ball-single-leg-deadlift.mp4",
+    "sizeBytes": 69043
+  },
+  {
+    "originalName": "Bosu Ball Squats",
+    "slug": "bosu-ball-squats",
+    "file": "demos/bosu-ball-squats.mp4",
+    "sizeBytes": 23744
+  },
+  {
+    "originalName": "Bounce A Boat",
+    "slug": "bounce-a-boat",
+    "file": "demos/bounce-a-boat.mp4",
+    "sizeBytes": 41686
+  },
+  {
+    "originalName": "Bounce A Boat With A Lunge",
+    "slug": "bounce-a-boat-with-a-lunge",
+    "file": "demos/bounce-a-boat-with-a-lunge.mp4",
+    "sizeBytes": 42036
+  },
+  {
+    "originalName": "Box Jumps",
+    "slug": "box-jumps",
+    "file": "demos/box-jumps.mp4",
+    "sizeBytes": 57277
+  },
+  {
+    "originalName": "Box Squat",
+    "slug": "box-squat",
+    "file": "demos/box-squat.mp4",
+    "sizeBytes": 30019
+  },
+  {
+    "originalName": "Box Step Up Knee Drive",
+    "slug": "box-step-up-knee-drive",
+    "file": "demos/box-step-up-knee-drive.mp4",
+    "sizeBytes": 30537
+  },
+  {
+    "originalName": "Box Step-Ups",
+    "slug": "box-step-ups",
+    "file": "demos/box-step-ups.mp4",
+    "sizeBytes": 47381
+  },
+  {
+    "originalName": "Bridge",
+    "slug": "bridge",
+    "file": "demos/bridge.mp4",
+    "sizeBytes": 35140
+  },
+  {
+    "originalName": "Burpee Broad Jumps",
+    "slug": "burpee-broad-jumps",
+    "file": "demos/burpee-broad-jumps.mp4",
+    "sizeBytes": 59947
+  },
+  {
+    "originalName": "Burpees",
+    "slug": "burpees",
+    "file": "demos/burpees.mp4",
+    "sizeBytes": 59947
+  },
+  {
+    "originalName": "C-Skips",
+    "slug": "c-skips",
+    "file": "demos/c-skips.mp4",
+    "sizeBytes": 59174
+  },
+  {
+    "originalName": "Cable Glute Kickbacks",
+    "slug": "cable-glute-kickbacks",
+    "file": "demos/cable-glute-kickbacks.mp4",
+    "sizeBytes": 46584
+  },
+  {
+    "originalName": "Cable Lateral Raise",
+    "slug": "cable-lateral-raise",
+    "file": "demos/cable-lateral-raise.mp4",
+    "sizeBytes": 65255
+  },
+  {
+    "originalName": "Cable Pull-Through",
+    "slug": "cable-pull-through",
+    "file": "demos/cable-pull-through.mp4",
+    "sizeBytes": 40557
+  },
+  {
+    "originalName": "Cable Reverse Fly",
+    "slug": "cable-reverse-fly",
+    "file": "demos/cable-reverse-fly.mp4",
+    "sizeBytes": 64917
+  },
+  {
+    "originalName": "Cable Rotation",
+    "slug": "cable-rotation",
+    "file": "demos/cable-rotation.mp4",
+    "sizeBytes": 51593
+  },
+  {
+    "originalName": "Calf Stretch",
+    "slug": "calf-stretch",
+    "file": "demos/calf-stretch.mp4",
+    "sizeBytes": 3310
+  },
+  {
+    "originalName": "Cardio Kickboxing",
+    "slug": "cardio-kickboxing",
+    "file": "demos/cardio-kickboxing.mp4",
+    "sizeBytes": 37327
+  },
+  {
+    "originalName": "Cat-Cow Stretch",
+    "slug": "cat-cow-stretch",
+    "file": "demos/cat-cow-stretch.mp4",
+    "sizeBytes": 33071
+  },
+  {
+    "originalName": "Chest Flys With Bands",
+    "slug": "chest-flys-with-bands",
+    "file": "demos/chest-flys-with-bands.mp4",
+    "sizeBytes": 23913
+  },
+  {
+    "originalName": "Chest Press-Machine",
+    "slug": "chest-press-machine",
+    "file": "demos/chest-press-machine.mp4",
+    "sizeBytes": 44187
+  },
+  {
+    "originalName": "Chest Stretch",
+    "slug": "chest-stretch",
+    "file": "demos/chest-stretch.mp4",
+    "sizeBytes": 3906
+  },
+  {
+    "originalName": "Clamshell",
+    "slug": "clamshell",
+    "file": "demos/clamshell.mp4",
+    "sizeBytes": 25111
+  },
+  {
+    "originalName": "Clapping Push-Up",
+    "slug": "clapping-push-up",
+    "file": "demos/clapping-push-up.mp4",
+    "sizeBytes": 39588
+  },
+  {
+    "originalName": "Close Grip Push-Up",
+    "slug": "close-grip-push-up",
+    "file": "demos/close-grip-push-up.mp4",
+    "sizeBytes": 22118
+  },
+  {
+    "originalName": "Close-Grip Bench Press",
+    "slug": "close-grip-bench-press",
+    "file": "demos/close-grip-bench-press.mp4",
+    "sizeBytes": 20662
+  },
+  {
+    "originalName": "Close-Grip Dumbbell Bench Press",
+    "slug": "close-grip-dumbbell-bench-press",
+    "file": "demos/close-grip-dumbbell-bench-press.mp4",
+    "sizeBytes": 16933
+  },
+  {
+    "originalName": "Copenhagen Plank",
+    "slug": "copenhagen-plank",
+    "file": "demos/copenhagen-plank.mp4",
+    "sizeBytes": 5420
+  },
+  {
+    "originalName": "Crawl On The Ground",
+    "slug": "crawl-on-the-ground",
+    "file": "demos/crawl-on-the-ground.mp4",
+    "sizeBytes": 71632
+  },
+  {
+    "originalName": "Crossbody Calf Hug",
+    "slug": "crossbody-calf-hug",
+    "file": "demos/crossbody-calf-hug.mp4",
+    "sizeBytes": 94144
+  },
+  {
+    "originalName": "Crunch",
+    "slug": "crunch",
+    "file": "demos/crunch.mp4",
+    "sizeBytes": 32140
+  },
+  {
+    "originalName": "Crunch - Legs On Exercise Ball",
+    "slug": "crunch-legs-on-exercise-ball",
+    "file": "demos/crunch-legs-on-exercise-ball.mp4",
+    "sizeBytes": 30439
+  },
+  {
+    "originalName": "Curtsey Squat",
+    "slug": "curtsey-squat",
+    "file": "demos/curtsey-squat.mp4",
+    "sizeBytes": 57931
+  },
+  {
+    "originalName": "Dead Bug",
+    "slug": "dead-bug",
+    "file": "demos/dead-bug.mp4",
+    "sizeBytes": 88504
+  },
+  {
+    "originalName": "Deadlifts",
+    "slug": "deadlifts",
+    "file": "demos/deadlifts.mp4",
+    "sizeBytes": 37035
+  },
+  {
+    "originalName": "Deadlifts with Bands",
+    "slug": "deadlifts-with-bands",
+    "file": "demos/deadlifts-with-bands.mp4",
+    "sizeBytes": 40468
+  },
+  {
+    "originalName": "Decline Bench Press",
+    "slug": "decline-bench-press",
+    "file": "demos/decline-bench-press.mp4",
+    "sizeBytes": 21072
+  },
+  {
+    "originalName": "Decline Dumbbell Bench Press",
+    "slug": "decline-dumbbell-bench-press",
+    "file": "demos/decline-dumbbell-bench-press.mp4",
+    "sizeBytes": 22570
+  },
+  {
+    "originalName": "Decline Push-Up",
+    "slug": "decline-push-up",
+    "file": "demos/decline-push-up.mp4",
+    "sizeBytes": 26916
+  },
+  {
+    "originalName": "Decline Weighted Crunch",
+    "slug": "decline-weighted-crunch",
+    "file": "demos/decline-weighted-crunch.mp4",
+    "sizeBytes": 35886
+  },
+  {
+    "originalName": "Diamond Push-Up",
+    "slug": "diamond-push-up",
+    "file": "demos/diamond-push-up.mp4",
+    "sizeBytes": 22433
+  },
+  {
+    "originalName": "Donkey Kicks",
+    "slug": "donkey-kicks",
+    "file": "demos/donkey-kicks.mp4",
+    "sizeBytes": 25331
+  },
+  {
+    "originalName": "Dumbbell Bench Press",
+    "slug": "dumbbell-bench-press",
+    "file": "demos/dumbbell-bench-press.mp4",
+    "sizeBytes": 20901
+  },
+  {
+    "originalName": "Dumbbell Biceps Curls",
+    "slug": "dumbbell-biceps-curls",
+    "file": "demos/dumbbell-biceps-curls.mp4",
+    "sizeBytes": 30397
+  },
+  {
+    "originalName": "Dumbbell Flys",
+    "slug": "dumbbell-flys",
+    "file": "demos/dumbbell-flys.mp4",
+    "sizeBytes": 41454
+  },
+  {
+    "originalName": "Dumbbell Good Morning",
+    "slug": "dumbbell-good-morning",
+    "file": "demos/dumbbell-good-morning.mp4",
+    "sizeBytes": 33075
+  },
+  {
+    "originalName": "Dumbbell Lunges",
+    "slug": "dumbbell-lunges",
+    "file": "demos/dumbbell-lunges.mp4",
+    "sizeBytes": 40557
+  },
+  {
+    "originalName": "Dumbbell Pullover",
+    "slug": "dumbbell-pullover",
+    "file": "demos/dumbbell-pullover.mp4",
+    "sizeBytes": 44992
+  },
+  {
+    "originalName": "Dumbbell Romanian Deadlift",
+    "slug": "dumbbell-romanian-deadlift",
+    "file": "demos/dumbbell-romanian-deadlift.mp4",
+    "sizeBytes": 29092
+  },
+  {
+    "originalName": "Dumbbell Row",
+    "slug": "dumbbell-row",
+    "file": "demos/dumbbell-row.mp4",
+    "sizeBytes": 21939
+  },
+  {
+    "originalName": "Dumbbell Shrugs",
+    "slug": "dumbbell-shrugs",
+    "file": "demos/dumbbell-shrugs.mp4",
+    "sizeBytes": 13686
+  },
+  {
+    "originalName": "Dumbbell Side Bends",
+    "slug": "dumbbell-side-bends",
+    "file": "demos/dumbbell-side-bends.mp4",
+    "sizeBytes": 17190
+  },
+  {
+    "originalName": "Dumbbell Side Plank Rotations",
+    "slug": "dumbbell-side-plank-rotations",
+    "file": "demos/dumbbell-side-plank-rotations.mp4",
+    "sizeBytes": 46830
+  },
+  {
+    "originalName": "Dumbbell Snatch",
+    "slug": "dumbbell-snatch",
+    "file": "demos/dumbbell-snatch.mp4",
+    "sizeBytes": 43769
+  },
+  {
+    "originalName": "Dumbbell Thruster",
+    "slug": "dumbbell-thruster",
+    "file": "demos/dumbbell-thruster.mp4",
+    "sizeBytes": 34039
+  },
+  {
+    "originalName": "Elastic Band Bends Hip And Pulls Back",
+    "slug": "elastic-band-bends-hip-and-pulls-back",
+    "file": "demos/elastic-band-bends-hip-and-pulls-back.mp4",
+    "sizeBytes": 39461
+  },
+  {
+    "originalName": "Elastic Band Plate Pull-down",
+    "slug": "elastic-band-plate-pull-down",
+    "file": "demos/elastic-band-plate-pull-down.mp4",
+    "sizeBytes": 38952
+  },
+  {
+    "originalName": "Elastic Belt Swallow Balance",
+    "slug": "elastic-belt-swallow-balance",
+    "file": "demos/elastic-belt-swallow-balance.mp4",
+    "sizeBytes": 71844
+  },
+  {
+    "originalName": "Exercise Ball Bridges",
+    "slug": "exercise-ball-bridges",
+    "file": "demos/exercise-ball-bridges.mp4",
+    "sizeBytes": 39322
+  },
+  {
+    "originalName": "Exercise Ball Buzzsaw Plank",
+    "slug": "exercise-ball-buzzsaw-plank",
+    "file": "demos/exercise-ball-buzzsaw-plank.mp4",
+    "sizeBytes": 32788
+  },
+  {
+    "originalName": "Exercise Ball Circles",
+    "slug": "exercise-ball-circles",
+    "file": "demos/exercise-ball-circles.mp4",
+    "sizeBytes": 49985
+  },
+  {
+    "originalName": "Exercise Ball Crunches",
+    "slug": "exercise-ball-crunches",
+    "file": "demos/exercise-ball-crunches.mp4",
+    "sizeBytes": 21747
+  },
+  {
+    "originalName": "Exercise Ball Hyperextensions",
+    "slug": "exercise-ball-hyperextensions",
+    "file": "demos/exercise-ball-hyperextensions.mp4",
+    "sizeBytes": 26174
+  },
+  {
+    "originalName": "Exercise Ball Plank",
+    "slug": "exercise-ball-plank",
+    "file": "demos/exercise-ball-plank.mp4",
+    "sizeBytes": 4733
+  },
+  {
+    "originalName": "Exercise Ball Pull-In",
+    "slug": "exercise-ball-pull-in",
+    "file": "demos/exercise-ball-pull-in.mp4",
+    "sizeBytes": 30379
+  },
+  {
+    "originalName": "EZ Bar Curl",
+    "slug": "ez-bar-curl",
+    "file": "demos/ez-bar-curl.mp4",
+    "sizeBytes": 32649
+  },
+  {
+    "originalName": "Face Pull",
+    "slug": "face-pull",
+    "file": "demos/face-pull.mp4",
+    "sizeBytes": 40031
+  },
+  {
+    "originalName": "Farmer's Walk",
+    "slug": "farmer-s-walk",
+    "file": "demos/farmer-s-walk.mp4",
+    "sizeBytes": 18523
+  },
+  {
+    "originalName": "Fast Arm Swing",
+    "slug": "fast-arm-swing",
+    "file": "demos/fast-arm-swing.mp4",
+    "sizeBytes": 14172
+  },
+  {
+    "originalName": "Fingertip Push-Up",
+    "slug": "fingertip-push-up",
+    "file": "demos/fingertip-push-up.mp4",
+    "sizeBytes": 23789
+  },
+  {
+    "originalName": "Floor Press",
+    "slug": "floor-press",
+    "file": "demos/floor-press.mp4",
+    "sizeBytes": 33284
+  },
+  {
+    "originalName": "Foam Rolling - Adductors",
+    "slug": "foam-rolling-adductors",
+    "file": "demos/foam-rolling-adductors.mp4",
+    "sizeBytes": 31983
+  },
+  {
+    "originalName": "Foam Rolling - Calves",
+    "slug": "foam-rolling-calves",
+    "file": "demos/foam-rolling-calves.mp4",
+    "sizeBytes": 33210
+  },
+  {
+    "originalName": "Foam Rolling - Chest",
+    "slug": "foam-rolling-chest",
+    "file": "demos/foam-rolling-chest.mp4",
+    "sizeBytes": 21839
+  },
+  {
+    "originalName": "Foam Rolling - Hamstrings",
+    "slug": "foam-rolling-hamstrings",
+    "file": "demos/foam-rolling-hamstrings.mp4",
+    "sizeBytes": 31475
+  },
+  {
+    "originalName": "Foam Rolling - Hips",
+    "slug": "foam-rolling-hips",
+    "file": "demos/foam-rolling-hips.mp4",
+    "sizeBytes": 50854
+  },
+  {
+    "originalName": "Foam Rolling - IT Bands",
+    "slug": "foam-rolling-it-bands",
+    "file": "demos/foam-rolling-it-bands.mp4",
+    "sizeBytes": 28135
+  },
+  {
+    "originalName": "Foam Rolling - Quads",
+    "slug": "foam-rolling-quads",
+    "file": "demos/foam-rolling-quads.mp4",
+    "sizeBytes": 32789
+  },
+  {
+    "originalName": "Foam Rolling - Tibialis Anteriors",
+    "slug": "foam-rolling-tibialis-anteriors",
+    "file": "demos/foam-rolling-tibialis-anteriors.mp4",
+    "sizeBytes": 25166
+  },
+  {
+    "originalName": "Foam Rolling - Upper Back",
+    "slug": "foam-rolling-upper-back",
+    "file": "demos/foam-rolling-upper-back.mp4",
+    "sizeBytes": 37543
+  },
+  {
+    "originalName": "Foot Rolling",
+    "slug": "foot-rolling",
+    "file": "demos/foot-rolling.mp4",
+    "sizeBytes": 10882
+  },
+  {
+    "originalName": "Forward Jumping Lunges",
+    "slug": "forward-jumping-lunges",
+    "file": "demos/forward-jumping-lunges.mp4",
+    "sizeBytes": 25172
+  },
+  {
+    "originalName": "Frog Pose",
+    "slug": "frog-pose",
+    "file": "demos/frog-pose.mp4",
+    "sizeBytes": 23044
+  },
+  {
+    "originalName": "Front Arm Dumbbell Raise",
+    "slug": "front-arm-dumbbell-raise",
+    "file": "demos/front-arm-dumbbell-raise.mp4",
+    "sizeBytes": 36093
+  },
+  {
+    "originalName": "Front Raises With Bands",
+    "slug": "front-raises-with-bands",
+    "file": "demos/front-raises-with-bands.mp4",
+    "sizeBytes": 42910
+  },
+  {
+    "originalName": "Front Squat",
+    "slug": "front-squat",
+    "file": "demos/front-squat.mp4",
+    "sizeBytes": 39863
+  },
+  {
+    "originalName": "Glute Bridge Hold",
+    "slug": "glute-bridge-hold",
+    "file": "demos/glute-bridge-hold.mp4",
+    "sizeBytes": 8376
+  },
+  {
+    "originalName": "Glute Stretch",
+    "slug": "glute-stretch",
+    "file": "demos/glute-stretch.mp4",
+    "sizeBytes": 9422
+  },
+  {
+    "originalName": "Goblet Squat",
+    "slug": "goblet-squat",
+    "file": "demos/goblet-squat.mp4",
+    "sizeBytes": 22330
+  },
+  {
+    "originalName": "Greatest Stretch",
+    "slug": "greatest-stretch",
+    "file": "demos/greatest-stretch.mp4",
+    "sizeBytes": 370469
+  },
+  {
+    "originalName": "Hack Squat Good Morning",
+    "slug": "hack-squat-good-morning",
+    "file": "demos/hack-squat-good-morning.mp4",
+    "sizeBytes": 45356
+  },
+  {
+    "originalName": "Half Crimp",
+    "slug": "half-crimp",
+    "file": "demos/half-crimp.mp4",
+    "sizeBytes": 4769
+  },
+  {
+    "originalName": "Hammer Curl",
+    "slug": "hammer-curl",
+    "file": "demos/hammer-curl.mp4",
+    "sizeBytes": 40075
+  },
+  {
+    "originalName": "Hamstring Stretch",
+    "slug": "hamstring-stretch",
+    "file": "demos/hamstring-stretch.mp4",
+    "sizeBytes": 5308
+  },
+  {
+    "originalName": "Handstand Push-Up",
+    "slug": "handstand-push-up",
+    "file": "demos/handstand-push-up.mp4",
+    "sizeBytes": 18292
+  },
+  {
+    "originalName": "Handstands",
+    "slug": "handstands",
+    "file": "demos/handstands.mp4",
+    "sizeBytes": 5450
+  },
+  {
+    "originalName": "Hang with 135 Degree Elbow",
+    "slug": "hang-with-135-degree-elbow",
+    "file": "demos/hang-with-135-degree-elbow.mp4",
+    "sizeBytes": 4405
+  },
+  {
+    "originalName": "Hang with 90 Degree Elbow",
+    "slug": "hang-with-90-degree-elbow",
+    "file": "demos/hang-with-90-degree-elbow.mp4",
+    "sizeBytes": 4502
+  },
+  {
+    "originalName": "Hangboard Pull-ups",
+    "slug": "hangboard-pull-ups",
+    "file": "demos/hangboard-pull-ups.mp4",
+    "sizeBytes": 15868
+  },
+  {
+    "originalName": "Hanging Leg Raise",
+    "slug": "hanging-leg-raise",
+    "file": "demos/hanging-leg-raise.mp4",
+    "sizeBytes": 24307
+  },
+  {
+    "originalName": "Hanging Windshield Wiper",
+    "slug": "hanging-windshield-wiper",
+    "file": "demos/hanging-windshield-wiper.mp4",
+    "sizeBytes": 25958
+  },
+  {
+    "originalName": "Hex Bar Deadlift",
+    "slug": "hex-bar-deadlift",
+    "file": "demos/hex-bar-deadlift.mp4",
+    "sizeBytes": 40269
+  },
+  {
+    "originalName": "High Knees",
+    "slug": "high-knees",
+    "file": "demos/high-knees.mp4",
+    "sizeBytes": 15252
+  },
+  {
+    "originalName": "High Knees Against Wall",
+    "slug": "high-knees-against-wall",
+    "file": "demos/high-knees-against-wall.mp4",
+    "sizeBytes": 16773
+  },
+  {
+    "originalName": "High Pulley Crunches",
+    "slug": "high-pulley-crunches",
+    "file": "demos/high-pulley-crunches.mp4",
+    "sizeBytes": 38818
+  },
+  {
+    "originalName": "Hip Adductions With Bands",
+    "slug": "hip-adductions-with-bands",
+    "file": "demos/hip-adductions-with-bands.mp4",
+    "sizeBytes": 22414
+  },
+  {
+    "originalName": "Hip Thrust",
+    "slug": "hip-thrust",
+    "file": "demos/hip-thrust.mp4",
+    "sizeBytes": 52591
+  },
+  {
+    "originalName": "Incline Bench Press",
+    "slug": "incline-bench-press",
+    "file": "demos/incline-bench-press.mp4",
+    "sizeBytes": 18841
+  },
+  {
+    "originalName": "Incline Dumbbell Bench Press",
+    "slug": "incline-dumbbell-bench-press",
+    "file": "demos/incline-dumbbell-bench-press.mp4",
+    "sizeBytes": 19375
+  },
+  {
+    "originalName": "Incline Dumbbell Flys",
+    "slug": "incline-dumbbell-flys",
+    "file": "demos/incline-dumbbell-flys.mp4",
+    "sizeBytes": 25210
+  },
+  {
+    "originalName": "Incline Leg Press",
+    "slug": "incline-leg-press",
+    "file": "demos/incline-leg-press.mp4",
+    "sizeBytes": 40161
+  },
+  {
+    "originalName": "Incline Leg Raise",
+    "slug": "incline-leg-raise",
+    "file": "demos/incline-leg-raise.mp4",
+    "sizeBytes": 49526
+  },
+  {
+    "originalName": "Incline Push-Up",
+    "slug": "incline-push-up",
+    "file": "demos/incline-push-up.mp4",
+    "sizeBytes": 21032
+  },
+  {
+    "originalName": "Incline Walking",
+    "slug": "incline-walking",
+    "file": "demos/incline-walking.mp4",
+    "sizeBytes": 32011
+  },
+  {
+    "originalName": "Indoor Rower",
+    "slug": "indoor-rower",
+    "file": "demos/indoor-rower.mp4",
+    "sizeBytes": 40293
+  },
+  {
+    "originalName": "Inner Thigh Stretch",
+    "slug": "inner-thigh-stretch",
+    "file": "demos/inner-thigh-stretch.mp4",
+    "sizeBytes": 4255
+  },
+  {
+    "originalName": "Inverse Nordic Curl",
+    "slug": "inverse-nordic-curl",
+    "file": "demos/inverse-nordic-curl.mp4",
+    "sizeBytes": 40614
+  },
+  {
+    "originalName": "J Lo S",
+    "slug": "j-lo-s",
+    "file": "demos/j-lo-s.mp4",
+    "sizeBytes": 21137
+  },
+  {
+    "originalName": "Jogging",
+    "slug": "jogging",
+    "file": "demos/jogging.mp4",
+    "sizeBytes": 99512
+  },
+  {
+    "originalName": "Jumping Jacks",
+    "slug": "jumping-jacks",
+    "file": "demos/jumping-jacks.mp4",
+    "sizeBytes": 20184
+  },
+  {
+    "originalName": "Jumping Lunges",
+    "slug": "jumping-lunges",
+    "file": "demos/jumping-lunges.mp4",
+    "sizeBytes": 50327
+  },
+  {
+    "originalName": "Kettlebell Windmill",
+    "slug": "kettlebell-windmill",
+    "file": "demos/kettlebell-windmill.mp4",
+    "sizeBytes": 29855
+  },
+  {
+    "originalName": "Knee Hug",
+    "slug": "knee-hug",
+    "file": "demos/knee-hug.mp4",
+    "sizeBytes": 40094
+  },
+  {
+    "originalName": "Knee-Up Lunges",
+    "slug": "knee-up-lunges",
+    "file": "demos/knee-up-lunges.mp4",
+    "sizeBytes": 33797
+  },
+  {
+    "originalName": "Knee-Up Walking Lunges",
+    "slug": "knee-up-walking-lunges",
+    "file": "demos/knee-up-walking-lunges.mp4",
+    "sizeBytes": 48002
+  },
+  {
+    "originalName": "Kneeling Ab Wheel Rollout",
+    "slug": "kneeling-ab-wheel-rollout",
+    "file": "demos/kneeling-ab-wheel-rollout.mp4",
+    "sizeBytes": 48961
+  },
+  {
+    "originalName": "Kneeling Anti-Rotational Press",
+    "slug": "kneeling-anti-rotational-press",
+    "file": "demos/kneeling-anti-rotational-press.mp4",
+    "sizeBytes": 36771
+  },
+  {
+    "originalName": "Kneeling Cable Woodchop",
+    "slug": "kneeling-cable-woodchop",
+    "file": "demos/kneeling-cable-woodchop.mp4",
+    "sizeBytes": 56419
+  },
+  {
+    "originalName": "Kneeling Position And Do The Top Hip",
+    "slug": "kneeling-position-and-do-the-top-hip",
+    "file": "demos/kneeling-position-and-do-the-top-hip.mp4",
+    "sizeBytes": 68216
+  },
+  {
+    "originalName": "Kneeling Push-Ups",
+    "slug": "kneeling-push-ups",
+    "file": "demos/kneeling-push-ups.mp4",
+    "sizeBytes": 27385
+  },
+  {
+    "originalName": "Lat Pulldowns",
+    "slug": "lat-pulldowns",
+    "file": "demos/lat-pulldowns.mp4",
+    "sizeBytes": 64928
+  },
+  {
+    "originalName": "Lateral Band Walks",
+    "slug": "lateral-band-walks",
+    "file": "demos/lateral-band-walks.mp4",
+    "sizeBytes": 61766
+  },
+  {
+    "originalName": "Lateral Dumbbell Raise",
+    "slug": "lateral-dumbbell-raise",
+    "file": "demos/lateral-dumbbell-raise.mp4",
+    "sizeBytes": 25006
+  },
+  {
+    "originalName": "Lateral Leg Swings",
+    "slug": "lateral-leg-swings",
+    "file": "demos/lateral-leg-swings.mp4",
+    "sizeBytes": 17846
+  },
+  {
+    "originalName": "Lateral Raise-Machine",
+    "slug": "lateral-raise-machine",
+    "file": "demos/lateral-raise-machine.mp4",
+    "sizeBytes": 54556
+  },
+  {
+    "originalName": "Lateral Raises With Bands",
+    "slug": "lateral-raises-with-bands",
+    "file": "demos/lateral-raises-with-bands.mp4",
+    "sizeBytes": 28991
+  },
+  {
+    "originalName": "Lateral Squats or Side Squats",
+    "slug": "lateral-squats-or-side-squats",
+    "file": "demos/lateral-squats-or-side-squats.mp4",
+    "sizeBytes": 28911
+  },
+  {
+    "originalName": "Lean Over And Touch Your Shoulders Alte",
+    "slug": "lean-over-and-touch-your-shoulders-alte",
+    "file": "demos/lean-over-and-touch-your-shoulders-alte.mp4",
+    "sizeBytes": 33756
+  },
+  {
+    "originalName": "Leg Extensions",
+    "slug": "leg-extensions",
+    "file": "demos/leg-extensions.mp4",
+    "sizeBytes": 42049
+  },
+  {
+    "originalName": "Leg Raise Toe to Bar",
+    "slug": "leg-raise-toe-to-bar",
+    "file": "demos/leg-raise-toe-to-bar.mp4",
+    "sizeBytes": 36282
+  },
+  {
+    "originalName": "Leg Swing Front and Back",
+    "slug": "leg-swing-front-and-back",
+    "file": "demos/leg-swing-front-and-back.mp4",
+    "sizeBytes": 22016
+  },
+  {
+    "originalName": "Lie On And High Knees",
+    "slug": "lie-on-and-high-knees",
+    "file": "demos/lie-on-and-high-knees.mp4",
+    "sizeBytes": 16535
+  },
+  {
+    "originalName": "Lie On One Leg Supine Hip And Knee",
+    "slug": "lie-on-one-leg-supine-hip-and-knee",
+    "file": "demos/lie-on-one-leg-supine-hip-and-knee.mp4",
+    "sizeBytes": 33892
+  },
+  {
+    "originalName": "Lie on Your Back Glute Bridge",
+    "slug": "lie-on-your-back-glute-bridge",
+    "file": "demos/lie-on-your-back-glute-bridge.mp4",
+    "sizeBytes": 35140
+  },
+  {
+    "originalName": "Low Cable Flys",
+    "slug": "low-cable-flys",
+    "file": "demos/low-cable-flys.mp4",
+    "sizeBytes": 59489
+  },
+  {
+    "originalName": "Low Pulley Biceps Curls",
+    "slug": "low-pulley-biceps-curls",
+    "file": "demos/low-pulley-biceps-curls.mp4",
+    "sizeBytes": 54824
+  },
+  {
+    "originalName": "Lucky Cat",
+    "slug": "lucky-cat",
+    "file": "demos/lucky-cat.mp4",
+    "sizeBytes": 14570
+  },
+  {
+    "originalName": "Lunge Down",
+    "slug": "lunge-down",
+    "file": "demos/lunge-down.mp4",
+    "sizeBytes": 22294
+  },
+  {
+    "originalName": "Lunge Pulls",
+    "slug": "lunge-pulls",
+    "file": "demos/lunge-pulls.mp4",
+    "sizeBytes": 23694
+  },
+  {
+    "originalName": "Lunge Sideways From Hip To Hip",
+    "slug": "lunge-sideways-from-hip-to-hip",
+    "file": "demos/lunge-sideways-from-hip-to-hip.mp4",
+    "sizeBytes": 52963
+  },
+  {
+    "originalName": "Lunge Stretch",
+    "slug": "lunge-stretch",
+    "file": "demos/lunge-stretch.mp4",
+    "sizeBytes": 13972
+  },
+  {
+    "originalName": "Lunge Up With A Heavy Bow",
+    "slug": "lunge-up-with-a-heavy-bow",
+    "file": "demos/lunge-up-with-a-heavy-bow.mp4",
+    "sizeBytes": 58132
+  },
+  {
+    "originalName": "Lunge With Elastic Band",
+    "slug": "lunge-with-elastic-band",
+    "file": "demos/lunge-with-elastic-band.mp4",
+    "sizeBytes": 31246
+  },
+  {
+    "originalName": "Lying Face Down Plate Neck Resistance",
+    "slug": "lying-face-down-plate-neck-resistance",
+    "file": "demos/lying-face-down-plate-neck-resistance.mp4",
+    "sizeBytes": 21817
+  },
+  {
+    "originalName": "Lying Face Up Plate Neck Resistance",
+    "slug": "lying-face-up-plate-neck-resistance",
+    "file": "demos/lying-face-up-plate-neck-resistance.mp4",
+    "sizeBytes": 25532
+  },
+  {
+    "originalName": "Lying Leg Curls",
+    "slug": "lying-leg-curls",
+    "file": "demos/lying-leg-curls.mp4",
+    "sizeBytes": 34941
+  },
+  {
+    "originalName": "Lying Leg Curls with Resistance Band",
+    "slug": "lying-leg-curls-with-resistance-band",
+    "file": "demos/lying-leg-curls-with-resistance-band.mp4",
+    "sizeBytes": 130248
+  },
+  {
+    "originalName": "Machine Crunches",
+    "slug": "machine-crunches",
+    "file": "demos/machine-crunches.mp4",
+    "sizeBytes": 72262
+  },
+  {
+    "originalName": "Machine Hyperextention",
+    "slug": "machine-hyperextention",
+    "file": "demos/machine-hyperextention.mp4",
+    "sizeBytes": 23927
+  },
+  {
+    "originalName": "Machine Reverse Fly",
+    "slug": "machine-reverse-fly",
+    "file": "demos/machine-reverse-fly.mp4",
+    "sizeBytes": 55926
+  },
+  {
+    "originalName": "Med Ball Push Press",
+    "slug": "med-ball-push-press",
+    "file": "demos/med-ball-push-press.mp4",
+    "sizeBytes": 33269
+  },
+  {
+    "originalName": "Medicine Ball Push-Ups",
+    "slug": "medicine-ball-push-ups",
+    "file": "demos/medicine-ball-push-ups.mp4",
+    "sizeBytes": 23125
+  },
+  {
+    "originalName": "Military Press",
+    "slug": "military-press",
+    "file": "demos/military-press.mp4",
+    "sizeBytes": 36544
+  },
+  {
+    "originalName": "Mountain Climbers",
+    "slug": "mountain-climbers",
+    "file": "demos/mountain-climbers.mp4",
+    "sizeBytes": 16535
+  },
+  {
+    "originalName": "Neck Bridge Prone",
+    "slug": "neck-bridge-prone",
+    "file": "demos/neck-bridge-prone.mp4",
+    "sizeBytes": 23452
+  },
+  {
+    "originalName": "Neck Flexion With Positive Pressure Of",
+    "slug": "neck-flexion-with-positive-pressure-of",
+    "file": "demos/neck-flexion-with-positive-pressure-of.mp4",
+    "sizeBytes": 19909
+  },
+  {
+    "originalName": "Nordic Hamstring Curl",
+    "slug": "nordic-hamstring-curl",
+    "file": "demos/nordic-hamstring-curl.mp4",
+    "sizeBytes": 77181
+  },
+  {
+    "originalName": "Oblique V-Ups",
+    "slug": "oblique-v-ups",
+    "file": "demos/oblique-v-ups.mp4",
+    "sizeBytes": 28427
+  },
+  {
+    "originalName": "Offset Push-Up",
+    "slug": "offset-push-up",
+    "file": "demos/offset-push-up.mp4",
+    "sizeBytes": 25562
+  },
+  {
+    "originalName": "One Arm Bar Hangs",
+    "slug": "one-arm-bar-hangs",
+    "file": "demos/one-arm-bar-hangs.mp4",
+    "sizeBytes": 5835
+  },
+  {
+    "originalName": "One Arm Dumbbell Row",
+    "slug": "one-arm-dumbbell-row",
+    "file": "demos/one-arm-dumbbell-row.mp4",
+    "sizeBytes": 22398
+  },
+  {
+    "originalName": "One Arm Kettlebell Military Press To Th",
+    "slug": "one-arm-kettlebell-military-press-to-th",
+    "file": "demos/one-arm-kettlebell-military-press-to-th.mp4",
+    "sizeBytes": 30873
+  },
+  {
+    "originalName": "One Arm Kettlebell Swings",
+    "slug": "one-arm-kettlebell-swings",
+    "file": "demos/one-arm-kettlebell-swings.mp4",
+    "sizeBytes": 39044
+  },
+  {
+    "originalName": "Open Hand Grip",
+    "slug": "open-hand-grip",
+    "file": "demos/open-hand-grip.mp4",
+    "sizeBytes": 4724
+  },
+  {
+    "originalName": "Outer Thigh Stretch",
+    "slug": "outer-thigh-stretch",
+    "file": "demos/outer-thigh-stretch.mp4",
+    "sizeBytes": 3646
+  },
+  {
+    "originalName": "Overhead Ball Slam",
+    "slug": "overhead-ball-slam",
+    "file": "demos/overhead-ball-slam.mp4",
+    "sizeBytes": 33244
+  },
+  {
+    "originalName": "Parallel Bar Dips",
+    "slug": "parallel-bar-dips",
+    "file": "demos/parallel-bar-dips.mp4",
+    "sizeBytes": 21079
+  },
+  {
+    "originalName": "Pec Deck Flys",
+    "slug": "pec-deck-flys",
+    "file": "demos/pec-deck-flys.mp4",
+    "sizeBytes": 60629
+  },
+  {
+    "originalName": "Pike Push-Up",
+    "slug": "pike-push-up",
+    "file": "demos/pike-push-up.mp4",
+    "sizeBytes": 30031
+  },
+  {
+    "originalName": "Plank Jacks",
+    "slug": "plank-jacks",
+    "file": "demos/plank-jacks.mp4",
+    "sizeBytes": 14996
+  },
+  {
+    "originalName": "Plank Jacks (2)",
+    "slug": "plank-jacks-2",
+    "file": "demos/plank-jacks-2.mp4",
+    "sizeBytes": 47873
+  },
+  {
+    "originalName": "Plank Row",
+    "slug": "plank-row",
+    "file": "demos/plank-row.mp4",
+    "sizeBytes": 24220
+  },
+  {
+    "originalName": "Plank Step Ups",
+    "slug": "plank-step-ups",
+    "file": "demos/plank-step-ups.mp4",
+    "sizeBytes": 50711
+  },
+  {
+    "originalName": "Plank with Lateral Movement",
+    "slug": "plank-with-lateral-movement",
+    "file": "demos/plank-with-lateral-movement.mp4",
+    "sizeBytes": 39455
+  },
+  {
+    "originalName": "Plank with Rotation",
+    "slug": "plank-with-rotation",
+    "file": "demos/plank-with-rotation.mp4",
+    "sizeBytes": 60054
+  },
+  {
+    "originalName": "Planks",
+    "slug": "planks",
+    "file": "demos/planks.mp4",
+    "sizeBytes": 9438
+  },
+  {
+    "originalName": "Power Clean",
+    "slug": "power-clean",
+    "file": "demos/power-clean.mp4",
+    "sizeBytes": 84172
+  },
+  {
+    "originalName": "Power Point",
+    "slug": "power-point",
+    "file": "demos/power-point.mp4",
+    "sizeBytes": 32720
+  },
+  {
+    "originalName": "Power Squats",
+    "slug": "power-squats",
+    "file": "demos/power-squats.mp4",
+    "sizeBytes": 26744
+  },
+  {
+    "originalName": "Preacher Curls",
+    "slug": "preacher-curls",
+    "file": "demos/preacher-curls.mp4",
+    "sizeBytes": 36916
+  },
+  {
+    "originalName": "Prone A's",
+    "slug": "prone-a-s",
+    "file": "demos/prone-a-s.mp4",
+    "sizeBytes": 28352
+  },
+  {
+    "originalName": "Prone Cobra",
+    "slug": "prone-cobra",
+    "file": "demos/prone-cobra.mp4",
+    "sizeBytes": 28712
+  },
+  {
+    "originalName": "Prone Hip Circles",
+    "slug": "prone-hip-circles",
+    "file": "demos/prone-hip-circles.mp4",
+    "sizeBytes": 29281
+  },
+  {
+    "originalName": "Prone I's",
+    "slug": "prone-i-s",
+    "file": "demos/prone-i-s.mp4",
+    "sizeBytes": 33868
+  },
+  {
+    "originalName": "Prone T's",
+    "slug": "prone-t-s",
+    "file": "demos/prone-t-s.mp4",
+    "sizeBytes": 33413
+  },
+  {
+    "originalName": "Prone W's",
+    "slug": "prone-w-s",
+    "file": "demos/prone-w-s.mp4",
+    "sizeBytes": 30544
+  },
+  {
+    "originalName": "Prone Y's",
+    "slug": "prone-y-s",
+    "file": "demos/prone-y-s.mp4",
+    "sizeBytes": 33037
+  },
+  {
+    "originalName": "Pull-ups",
+    "slug": "pull-ups",
+    "file": "demos/pull-ups.mp4",
+    "sizeBytes": 16254
+  },
+  {
+    "originalName": "Push-ups",
+    "slug": "push-ups",
+    "file": "demos/push-ups.mp4",
+    "sizeBytes": 22172
+  },
+  {
+    "originalName": "Quad Stretch with Reach",
+    "slug": "quad-stretch-with-reach",
+    "file": "demos/quad-stretch-with-reach.mp4",
+    "sizeBytes": 76564
+  },
+  {
+    "originalName": "Quadriceps Stretch",
+    "slug": "quadriceps-stretch",
+    "file": "demos/quadriceps-stretch.mp4",
+    "sizeBytes": 3950
+  },
+  {
+    "originalName": "Rainbow Slam",
+    "slug": "rainbow-slam",
+    "file": "demos/rainbow-slam.mp4",
+    "sizeBytes": 60776
+  },
+  {
+    "originalName": "Reverse Curl",
+    "slug": "reverse-curl",
+    "file": "demos/reverse-curl.mp4",
+    "sizeBytes": 31644
+  },
+  {
+    "originalName": "Reverse Flys With Bands",
+    "slug": "reverse-flys-with-bands",
+    "file": "demos/reverse-flys-with-bands.mp4",
+    "sizeBytes": 27469
+  },
+  {
+    "originalName": "Reverse Grip Tricep Pushdown",
+    "slug": "reverse-grip-tricep-pushdown",
+    "file": "demos/reverse-grip-tricep-pushdown.mp4",
+    "sizeBytes": 52303
+  },
+  {
+    "originalName": "Reverse Hack Squat",
+    "slug": "reverse-hack-squat",
+    "file": "demos/reverse-hack-squat.mp4",
+    "sizeBytes": 46593
+  },
+  {
+    "originalName": "Reverse Lunge",
+    "slug": "reverse-lunge",
+    "file": "demos/reverse-lunge.mp4",
+    "sizeBytes": 34324
+  },
+  {
+    "originalName": "Reverse Step-Down",
+    "slug": "reverse-step-down",
+    "file": "demos/reverse-step-down.mp4",
+    "sizeBytes": 37974
+  },
+  {
+    "originalName": "Reverse Wrist Curls",
+    "slug": "reverse-wrist-curls",
+    "file": "demos/reverse-wrist-curls.mp4",
+    "sizeBytes": 15315
+  },
+  {
+    "originalName": "Romanian Deadlift",
+    "slug": "romanian-deadlift",
+    "file": "demos/romanian-deadlift.mp4",
+    "sizeBytes": 37078
+  },
+  {
+    "originalName": "Run Lunges",
+    "slug": "run-lunges",
+    "file": "demos/run-lunges.mp4",
+    "sizeBytes": 32460
+  },
+  {
+    "originalName": "Running Butt Kicks",
+    "slug": "running-butt-kicks",
+    "file": "demos/running-butt-kicks.mp4",
+    "sizeBytes": 14630
+  },
+  {
+    "originalName": "Running In Place",
+    "slug": "running-in-place",
+    "file": "demos/running-in-place.mp4",
+    "sizeBytes": 14372
+  },
+  {
+    "originalName": "Running With High Knees",
+    "slug": "running-with-high-knees",
+    "file": "demos/running-with-high-knees.mp4",
+    "sizeBytes": 19385
+  },
+  {
+    "originalName": "Running With High Knees (Faster Pace)",
+    "slug": "running-with-high-knees-faster-pace",
+    "file": "demos/running-with-high-knees-faster-pace.mp4",
+    "sizeBytes": 16735
+  },
+  {
+    "originalName": "Russian Twist Med Ball Slam",
+    "slug": "russian-twist-med-ball-slam",
+    "file": "demos/russian-twist-med-ball-slam.mp4",
+    "sizeBytes": 45100
+  },
+  {
+    "originalName": "Russian Twists",
+    "slug": "russian-twists",
+    "file": "demos/russian-twists.mp4",
+    "sizeBytes": 33411
+  },
+  {
+    "originalName": "Saw Plank",
+    "slug": "saw-plank",
+    "file": "demos/saw-plank.mp4",
+    "sizeBytes": 22133
+  },
+  {
+    "originalName": "Scapular Pull-Up",
+    "slug": "scapular-pull-up",
+    "file": "demos/scapular-pull-up.mp4",
+    "sizeBytes": 13746
+  },
+  {
+    "originalName": "Seated Cable Row",
+    "slug": "seated-cable-row",
+    "file": "demos/seated-cable-row.mp4",
+    "sizeBytes": 46305
+  },
+  {
+    "originalName": "Seated Calf Raise",
+    "slug": "seated-calf-raise",
+    "file": "demos/seated-calf-raise.mp4",
+    "sizeBytes": 21270
+  },
+  {
+    "originalName": "Seated Dumbbell Concentration Curls",
+    "slug": "seated-dumbbell-concentration-curls",
+    "file": "demos/seated-dumbbell-concentration-curls.mp4",
+    "sizeBytes": 21668
+  },
+  {
+    "originalName": "Seated Dumbbell Press",
+    "slug": "seated-dumbbell-press",
+    "file": "demos/seated-dumbbell-press.mp4",
+    "sizeBytes": 22094
+  },
+  {
+    "originalName": "Seated Dumbbell Triceps Extensions",
+    "slug": "seated-dumbbell-triceps-extensions",
+    "file": "demos/seated-dumbbell-triceps-extensions.mp4",
+    "sizeBytes": 24743
+  },
+  {
+    "originalName": "Seated Front Press",
+    "slug": "seated-front-press",
+    "file": "demos/seated-front-press.mp4",
+    "sizeBytes": 23213
+  },
+  {
+    "originalName": "Seated Head Harness Neck Resistance",
+    "slug": "seated-head-harness-neck-resistance",
+    "file": "demos/seated-head-harness-neck-resistance.mp4",
+    "sizeBytes": 32752
+  },
+  {
+    "originalName": "Seated Lat Pulldowns",
+    "slug": "seated-lat-pulldowns",
+    "file": "demos/seated-lat-pulldowns.mp4",
+    "sizeBytes": 29574
+  },
+  {
+    "originalName": "Seated Leg Raise",
+    "slug": "seated-leg-raise",
+    "file": "demos/seated-leg-raise.mp4",
+    "sizeBytes": 22124
+  },
+  {
+    "originalName": "Seated Resistance Band Tibialis Raise",
+    "slug": "seated-resistance-band-tibialis-raise",
+    "file": "demos/seated-resistance-band-tibialis-raise.mp4",
+    "sizeBytes": 20219
+  },
+  {
+    "originalName": "Seated Scissor Kicks",
+    "slug": "seated-scissor-kicks",
+    "file": "demos/seated-scissor-kicks.mp4",
+    "sizeBytes": 30126
+  },
+  {
+    "originalName": "Short Stride Running",
+    "slug": "short-stride-running",
+    "file": "demos/short-stride-running.mp4",
+    "sizeBytes": 10026
+  },
+  {
+    "originalName": "Shoulder Press-Machine",
+    "slug": "shoulder-press-machine",
+    "file": "demos/shoulder-press-machine.mp4",
+    "sizeBytes": 45462
+  },
+  {
+    "originalName": "Shoulder Stretch",
+    "slug": "shoulder-stretch",
+    "file": "demos/shoulder-stretch.mp4",
+    "sizeBytes": 30406
+  },
+  {
+    "originalName": "Side Plank",
+    "slug": "side-plank",
+    "file": "demos/side-plank.mp4",
+    "sizeBytes": 12148
+  },
+  {
+    "originalName": "Side Plank Knee To Chest",
+    "slug": "side-plank-knee-to-chest",
+    "file": "demos/side-plank-knee-to-chest.mp4",
+    "sizeBytes": 21174
+  },
+  {
+    "originalName": "Side Plank with Leg Raise",
+    "slug": "side-plank-with-leg-raise",
+    "file": "demos/side-plank-with-leg-raise.mp4",
+    "sizeBytes": 35242
+  },
+  {
+    "originalName": "Single Arm Lat Pulldown",
+    "slug": "single-arm-lat-pulldown",
+    "file": "demos/single-arm-lat-pulldown.mp4",
+    "sizeBytes": 34035
+  },
+  {
+    "originalName": "Single Arm Overhead Farmers Walk",
+    "slug": "single-arm-overhead-farmers-walk",
+    "file": "demos/single-arm-overhead-farmers-walk.mp4",
+    "sizeBytes": 16727
+  },
+  {
+    "originalName": "Single Arm Scap Pulls",
+    "slug": "single-arm-scap-pulls",
+    "file": "demos/single-arm-scap-pulls.mp4",
+    "sizeBytes": 32879
+  },
+  {
+    "originalName": "Single Leg Bridge",
+    "slug": "single-leg-bridge",
+    "file": "demos/single-leg-bridge.mp4",
+    "sizeBytes": 47140
+  },
+  {
+    "originalName": "Single Leg Curl",
+    "slug": "single-leg-curl",
+    "file": "demos/single-leg-curl.mp4",
+    "sizeBytes": 42495
+  },
+  {
+    "originalName": "Single Leg Deadlift",
+    "slug": "single-leg-deadlift",
+    "file": "demos/single-leg-deadlift.mp4",
+    "sizeBytes": 52219
+  },
+  {
+    "originalName": "Single Leg Shoulder Press",
+    "slug": "single-leg-shoulder-press",
+    "file": "demos/single-leg-shoulder-press.mp4",
+    "sizeBytes": 16700
+  },
+  {
+    "originalName": "Single Leg Squats",
+    "slug": "single-leg-squats",
+    "file": "demos/single-leg-squats.mp4",
+    "sizeBytes": 38497
+  },
+  {
+    "originalName": "Single-Leg Calf Raise",
+    "slug": "single-leg-calf-raise",
+    "file": "demos/single-leg-calf-raise.mp4",
+    "sizeBytes": 13710
+  },
+  {
+    "originalName": "Single-Leg High Knee Jump",
+    "slug": "single-leg-high-knee-jump",
+    "file": "demos/single-leg-high-knee-jump.mp4",
+    "sizeBytes": 20819
+  },
+  {
+    "originalName": "Single-Leg Hip Bridge",
+    "slug": "single-leg-hip-bridge",
+    "file": "demos/single-leg-hip-bridge.mp4",
+    "sizeBytes": 38106
+  },
+  {
+    "originalName": "Single-Leg Hops",
+    "slug": "single-leg-hops",
+    "file": "demos/single-leg-hops.mp4",
+    "sizeBytes": 20789
+  },
+  {
+    "originalName": "Sit-ups",
+    "slug": "sit-ups",
+    "file": "demos/sit-ups.mp4",
+    "sizeBytes": 26516
+  },
+  {
+    "originalName": "Ski Erg",
+    "slug": "ski-erg",
+    "file": "demos/ski-erg.mp4",
+    "sizeBytes": 187573
+  },
+  {
+    "originalName": "Ski Step",
+    "slug": "ski-step",
+    "file": "demos/ski-step.mp4",
+    "sizeBytes": 36004
+  },
+  {
+    "originalName": "Skipping Rope",
+    "slug": "skipping-rope",
+    "file": "demos/skipping-rope.mp4",
+    "sizeBytes": 13390
+  },
+  {
+    "originalName": "Sled Pull",
+    "slug": "sled-pull",
+    "file": "demos/sled-pull.mp4",
+    "sizeBytes": 133857
+  },
+  {
+    "originalName": "Sled Push",
+    "slug": "sled-push",
+    "file": "demos/sled-push.mp4",
+    "sizeBytes": 249463
+  },
+  {
+    "originalName": "Slope Hang",
+    "slug": "slope-hang",
+    "file": "demos/slope-hang.mp4",
+    "sizeBytes": 4905
+  },
+  {
+    "originalName": "Smith Machine Reverse Kickbacks",
+    "slug": "smith-machine-reverse-kickbacks",
+    "file": "demos/smith-machine-reverse-kickbacks.mp4",
+    "sizeBytes": 28792
+  },
+  {
+    "originalName": "Smith Machine Shoulder Press",
+    "slug": "smith-machine-shoulder-press",
+    "file": "demos/smith-machine-shoulder-press.mp4",
+    "sizeBytes": 31893
+  },
+  {
+    "originalName": "Smith Machine Squat",
+    "slug": "smith-machine-squat",
+    "file": "demos/smith-machine-squat.mp4",
+    "sizeBytes": 49209
+  },
+  {
+    "originalName": "Snatches",
+    "slug": "snatches",
+    "file": "demos/snatches.mp4",
+    "sizeBytes": 40919
+  },
+  {
+    "originalName": "Split Bench Squat",
+    "slug": "split-bench-squat",
+    "file": "demos/split-bench-squat.mp4",
+    "sizeBytes": 27407
+  },
+  {
+    "originalName": "Spring With Lunge Quick Punch",
+    "slug": "spring-with-lunge-quick-punch",
+    "file": "demos/spring-with-lunge-quick-punch.mp4",
+    "sizeBytes": 33697
+  },
+  {
+    "originalName": "Squat Jumps",
+    "slug": "squat-jumps",
+    "file": "demos/squat-jumps.mp4",
+    "sizeBytes": 24082
+  },
+  {
+    "originalName": "Squats",
+    "slug": "squats",
+    "file": "demos/squats.mp4",
+    "sizeBytes": 21488
+  },
+  {
+    "originalName": "Standing Cable Crossover",
+    "slug": "standing-cable-crossover",
+    "file": "demos/standing-cable-crossover.mp4",
+    "sizeBytes": 40130
+  },
+  {
+    "originalName": "Standing Calf Raises",
+    "slug": "standing-calf-raises",
+    "file": "demos/standing-calf-raises.mp4",
+    "sizeBytes": 13213
+  },
+  {
+    "originalName": "Standing Forward Bend",
+    "slug": "standing-forward-bend",
+    "file": "demos/standing-forward-bend.mp4",
+    "sizeBytes": 24901
+  },
+  {
+    "originalName": "Standing Hamstring Curl",
+    "slug": "standing-hamstring-curl",
+    "file": "demos/standing-hamstring-curl.mp4",
+    "sizeBytes": 14362
+  },
+  {
+    "originalName": "Standing Knee-to-Elbow",
+    "slug": "standing-knee-to-elbow",
+    "file": "demos/standing-knee-to-elbow.mp4",
+    "sizeBytes": 44501
+  },
+  {
+    "originalName": "Standing Leg Raise",
+    "slug": "standing-leg-raise",
+    "file": "demos/standing-leg-raise.mp4",
+    "sizeBytes": 31193
+  },
+  {
+    "originalName": "Standing Overhead Ball Throw",
+    "slug": "standing-overhead-ball-throw",
+    "file": "demos/standing-overhead-ball-throw.mp4",
+    "sizeBytes": 29988
+  },
+  {
+    "originalName": "Standing Side Leg Raises",
+    "slug": "standing-side-leg-raises",
+    "file": "demos/standing-side-leg-raises.mp4",
+    "sizeBytes": 25180
+  },
+  {
+    "originalName": "Step Up Jumps",
+    "slug": "step-up-jumps",
+    "file": "demos/step-up-jumps.mp4",
+    "sizeBytes": 37019
+  },
+  {
+    "originalName": "Step-Ups",
+    "slug": "step-ups",
+    "file": "demos/step-ups.mp4",
+    "sizeBytes": 19889
+  },
+  {
+    "originalName": "Stick Warmup 1",
+    "slug": "stick-warmup-1",
+    "file": "demos/stick-warmup-1.mp4",
+    "sizeBytes": 36121
+  },
+  {
+    "originalName": "Stick Warmup 2",
+    "slug": "stick-warmup-2",
+    "file": "demos/stick-warmup-2.mp4",
+    "sizeBytes": 46487
+  },
+  {
+    "originalName": "Stick Warmup 3",
+    "slug": "stick-warmup-3",
+    "file": "demos/stick-warmup-3.mp4",
+    "sizeBytes": 27885
+  },
+  {
+    "originalName": "Straight-Arm Pulldown",
+    "slug": "straight-arm-pulldown",
+    "file": "demos/straight-arm-pulldown.mp4",
+    "sizeBytes": 34754
+  },
+  {
+    "originalName": "Straight-Leg Hops",
+    "slug": "straight-leg-hops",
+    "file": "demos/straight-leg-hops.mp4",
+    "sizeBytes": 14442
+  },
+  {
+    "originalName": "Straight-Leg Run or Bounding",
+    "slug": "straight-leg-run-or-bounding",
+    "file": "demos/straight-leg-run-or-bounding.mp4",
+    "sizeBytes": 33338
+  },
+  {
+    "originalName": "Stretch Strap Bicycle On Your Back",
+    "slug": "stretch-strap-bicycle-on-your-back",
+    "file": "demos/stretch-strap-bicycle-on-your-back.mp4",
+    "sizeBytes": 50958
+  },
+  {
+    "originalName": "Stretch Strap Squat",
+    "slug": "stretch-strap-squat",
+    "file": "demos/stretch-strap-squat.mp4",
+    "sizeBytes": 31844
+  },
+  {
+    "originalName": "Stretch Tape Squat Pull Back",
+    "slug": "stretch-tape-squat-pull-back",
+    "file": "demos/stretch-tape-squat-pull-back.mp4",
+    "sizeBytes": 40690
+  },
+  {
+    "originalName": "Stretch Tape Squats Sideways",
+    "slug": "stretch-tape-squats-sideways",
+    "file": "demos/stretch-tape-squats-sideways.mp4",
+    "sizeBytes": 56769
+  },
+  {
+    "originalName": "Stretch With Lunge To Lift Knees",
+    "slug": "stretch-with-lunge-to-lift-knees",
+    "file": "demos/stretch-with-lunge-to-lift-knees.mp4",
+    "sizeBytes": 38983
+  },
+  {
+    "originalName": "Sumo Deadlift",
+    "slug": "sumo-deadlift",
+    "file": "demos/sumo-deadlift.mp4",
+    "sizeBytes": 39425
+  },
+  {
+    "originalName": "Sumo Squat",
+    "slug": "sumo-squat",
+    "file": "demos/sumo-squat.mp4",
+    "sizeBytes": 24930
+  },
+  {
+    "originalName": "Super Push Up",
+    "slug": "super-push-up",
+    "file": "demos/super-push-up.mp4",
+    "sizeBytes": 76932
+  },
+  {
+    "originalName": "Supine Chest Ball Throw",
+    "slug": "supine-chest-ball-throw",
+    "file": "demos/supine-chest-ball-throw.mp4",
+    "sizeBytes": 22128
+  },
+  {
+    "originalName": "Supine Cobra",
+    "slug": "supine-cobra",
+    "file": "demos/supine-cobra.mp4",
+    "sizeBytes": 53383
+  },
+  {
+    "originalName": "Supine Knee Tucks",
+    "slug": "supine-knee-tucks",
+    "file": "demos/supine-knee-tucks.mp4",
+    "sizeBytes": 34874
+  },
+  {
+    "originalName": "Supine Oblique Wood Chop",
+    "slug": "supine-oblique-wood-chop",
+    "file": "demos/supine-oblique-wood-chop.mp4",
+    "sizeBytes": 79750
+  },
+  {
+    "originalName": "Supine Overhead Ball Throw",
+    "slug": "supine-overhead-ball-throw",
+    "file": "demos/supine-overhead-ball-throw.mp4",
+    "sizeBytes": 39165
+  },
+  {
+    "originalName": "Supine pull ups",
+    "slug": "supine-pull-ups",
+    "file": "demos/supine-pull-ups.mp4",
+    "sizeBytes": 23498
+  },
+  {
+    "originalName": "T-Bar Rows",
+    "slug": "t-bar-rows",
+    "file": "demos/t-bar-rows.mp4",
+    "sizeBytes": 20933
+  },
+  {
+    "originalName": "The Elastic Band Bends The Hip And Pres",
+    "slug": "the-elastic-band-bends-the-hip-and-pres",
+    "file": "demos/the-elastic-band-bends-the-hip-and-pres.mp4",
+    "sizeBytes": 61809
+  },
+  {
+    "originalName": "The L-sit",
+    "slug": "the-l-sit",
+    "file": "demos/the-l-sit.mp4",
+    "sizeBytes": 52079
+  },
+  {
+    "originalName": "Thigh Abductor",
+    "slug": "thigh-abductor",
+    "file": "demos/thigh-abductor.mp4",
+    "sizeBytes": 34702
+  },
+  {
+    "originalName": "Thigh Adductor",
+    "slug": "thigh-adductor",
+    "file": "demos/thigh-adductor.mp4",
+    "sizeBytes": 36312
+  },
+  {
+    "originalName": "Thoracic Spine Rotation",
+    "slug": "thoracic-spine-rotation",
+    "file": "demos/thoracic-spine-rotation.mp4",
+    "sizeBytes": 103062
+  },
+  {
+    "originalName": "Toe Touch Sweep",
+    "slug": "toe-touch-sweep",
+    "file": "demos/toe-touch-sweep.mp4",
+    "sizeBytes": 114967
+  },
+  {
+    "originalName": "Tricep Kickbacks",
+    "slug": "tricep-kickbacks",
+    "file": "demos/tricep-kickbacks.mp4",
+    "sizeBytes": 20967
+  },
+  {
+    "originalName": "Tricep Stretch",
+    "slug": "tricep-stretch",
+    "file": "demos/tricep-stretch.mp4",
+    "sizeBytes": 3332
+  },
+  {
+    "originalName": "Triceps Pushdown-Machine",
+    "slug": "triceps-pushdown-machine",
+    "file": "demos/triceps-pushdown-machine.mp4",
+    "sizeBytes": 39185
+  },
+  {
+    "originalName": "Triceps Pushdowns",
+    "slug": "triceps-pushdowns",
+    "file": "demos/triceps-pushdowns.mp4",
+    "sizeBytes": 49355
+  },
+  {
+    "originalName": "Trunk Rotations",
+    "slug": "trunk-rotations",
+    "file": "demos/trunk-rotations.mp4",
+    "sizeBytes": 45134
+  },
+  {
+    "originalName": "TRX Suspended Abdominal Fallout",
+    "slug": "trx-suspended-abdominal-fallout",
+    "file": "demos/trx-suspended-abdominal-fallout.mp4",
+    "sizeBytes": 77045
+  },
+  {
+    "originalName": "TRX Suspended Biceps Curl",
+    "slug": "trx-suspended-biceps-curl",
+    "file": "demos/trx-suspended-biceps-curl.mp4",
+    "sizeBytes": 39209
+  },
+  {
+    "originalName": "TRX Suspended Chest Flys",
+    "slug": "trx-suspended-chest-flys",
+    "file": "demos/trx-suspended-chest-flys.mp4",
+    "sizeBytes": 42670
+  },
+  {
+    "originalName": "TRX Suspended Clamp Chest",
+    "slug": "trx-suspended-clamp-chest",
+    "file": "demos/trx-suspended-clamp-chest.mp4",
+    "sizeBytes": 60050
+  },
+  {
+    "originalName": "TRX Suspended Crunches",
+    "slug": "trx-suspended-crunches",
+    "file": "demos/trx-suspended-crunches.mp4",
+    "sizeBytes": 42502
+  },
+  {
+    "originalName": "TRX Suspended Leg Curl",
+    "slug": "trx-suspended-leg-curl",
+    "file": "demos/trx-suspended-leg-curl.mp4",
+    "sizeBytes": 41584
+  },
+  {
+    "originalName": "TRX Suspended Split Squat",
+    "slug": "trx-suspended-split-squat",
+    "file": "demos/trx-suspended-split-squat.mp4",
+    "sizeBytes": 69234
+  },
+  {
+    "originalName": "Turkish Get Up",
+    "slug": "turkish-get-up",
+    "file": "demos/turkish-get-up.mp4",
+    "sizeBytes": 138532
+  },
+  {
+    "originalName": "Twist Throw",
+    "slug": "twist-throw",
+    "file": "demos/twist-throw.mp4",
+    "sizeBytes": 46889
+  },
+  {
+    "originalName": "Two Arm Kettlebell Swings",
+    "slug": "two-arm-kettlebell-swings",
+    "file": "demos/two-arm-kettlebell-swings.mp4",
+    "sizeBytes": 32878
+  },
+  {
+    "originalName": "Unilateral Supine Buttocks Lift Hip Lif",
+    "slug": "unilateral-supine-buttocks-lift-hip-lif",
+    "file": "demos/unilateral-supine-buttocks-lift-hip-lif.mp4",
+    "sizeBytes": 34209
+  },
+  {
+    "originalName": "Upright Leg Raise",
+    "slug": "upright-leg-raise",
+    "file": "demos/upright-leg-raise.mp4",
+    "sizeBytes": 43238
+  },
+  {
+    "originalName": "Upright Row",
+    "slug": "upright-row",
+    "file": "demos/upright-row.mp4",
+    "sizeBytes": 20193
+  },
+  {
+    "originalName": "V-Sit Hold",
+    "slug": "v-sit-hold",
+    "file": "demos/v-sit-hold.mp4",
+    "sizeBytes": 4640
+  },
+  {
+    "originalName": "Walking Lunges",
+    "slug": "walking-lunges",
+    "file": "demos/walking-lunges.mp4",
+    "sizeBytes": 52538
+  },
+  {
+    "originalName": "Wall Balls",
+    "slug": "wall-balls",
+    "file": "demos/wall-balls.mp4",
+    "sizeBytes": 68827
+  },
+  {
+    "originalName": "Wall Sit",
+    "slug": "wall-sit",
+    "file": "demos/wall-sit.mp4",
+    "sizeBytes": 3560
+  },
+  {
+    "originalName": "Weighted Hanging Leg Raise",
+    "slug": "weighted-hanging-leg-raise",
+    "file": "demos/weighted-hanging-leg-raise.mp4",
+    "sizeBytes": 25408
+  },
+  {
+    "originalName": "Weighted Jump Squats",
+    "slug": "weighted-jump-squats",
+    "file": "demos/weighted-jump-squats.mp4",
+    "sizeBytes": 22153
+  },
+  {
+    "originalName": "Wide Grip Push-Up",
+    "slug": "wide-grip-push-up",
+    "file": "demos/wide-grip-push-up.mp4",
+    "sizeBytes": 22955
+  },
+  {
+    "originalName": "Windshield Wiper",
+    "slug": "windshield-wiper",
+    "file": "demos/windshield-wiper.mp4",
+    "sizeBytes": 59677
+  },
+  {
+    "originalName": "Wrist Curls",
+    "slug": "wrist-curls",
+    "file": "demos/wrist-curls.mp4",
+    "sizeBytes": 18771
+  },
+  {
+    "originalName": "Wrist Roller",
+    "slug": "wrist-roller",
+    "file": "demos/wrist-roller.mp4",
+    "sizeBytes": 28606
+  },
+  {
+    "originalName": "Zercher Squat",
+    "slug": "zercher-squat",
+    "file": "demos/zercher-squat.mp4",
+    "sizeBytes": 30368
+  }
+]

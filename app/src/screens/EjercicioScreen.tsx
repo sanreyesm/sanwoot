@@ -8,8 +8,8 @@ import { DemoPlayer } from "../components/DemoPlayer";
 import { Icon } from "../components/Icon";
 import { Badge } from "../components/Badge";
 import { getLastSetsForExercise } from "../lib/db";
-import { saveClip, listClipsForExercise, deleteClip } from "../lib/clips-db";
-import { startRecording, validateAttachment, MAX_RECORDING_SECONDS, type RecordingHandle } from "../lib/camera";
+import { saveClip, listClipsForExercise, deleteClip, getClipBlob } from "../lib/clips-db";
+import { validateAttachment } from "../lib/camera";
 import type { PersonalClip, SetResult } from "../types";
 
 export function EjercicioScreen() {
@@ -21,14 +21,9 @@ export function EjercicioScreen() {
   const [reps, setReps] = useState("");
   const [weight, setWeight] = useState("");
   const [clips, setClips] = useState<PersonalClip[]>([]);
-
-  const [recording, setRecording] = useState(false);
-  const [recordError, setRecordError] = useState<string | null>(null);
-  const [elapsed, setElapsed] = useState(0);
-  const videoPreviewRef = useRef<HTMLVideoElement | null>(null);
-  const recordingHandleRef = useRef<RecordingHandle | null>(null);
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [videoError, setVideoError] = useState<string | null>(null);
+  const recordInputRef = useRef<HTMLInputElement | null>(null);
+  const attachInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     getLastSetsForExercise(exerciseId, session?.id).then(setLastSets);
@@ -55,6 +50,7 @@ export function EjercicioScreen() {
   const fb = feedback.find((f) => f.exerciseId === exerciseId);
   const skipped = session.skippedExerciseIds.includes(exerciseId);
   const rir = fb?.rir ?? 0;
+  const videoSent = fb?.videoSent ?? false;
 
   const order = session.exerciseOrder;
   const currentIndex = order.indexOf(exerciseId);
@@ -74,65 +70,47 @@ export function EjercicioScreen() {
 
   const refreshClips = () => listClipsForExercise(exerciseId).then(setClips);
 
-  const beginRecording = async () => {
-    setRecordError(null);
-    if (!videoPreviewRef.current) return;
-    try {
-      const handle = await startRecording(videoPreviewRef.current, async (result) => {
-        await persistClip(result.blob, result.durationSeconds, "recorded");
-        setRecording(false);
-        if (timerRef.current) clearInterval(timerRef.current);
-      });
-      recordingHandleRef.current = handle;
-      setRecording(true);
-      setElapsed(0);
-      timerRef.current = setInterval(() => setElapsed((e) => e + 1), 1000);
-    } catch (e) {
-      setRecordError(
-        e instanceof Error ? `No se pudo acceder a la cámara: ${e.message}` : "No se pudo acceder a la cámara."
-      );
+  const persistClip = async (file: File, source: "recorded" | "attached") => {
+    const error = validateAttachment(file);
+    if (error) {
+      setVideoError(error);
+      return;
     }
-  };
-
-  const stopRecording = async () => {
-    const handle = recordingHandleRef.current;
-    if (!handle) return;
-    const result = await handle.stop();
-    if (timerRef.current) clearInterval(timerRef.current);
-    setRecording(false);
-    await persistClip(result.blob, result.durationSeconds, "recorded");
-  };
-
-  const persistClip = async (blob: Blob, durationSeconds: number, source: "recorded" | "attached") => {
+    setVideoError(null);
     const clip: PersonalClip = {
       id: crypto.randomUUID(),
       sessionId: session.id,
       exerciseId,
       createdAt: new Date().toISOString(),
-      mimeType: blob.type,
-      size: blob.size,
-      durationSeconds,
+      mimeType: file.type,
+      size: file.size,
       status: "local",
       source,
     };
-    await saveClip(clip, blob);
+    await saveClip(clip, file);
     await refreshClips();
   };
 
-  const onAttach = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onFileSelected = (source: "recorded" | "attached") => async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     e.target.value = "";
     if (!file) return;
-    const error = validateAttachment(file);
-    if (error) {
-      setRecordError(error);
-      return;
-    }
-    setRecordError(null);
-    await persistClip(file, undefined as unknown as number, "attached");
+    await persistClip(file, source);
   };
 
-  const formatDuration = (s?: number) => (s == null ? "" : `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`);
+  const play = async (clip: PersonalClip) => {
+    const blob = await getClipBlob(clip.id);
+    if (!blob) return;
+    const url = URL.createObjectURL(blob);
+    const video = document.createElement("video");
+    video.src = url;
+    video.controls = true;
+    video.playsInline = true;
+    video.style.cssText = "position:fixed;inset:0;width:100%;height:100%;z-index:50;background:#000";
+    video.onclick = () => video.remove();
+    document.body.appendChild(video);
+    video.play();
+  };
 
   return (
     <div className="screen">
@@ -152,7 +130,10 @@ export function EjercicioScreen() {
         </div>
       </div>
 
-      <div className="eyebrow">{exercise.floor && (exercise.floor === "unknown" ? "Piso por confirmar" : `Piso ${exercise.floor}`)} · Día {session.day}</div>
+      <div className="eyebrow">
+        {exercise.muscleGroup ? `${exercise.muscleGroup} · ` : ""}
+        {exercise.floor && (exercise.floor === "unknown" ? "Piso por confirmar" : `Piso ${exercise.floor}`)} · Día {session.day}
+      </div>
       <h1 style={{ fontSize: 34 }}>{exercise.name}</h1>
 
       <DemoPlayer file={demo.file} confidence={demo.confidence} note={demo.note} referenceUrl={exercise.referenceUrl} />
@@ -267,67 +248,78 @@ export function EjercicioScreen() {
       </div>
 
       <section className="card">
-        <p className="card__title">Grabarte · hasta {MAX_RECORDING_SECONDS / 60} min</p>
-        <video ref={videoPreviewRef} className="camera-preview" playsInline muted />
-        {recording ? (
-          <>
-            <p>Grabando… {elapsed}s / {MAX_RECORDING_SECONDS}s</p>
-            <button className="btn btn--primary" onClick={stopRecording}>Terminar grabación</button>
-          </>
-        ) : (
-          <div className="camera-actions">
-            <button className="btn btn--record" onClick={beginRecording}>
-              <Icon name="record-dot" size={18} />
-              Grabar
-            </button>
-            <button className="btn btn--outline" onClick={() => fileInputRef.current?.click()}>
-              <Icon name="attach" size={18} />
-              Adjuntar
-            </button>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="video/mp4,video/quicktime,video/webm"
-              style={{ display: "none" }}
-              onChange={onAttach}
-            />
+        <p className="card__title">Video para el coach</p>
+
+        <button
+          type="button"
+          className="connection-row"
+          style={{ border: "none", background: "none", textAlign: "left", cursor: "pointer", padding: "6px 0" }}
+          onClick={() => setFeedback(exerciseId, { videoSent: !videoSent })}
+        >
+          <div className="connection-row__head">
+            <span className="connection-row__name">¿Enviaste el video a tu coach?</span>
+            <Badge variant={videoSent ? "complete" : "pending"}>{videoSent ? "Enviado" : "Pendiente"}</Badge>
           </div>
-        )}
-        {recordError && (
+          <div className="text-muted">Lo marcas tú, igual que en la planilla. No se envía nada automático.</div>
+        </button>
+
+        <div className="camera-actions">
+          <button className="btn btn--record" onClick={() => recordInputRef.current?.click()}>
+            <Icon name="record-dot" size={18} />
+            Grabar
+          </button>
+          <button className="btn btn--outline" onClick={() => attachInputRef.current?.click()}>
+            <Icon name="attach" size={18} />
+            Adjuntar
+          </button>
+          {/* capture="environment" abre la cámara nativa real (con selector de
+              lente, incluido el gran angular 0.5x, y su propio botón de detener):
+              no es una simulación, es la app Cámara del sistema. */}
+          <input
+            ref={recordInputRef}
+            type="file"
+            accept="video/*"
+            capture="environment"
+            style={{ display: "none" }}
+            onChange={onFileSelected("recorded")}
+          />
+          <input
+            ref={attachInputRef}
+            type="file"
+            accept="video/mp4,video/quicktime,video/webm"
+            style={{ display: "none" }}
+            onChange={onFileSelected("attached")}
+          />
+        </div>
+
+        {videoError && (
           <div role="alert" className="banner banner--error">
             <Icon name="warning" size={22} strokeWidth={2.4} />
-            <div>{recordError}</div>
+            <div>{videoError}</div>
           </div>
         )}
 
         {clips.map((c) => (
           <div key={c.id} className="clip-row">
-            <button className="clip-row__thumb" aria-label={`Reproducir video, ${formatDuration(c.durationSeconds)}`}>
+            <button className="clip-row__thumb" aria-label="Reproducir video" onClick={() => play(c)}>
               <Icon name="play" size={20} />
             </button>
             <div className="clip-row__meta">
-              <div className="clip-row__title">{c.source === "recorded" ? "Grabación" : "Adjunto"} · {formatDuration(c.durationSeconds)}</div>
+              <div className="clip-row__title">{c.source === "recorded" ? "Grabación" : "Adjunto"} · {(c.size / 1024 / 1024).toFixed(1)} MB</div>
               <Badge variant="device">Guardado en este dispositivo</Badge>
             </div>
-          </div>
-        ))}
-        {clips.length > 0 && (
-          <div className="camera-actions">
-            <button className="btn btn--outline">
-              <Icon name="share" size={18} /> Compartir
-            </button>
             <button
-              className="btn btn--outline"
-              style={{ borderColor: "var(--error-text)", color: "var(--error-text)" }}
+              className="icon-btn icon-btn--danger"
+              aria-label="Eliminar video"
               onClick={async () => {
-                await deleteClip(clips[0].id);
+                await deleteClip(c.id);
                 refreshClips();
               }}
             >
-              <Icon name="trash" size={18} /> Eliminar
+              <Icon name="trash" size={18} />
             </button>
           </div>
-        )}
+        ))}
       </section>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>

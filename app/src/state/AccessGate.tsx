@@ -51,8 +51,8 @@ export function AccessGate({ children }: { children: ReactNode }) {
         <p className="gate__hint">Ingresa la clave para entrar.</p>
         <input
           className="gate__input"
-          type="text"
-          inputMode="text"
+          type="password"
+          autoComplete="off"
           autoFocus
           value={code}
           onChange={(e) => {

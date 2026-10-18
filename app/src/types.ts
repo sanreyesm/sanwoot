@@ -88,6 +88,8 @@ export interface ExerciseFeedback {
   rir: number | null;
   note: string;
   skipped: boolean;
+  /** Marcado a mano por San: si ya envió el video de este ejercicio a su coach (por WhatsApp, fuera de la app). */
+  videoSent: boolean;
 }
 
 export type ClipStatus = "local" | "error";

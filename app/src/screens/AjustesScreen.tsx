@@ -7,12 +7,22 @@ import {
   type CacheAllProgress,
 } from "../lib/demo-cache";
 import { getClipsStorageBytes, listClips } from "../lib/clips-db";
+import { getAllExercises } from "../data/exercises";
+import { setOverride } from "../lib/exercise-overrides";
 import { Icon } from "../components/Icon";
 import { Badge } from "../components/Badge";
+import type { Exercise } from "../types";
 
 function formatMb(bytes: number): string {
   return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
 }
+
+const MUSCLE_GROUPS = ["Tren superior", "Tren inferior", "Core"];
+const FLOORS: { value: Exercise["floor"]; label: string }[] = [
+  { value: "-1", label: "Piso -1" },
+  { value: "3", label: "Piso 3" },
+  { value: "unknown", label: "Por confirmar" },
+];
 
 export function AjustesScreen() {
   const [demoBytes, setDemoBytes] = useState<number | null>(null);
@@ -20,6 +30,12 @@ export function AjustesScreen() {
   const [clipCount, setClipCount] = useState(0);
   const [progress, setProgress] = useState<CacheAllProgress | null>(null);
   const [working, setWorking] = useState(false);
+  const [exercises, setExercises] = useState<Exercise[]>(() => getAllExercises());
+
+  const editExercise = (id: string, patch: { muscleGroup?: string; floor?: Exercise["floor"] }) => {
+    setOverride(id, patch);
+    setExercises(getAllExercises());
+  };
 
   const refresh = async () => {
     const [demo, clips, clipList] = await Promise.all([
@@ -76,6 +92,39 @@ export function AjustesScreen() {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
           <span style={{ fontSize: 17 }}><strong>{clipCount} videos</strong> · {clipBytes != null ? formatMb(clipBytes) : "—"}</span>
           <Badge variant="device">Solo en este teléfono</Badge>
+        </div>
+      </section>
+
+      <section className="card">
+        <p className="card__title">Editar ejercicios</p>
+        <p className="text-muted">Cambia tren superior/inferior/core o el piso. Se guarda en este teléfono.</p>
+        <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+          {exercises.map((ex) => (
+            <div key={ex.id} className="connection-row" style={{ gap: 8 }}>
+              <span className="connection-row__name" style={{ fontSize: 16 }}>{ex.name}</span>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                <select
+                  className="select"
+                  value={ex.muscleGroup ?? ""}
+                  onChange={(e) => editExercise(ex.id, { muscleGroup: e.target.value })}
+                >
+                  <option value="">Sin clasificar</option>
+                  {MUSCLE_GROUPS.map((g) => (
+                    <option key={g} value={g}>{g}</option>
+                  ))}
+                </select>
+                <select
+                  className="select"
+                  value={ex.floor ?? "unknown"}
+                  onChange={(e) => editExercise(ex.id, { floor: e.target.value as Exercise["floor"] })}
+                >
+                  {FLOORS.map((f) => (
+                    <option key={f.value} value={f.value}>{f.label}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 

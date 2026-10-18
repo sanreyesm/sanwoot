@@ -3,6 +3,7 @@ import { cacheDemo, isDemoCached } from "../lib/demo-cache";
 import type { DemoConfidence } from "../data/demo-map";
 import { Badge } from "./Badge";
 import { Icon } from "./Icon";
+import { getYoutubeEmbedUrl } from "../lib/youtube";
 
 interface DemoPlayerProps {
   file?: string;
@@ -23,11 +24,25 @@ export function DemoPlayer({ file, confidence, note, referenceUrl }: DemoPlayerP
   }, [file]);
 
   if (confidence === "pending" || !file) {
+    const embedUrl = referenceUrl ? getYoutubeEmbedUrl(referenceUrl) : null;
     return (
       <div className="demo-player demo-player--pending">
         <p className="demo-player__title">Demostración pendiente</p>
         {note && <p className="demo-player__note">{note}</p>}
-        {referenceUrl ? (
+        {embedUrl ? (
+          <>
+            <div className="demo-player__embed">
+              <iframe
+                src={embedUrl}
+                title="Referencia en YouTube"
+                allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                loading="lazy"
+              />
+            </div>
+            <p className="demo-player__note">Este video es de YouTube: requiere conexión, no queda guardado para usar sin señal.</p>
+          </>
+        ) : referenceUrl ? (
           <a className="demo-player__link" href={referenceUrl} target="_blank" rel="noreferrer">
             Ver referencia en YouTube (requiere conexión)
           </a>

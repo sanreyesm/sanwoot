@@ -112,6 +112,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
           rir: current?.rir ?? null,
           note: current?.note ?? "",
           skipped: current?.skipped ?? false,
+          videoSent: current?.videoSent ?? false,
           ...patch,
         };
         upsertFeedback(updated);

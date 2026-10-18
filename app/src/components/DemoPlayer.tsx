@@ -53,7 +53,7 @@ export function DemoPlayer({ file, confidence, note, referenceUrl }: DemoPlayerP
     <div className="demo-player">
       <video
         className="demo-player__video"
-        src={`/${file}`}
+        src={`${import.meta.env.BASE_URL}${file}`}
         controls
         playsInline
         loop

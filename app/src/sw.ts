@@ -46,7 +46,10 @@ self.addEventListener("activate", (event) => {
 });
 
 function isDemoRequest(url: URL): boolean {
-  return url.pathname.startsWith("/demos/") && url.pathname.endsWith(".mp4");
+  // No se ancla a "/demos/" en la raíz: bajo GitHub Pages el sitio vive en
+  // /sanwoot/demos/..., así que basta con que el segmento "demos" aparezca
+  // en la ruta, sea cual sea el prefijo de despliegue.
+  return url.pathname.includes("/demos/") && url.pathname.endsWith(".mp4");
 }
 
 async function handleDemoRequest(request: Request): Promise<Response> {

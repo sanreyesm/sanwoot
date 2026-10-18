@@ -1,0 +1,52 @@
+.gate {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: #faf6f0;
+}
+
+.gate__card {
+  width: 100%;
+  max-width: 360px;
+  background: #ffffff;
+  border: 1px solid #e3dde8;
+  border-radius: 16px;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-align: center;
+}
+
+.gate__title {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #1f1a24;
+}
+
+.gate__hint {
+  margin: 0;
+  color: #6b6270;
+}
+
+.gate__input {
+  font-size: 1.1rem;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #e3dde8;
+  text-align: center;
+}
+
+.gate__error {
+  margin: 0;
+  color: #b3261e;
+  font-size: 0.9rem;
+}
+
+.gate__note {
+  margin: 0;
+  color: #6b6270;
+  font-size: 0.85rem;
+}

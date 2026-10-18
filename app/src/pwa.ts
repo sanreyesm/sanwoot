@@ -4,7 +4,7 @@ export function registerServiceWorker(): void {
   if (!("serviceWorker" in navigator)) return;
   if (import.meta.env.DEV) return; // en dev, Vite sirve sin SW para no interferir con HMR
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/sw.js").catch((err) => {
+    navigator.serviceWorker.register(`${import.meta.env.BASE_URL}sw.js`).catch((err) => {
       console.error("No se pudo registrar el service worker", err);
     });
   });

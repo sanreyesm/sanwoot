@@ -3,7 +3,11 @@ import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 
 // https://vite.dev/config/
+// GitHub Pages sirve esto bajo /sanwoot/, no en la raíz del dominio.
+const BASE = "/sanwoot/";
+
 export default defineConfig({
+  base: BASE,
   plugins: [
     react(),
     VitePWA({
@@ -21,13 +25,14 @@ export default defineConfig({
         name: "SanWoot",
         short_name: "SanWoot",
         description: "Acompaña a San en sus entrenamientos de fuerza, con o sin conexión.",
-        start_url: "/",
+        start_url: BASE,
+        scope: BASE,
         display: "standalone",
         background_color: "#FAF6F0",
         theme_color: "#6B46C1",
         icons: [
-          { src: "/pwa-192x192.png", sizes: "192x192", type: "image/png" },
-          { src: "/pwa-512x512.png", sizes: "512x512", type: "image/png", purpose: "any" },
+          { src: `${BASE}pwa-192x192.png`, sizes: "192x192", type: "image/png" },
+          { src: `${BASE}pwa-512x512.png`, sizes: "512x512", type: "image/png", purpose: "any" },
         ],
       },
       devOptions: {

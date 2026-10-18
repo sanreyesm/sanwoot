@@ -1,0 +1,803 @@
+<!doctype html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SanWoot · Versión final</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;family=Figtree:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #E9E7E2; --ink: #1B1A1F; --muted: #55525C; --accent: #6E2A5A; }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Figtree', system-ui, sans-serif; }
+  a { color: #6E2A5A; }
+  a:hover { color: #4A1B3C; }
+  /* Anillo de foco explícito (hallazgo 1 de la revisión de accesibilidad).
+     #6E2A5A da 9.8:1 sobre blanco y 8.8:1 sobre el fondo de pantalla, pero
+     solo 1.76:1 sobre la barra de navegación oscura #1B1A1F; por eso la nav
+     usa un anillo blanco aparte. Los 8 contenedores con overflow:hidden que
+     antes podían recortar este anillo (acordeones de Historial, tarjetas de
+     Mis videos) se corrigieron más abajo para que ya no lo corten. */
+  button:focus-visible, a:focus-visible, input:focus-visible {
+    outline: 3px solid #6E2A5A;
+    outline-offset: 2px;
+    border-radius: 10px;
+  }
+  nav[aria-label="Principal"] a:focus-visible,
+  nav[aria-label="Ejemplo de navegación"] a:focus-visible {
+    outline-color: #FFFFFF;
+  }
+  .page-head { max-width: 1360px; margin: 0 auto; padding: 48px 16px 24px; display: flex; flex-direction: column; gap: 12px; }
+  .eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .title { margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: clamp(40px, 7vw, 72px); line-height: 0.95; letter-spacing: -0.03em; }
+  .lede { margin: 0; font-size: 18px; line-height: 1.45; color: var(--muted); max-width: 640px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .chip { min-height: 40px; display: inline-flex; align-items: center; padding: 0 14px; border-radius: 999px; background: #FFFFFF; color: var(--ink); text-decoration: none; font-weight: 700; font-size: 14px; box-shadow: 0 1px 2px rgba(27,26,31,0.08); }
+  .chip:hover { background: #F2E4EE; color: #5A2149; }
+  .screens { max-width: 1360px; margin: 0 auto; padding: 16px 16px 48px; display: flex; flex-wrap: wrap; gap: 40px 32px; align-items: flex-start; }
+  .screen { display: flex; flex-direction: column; gap: 12px; max-width: 100%; scroll-margin-top: 16px; }
+  .screen-label { margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .frame-scroll { max-width: 100%; overflow-x: auto; border-radius: 36px; }
+  .frame { width: 390px; border-radius: 36px; overflow: hidden; box-shadow: 0 2px 4px rgba(27,26,31,0.06), 0 12px 32px rgba(27,26,31,0.10); }
+  .system { max-width: 1360px; margin: 0 auto; padding: 0 16px 80px; display: flex; flex-direction: column; gap: 12px; scroll-margin-top: 16px; }
+  .system-scroll { max-width: 100%; overflow-x: auto; border-radius: 28px; box-shadow: 0 2px 4px rgba(27,26,31,0.06), 0 12px 32px rgba(27,26,31,0.10); }
+  .note { max-width: 1360px; margin: 0 auto; padding: 0 16px 24px; font-size: 15px; color: var(--muted); }
+</style>
+</head>
+<body>
+<header class="page-head">
+  <div class="eyebrow">Versión final · Ciruela</div>
+  <h1 class="title">SanWoot</h1>
+  <p class="lede">Las 7 pantallas de la app, el estado de Hoy con sesión activa y el sistema de componentes. Los botones y la barra de navegación saltan entre pantallas.</p>
+  <nav class="chips" aria-label="Ir a pantalla"><a class="chip" href="#hoy">1 · Hoy</a><a class="chip" href="#hoy-activa">1b · Hoy con sesión activa</a><a class="chip" href="#rutina">2 · Rutina</a><a class="chip" href="#ejercicio">3 · Ejercicio</a><a class="chip" href="#cierre">4 · Cierre</a><a class="chip" href="#historial">5 · Historial</a><a class="chip" href="#mis-videos">6 · Mis videos</a><a class="chip" href="#ajustes">7 · Ajustes</a><a class="chip" href="#sistema">Sistema de componentes</a></nav>
+</header>
+<p class="note">Los ejercicios, pesos, fechas y tamaños son datos de ejemplo.</p>
+<main class="screens">
+<section class="screen" id="hoy" aria-label="1 · Hoy">
+  <h2 class="screen-label">1 · Hoy</h2>
+  <div class="frame-scroll"><div class="frame"><div style="width: 390px; height: 844px; box-sizing: border-box; background: #F4F3F0; color: #1B1A1F; font-family: 'Figtree', system-ui, sans-serif; display: flex; flex-direction: column">
+  <header style="padding: 56px 20px 6px; display: flex; flex-direction: column; gap: 6px">
+    <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C">Sábado 17 de octubre</div>
+    <h1 style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 44px; line-height: 1; letter-spacing: -0.02em">Hoy toca</h1>
+  </header>
+
+  <main style="flex: 1; padding: 14px 20px 16px; display: flex; flex-direction: column; gap: 14px">
+    <div role="group" aria-label="Día de entrenamiento" style="background: #E6E4DF; border-radius: 999px; padding: 6px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px">
+      <button type="button" aria-pressed="true" style="min-height: 64px; border-radius: 999px; border: 0; background: #6E2A5A; color: #FFFFFF; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"></path></svg><span style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 24px">Día 1</span></button>
+      <button type="button" aria-pressed="false" style="min-height: 64px; border-radius: 999px; border: 0; background: transparent; color: #1B1A1F; display: flex; align-items: center; justify-content: center; cursor: pointer"><span style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 700; font-size: 24px">Día 2</span></button>
+    </div>
+    <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C; padding: 0 6px">6 ejercicios · piso -1 y piso 3</div>
+
+    <section aria-labelledby="d4-off" style="background: #FFFFFF; border-radius: 24px; padding: 20px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 1px 2px rgba(27,26,31,0.08)">
+      <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C">Sin señal</div>
+      <div style="display: flex; align-items: center; gap: 16px">
+        <svg role="img" aria-label="4 de 6 demostraciones guardadas" width="76" height="76" viewBox="0 0 76 76" style="flex: none"><circle cx="38" cy="38" r="32" fill="none" stroke="#ECEAE6" stroke-width="10"></circle><circle cx="38" cy="38" r="32" fill="none" stroke="#C33D9C" stroke-width="10" stroke-dasharray="134 201" stroke-linecap="round" transform="rotate(-90 38 38)"></circle></svg>
+        <div style="display: flex; flex-direction: column; gap: 4px">
+          <h2 id="d4-off" style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 30px; line-height: 1">4 de 6</h2>
+          <div style="font-size: 16px; color: #55525C">demostraciones listas</div>
+        </div>
+      </div>
+      <span style="align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; min-height: 30px; padding: 3px 12px 3px 9px; border-radius: 999px; background: #FBEACB; color: #7A4A00; font-weight: 700; font-size: 14px; line-height: 1.3"><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>Pendientes · Peso muerto rumano, Plancha</span>
+      <button type="button" style="min-height: 52px; border-radius: 999px; border: 0; background: #F2E4EE; color: #5A2149; font-weight: 700; font-size: 17px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg>Preparar con wifi</button>
+    </section>
+
+    <div style="flex: 1"></div>
+
+    <a href="#rutina" style="min-height: 64px; border-radius: 999px; background: #6E2A5A; color: #FFFFFF; text-decoration: none; font-weight: 700; font-size: 20px; display: flex; align-items: center; justify-content: center; gap: 10px">Comenzar Día 1<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+  </main>
+
+  <div style="padding: 0 16px 26px">
+    <nav aria-label="Principal" style="background: #1B1A1F; border-radius: 28px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 6px; gap: 4px">
+      <a href="#hoy" aria-current="page" style="min-height: 60px; border-radius: 22px; background: #FFFFFF; color: #1B1A1F; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-weight: 700; font-size: 13px"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>Hoy</a>
+      <a href="#historial" style="min-height: 60px; border-radius: 22px; color: #DAD8DE; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-weight: 600; font-size: 13px"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"></path><path d="M3 3v5h5M12 7v5l3 2"></path></svg>Historial</a>
+      <a href="#mis-videos" style="min-height: 60px; border-radius: 22px; color: #DAD8DE; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-weight: 600; font-size: 13px"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="13" height="12" rx="2"></rect><path d="M16 10l5-3v10l-5-3z"></path></svg>Mis videos</a>
+      <a href="#ajustes" style="min-height: 60px; border-radius: 22px; color: #DAD8DE; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-weight: 600; font-size: 13px"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11M19 18h1"></path><circle cx="15" cy="6" r="2"></circle><circle cx="9" cy="12" r="2"></circle><circle cx="17" cy="18" r="2"></circle></svg>Ajustes</a>
+    </nav>
+  </div>
+</div></div></div>
+</section>
+<section class="screen" id="hoy-activa" aria-label="1b · Hoy con sesión activa">
+  <h2 class="screen-label">1b · Hoy con sesión activa</h2>
+  <div class="frame-scroll"><div class="frame"><div style="width: 390px; height: 844px; box-sizing: border-box; background: #F4F3F0; color: #1B1A1F; font-family: 'Figtree', system-ui, sans-serif; display: flex; flex-direction: column">
+  <header style="padding: 56px 20px 6px; display: flex; flex-direction: column; gap: 6px">
+    <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C">Sábado 17 de octubre</div>
+    <h1 style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 44px; line-height: 1; letter-spacing: -0.02em">Hoy</h1>
+  </header>
+
+  <main style="flex: 1; padding: 14px 20px 16px; display: flex; flex-direction: column; gap: 14px">
+    <section aria-labelledby="fa-ses" style="background: #FFFFFF; border: 2px solid #6E2A5A; border-radius: 24px; padding: 20px; display: flex; flex-direction: column; gap: 14px">
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px">
+        <span style="display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5A2149"><svg aria-hidden="true" width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#6E2A5A"></circle></svg>Sesión en curso</span>
+        <span style="font-size: 15px; color: #55525C">desde las 18:42</span>
+      </div>
+      <h2 id="fa-ses" style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 34px; line-height: 1">Día 1</h2>
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <div style="font-size: 17px"><strong>4 de 6</strong> ejercicios con registro</div>
+        <div role="progressbar" aria-label="Avance de la sesión" aria-valuemin="0" aria-valuemax="6" aria-valuenow="4" aria-valuetext="4 de 6 ejercicios con registro" style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px">
+          <div style="height: 10px; border-radius: 999px; background-color: #c33d9c"></div>
+          <div style="height: 10px; border-radius: 999px; background-color: #c33d9c"></div>
+          <div style="height: 10px; border-radius: 999px; background: #B97CA6"></div>
+          <div style="height: 10px; border-radius: 999px; background: #ECEAE6"></div>
+          <div style="height: 10px; border-radius: 999px; background: #726E79"></div>
+          <div style="height: 10px; border-radius: 999px; background: #ECEAE6"></div>
+        </div>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 6px">
+        <span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; color: #FFFFFF; font-weight: 700; font-size: 13px; white-space: nowrap; background-color: #C33D9C"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"></path></svg>2 completos</span>
+        <span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; background: #F2E4EE; color: #5A2149; font-weight: 700; font-size: 13px; white-space: nowrap"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2.4"></circle><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"></path></svg>1 parcial</span>
+        <span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; background: #E6E4DF; color: #3A3840; font-weight: 700; font-size: 13px; white-space: nowrap"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 5l9 7-9 7zM18 5v14"></path></svg>1 omitido</span>
+        <span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; background: #FFFFFF; color: #48454F; border: 1.5px solid #726E79; font-weight: 700; font-size: 13px; white-space: nowrap"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="8.5"></circle></svg>2 sin registrar</span>
+      </div>
+      <div style="border-top: 1px solid #ECEAE6; padding-top: 12px; display: flex; flex-direction: column; gap: 2px">
+        <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C">Ibas en</div>
+        <div style="font-size: 17px"><strong>Remo con mancuerna a una mano</strong> <span style="color: #55525C">· 1 de 3 series</span></div>
+      </div>
+    </section>
+
+    <section aria-label="Demostraciones" style="background: #FFFFFF; border-radius: 20px; padding: 14px 16px; display: flex; align-items: center; gap: 12px; box-shadow: 0 1px 2px rgba(27,26,31,0.08)">
+      <span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; background: #E0F0E6; color: #1E5C3A; font-weight: 700; font-size: 13px; white-space: nowrap"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 17.7 9.5 4.25 4.25 0 0 1 17.5 18z"></path><path d="M4 4l16 16"></path></svg>6 de 6 offline</span>
+      <span style="font-size: 15px; color: #55525C; line-height: 1.35">Todas las demostraciones de hoy están en el teléfono.</span>
+    </section>
+
+    <div style="flex: 1"></div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <a href="#ejercicio" style="min-height: 64px; border-radius: 999px; background: #6E2A5A; color: #FFFFFF; text-decoration: none; font-weight: 700; font-size: 20px; display: flex; align-items: center; justify-content: center; gap: 10px">Continuar entrenamiento<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+        <a href="#rutina" style="min-height: 52px; border-radius: 999px; background: #F2E4EE; color: #5A2149; text-decoration: none; font-weight: 700; font-size: 17px; display: flex; align-items: center; justify-content: center">Ver rutina</a>
+        <a href="#cierre" style="min-height: 52px; border-radius: 999px; border: 2px solid #1B1A1F; background: #FFFFFF; color: #1B1A1F; text-decoration: none; font-weight: 700; font-size: 17px; display: flex; align-items: center; justify-content: center; box-sizing: border-box">Terminar y revisar</a>
+      </div>
+      <div style="font-size: 15px; color: #55525C; text-align: center">Para cambiar de día, primero termina esta sesión.</div>
+    </div>
+  </main>
+
+  <div style="padding: 0 16px 26px">
+    <nav aria-label="Principal" style="background: #1B1A1F; border-radius: 28px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 6px; gap: 4px">
+      <a href="#hoy-activa" aria-current="page" style="min-height: 60px; border-radius: 22px; background: #FFFFFF; color: #1B1A1F; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-weight: 700; font-size: 13px"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>Hoy</a>
+      <a href="#historial" style="min-height: 60px; border-radius: 22px; color: #DAD8DE; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-weight: 600; font-size: 13px"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"></path><path d="M3 3v5h5M12 7v5l3 2"></path></svg>Historial</a>
+      <a href="#mis-videos" style="min-height: 60px; border-radius: 22px; color: #DAD8DE; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-weight: 600; font-size: 13px"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="13" height="12" rx="2"></rect><path d="M16 10l5-3v10l-5-3z"></path></svg>Mis videos</a>
+      <a href="#ajustes" style="min-height: 60px; border-radius: 22px; color: #DAD8DE; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-weight: 600; font-size: 13px"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11M19 18h1"></path><circle cx="15" cy="6" r="2"></circle><circle cx="9" cy="12" r="2"></circle><circle cx="17" cy="18" r="2"></circle></svg>Ajustes</a>
+    </nav>
+  </div>
+</div></div></div>
+</section>
+<section class="screen" id="rutina" aria-label="2 · Rutina">
+  <h2 class="screen-label">2 · Rutina</h2>
+  <div class="frame-scroll"><div class="frame"><div style="width: 390px; height: 1460px; box-sizing: border-box; background: #F4F3F0; color: #1B1A1F; font-family: 'Figtree', system-ui, sans-serif; display: flex; flex-direction: column">
+  <header style="padding: 52px 20px 6px; display: flex; flex-direction: column; gap: 8px">
+    <a href="#hoy-activa" style="align-self: flex-start; min-height: 44px; display: inline-flex; align-items: center; gap: 2px; font-weight: 700; font-size: 17px; text-decoration: none; color: #6E2A5A; margin-left: -6px; padding-right: 8px"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg>Hoy</a>
+    <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C">Día 1 · 6 ejercicios</div>
+    <h1 style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 40px; line-height: 1; letter-spacing: -0.02em">Rutina</h1>
+    <div style="font-size: 16px; color: #55525C; line-height: 1.4">Toca un ejercicio para abrirlo. Usa las flechas para cambiar el orden de hoy.</div>
+  </header>
+
+  <main style="flex: 1; padding: 12px 20px 16px">
+    <ol style="margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px">
+
+      <li style="list-style: none; background: #FFFFFF; border-radius: 22px; padding: 14px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 1px 2px rgba(27,26,31,0.08)">
+        <a href="#ejercicio" style="display: flex; align-items: flex-start; gap: 12px; text-decoration: none; color: #1B1A1F; min-height: 44px">
+          <span style="flex: none; width: 32px; height: 32px; border-radius: 999px; background: #1B1A1F; color: #FFFFFF; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 16px; display: flex; align-items: center; justify-content: center">1</span>
+          <span style="flex: 1; display: flex; flex-direction: column; gap: 4px"><span style="font-weight: 700; font-size: 18px; line-height: 1.25">Sentadilla goblet</span><span style="font-size: 15px; color: #55525C">Piso -1 · 3 × 8–10</span></span>
+          <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#55525C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 4px; flex: none"><path d="M9 6l6 6-6 6"></path></svg>
+        </a>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px solid #ECEAE6; padding-top: 12px">
+          <span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; color: #FFFFFF; font-weight: 700; font-size: 13px; white-space: nowrap; background-color: #C33D9C"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"></path></svg>3 de 3 series</span>
+          <div style="display: flex; gap: 12px">
+            <button type="button" disabled="" aria-label="Subir Sentadilla goblet. Ya está primera" style="width: 48px; height: 48px; border-radius: 999px; border: 2px dashed #CFCCD4; background: #F4F3F0; color: #726E79; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"></path></svg></button>
+            <button type="button" aria-label="Bajar Sentadilla goblet a la posición 2" style="width: 48px; height: 48px; border-radius: 999px; border: 0; background: #F2E4EE; color: #5A2149; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"></path></svg></button>
+          </div>
+        </div>
+      </li>
+
+      <li style="list-style: none; background: #FFFFFF; border-radius: 22px; padding: 14px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 1px 2px rgba(27,26,31,0.08)">
+        <a href="#ejercicio" style="display: flex; align-items: flex-start; gap: 12px; text-decoration: none; color: #1B1A1F; min-height: 44px">
+          <span style="flex: none; width: 32px; height: 32px; border-radius: 999px; background: #1B1A1F; color: #FFFFFF; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 16px; display: flex; align-items: center; justify-content: center">2</span>
+          <span style="flex: 1; display: flex; flex-direction: column; gap: 4px"><span style="font-weight: 700; font-size: 18px; line-height: 1.25">Press de banca con mancuernas</span><span style="font-size: 15px; color: #55525C">Piso -1 · 3 × 8–10</span></span>
+          <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#55525C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 4px; flex: none"><path d="M9 6l6 6-6 6"></path></svg>
+        </a>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px solid #ECEAE6; padding-top: 12px">
+          <span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; color: #FFFFFF; font-weight: 700; font-size: 13px; white-space: nowrap; background-color: #C33D9C"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"></path></svg><span>3 de 3 series</span></span>
+          <div style="display: flex; gap: 12px">
+            <button type="button" aria-label="Subir Press de banca a la posición 1" style="width: 48px; height: 48px; border-radius: 999px; border: 0; background: #F2E4EE; color: #5A2149; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"></path></svg></button>
+            <button type="button" aria-label="Bajar Press de banca a la posición 3" style="width: 48px; height: 48px; border-radius: 999px; border: 0; background: #F2E4EE; color: #5A2149; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"></path></svg></button>
+          </div>
+        </div>
+      </li>
+
+      <li style="list-style: none; background: #FFFFFF; border: 2px solid #6E2A5A; border-radius: 22px; padding: 12px; display: flex; flex-direction: column; gap: 12px">
+        <a href="#ejercicio" aria-current="step" style="display: flex; align-items: flex-start; gap: 12px; text-decoration: none; color: #1B1A1F; min-height: 44px">
+          <span style="flex: none; width: 32px; height: 32px; border-radius: 999px; background: #6E2A5A; color: #FFFFFF; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 16px; display: flex; align-items: center; justify-content: center">3</span>
+          <span style="flex: 1; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5A2149">Ibas aquí</span><span style="font-weight: 700; font-size: 18px; line-height: 1.25">Remo con mancuerna a una mano</span><span style="font-size: 15px; color: #55525C">Piso 3 · 3 × 10–12</span></span>
+          <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#55525C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 4px; flex: none"><path d="M9 6l6 6-6 6"></path></svg>
+        </a>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px solid #ECEAE6; padding-top: 12px">
+          <span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; background: #F2E4EE; color: #5A2149; font-weight: 700; font-size: 13px; white-space: nowrap"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2.4"></circle><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"></path></svg>1 de 3 series</span>
+          <div style="display: flex; gap: 12px">
+            <button type="button" aria-label="Subir Remo con mancuerna a la posición 2" style="width: 48px; height: 48px; border-radius: 999px; border: 0; background: #F2E4EE; color: #5A2149; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"></path></svg></button>
+            <button type="button" aria-label="Bajar Remo con mancuerna a la posición 4" style="width: 48px; height: 48px; border-radius: 999px; border: 0; background: #F2E4EE; color: #5A2149; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"></path></svg></button>
+          </div>
+        </div>
+      </li>
+
+      <li style="list-style: none; background: #FFFFFF; border-radius: 22px; padding: 14px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 1px 2px rgba(27,26,31,0.08)">
+        <a href="#ejercicio" style="display: flex; align-items: flex-start; gap: 12px; text-decoration: none; color: #1B1A1F; min-height: 44px">
+          <span style="flex: none; width: 32px; height: 32px; border-radius: 999px; background: #1B1A1F; color: #FFFFFF; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 16px; display: flex; align-items: center; justify-content: center">4</span>
+          <span style="flex: 1; display: flex; flex-direction: column; gap: 6px"><span style="font-weight: 700; font-size: 18px; line-height: 1.25">Peso muerto rumano</span><span style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 15px; color: #55525C"><span style="display: inline-flex; align-items: center; gap: 5px; min-height: 26px; padding: 2px 10px 2px 7px; border-radius: 999px; background: #FBEACB; color: #7A4A00; font-weight: 700; font-size: 13px; white-space: nowrap"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l10 18H2z"></path><path d="M12 10v4M12 17.5v.5"></path></svg>Piso por confirmar</span>3 × 8</span></span>
+          <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#55525C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 4px; flex: none"><path d="M9 6l6 6-6 6"></path></svg>
+        </a>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px solid #ECEAE6; padding-top: 12px">
+          <div style="display: flex; align-items: center; gap: 8px">
+            <span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; background: #FFFFFF; color: #48454F; border: 1.5px solid #726E79; font-weight: 700; font-size: 13px; white-space: nowrap"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="8.5"></circle></svg>Sin registrar</span>
+          </div>
+          <div style="display: flex; gap: 12px">
+            <button type="button" aria-label="Subir Peso muerto rumano a la posición 3" style="width: 48px; height: 48px; border-radius: 999px; border: 0; background: #F2E4EE; color: #5A2149; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"></path></svg></button>
+            <button type="button" aria-label="Bajar Peso muerto rumano a la posición 5" style="width: 48px; height: 48px; border-radius: 999px; border: 0; background: #F2E4EE; color: #5A2149; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"></path></svg></button>
+          </div>
+        </div>
+        <button type="button" style="align-self: flex-start; min-height: 44px; border-radius: 999px; border: 0; background: #E6E4DF; color: #1B1A1F; font-weight: 700; font-size: 15px; padding: 0 16px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 5l9 7-9 7zM18 5v14"></path></svg>Omitir</button>
+      </li>
+
+      <li style="list-style: none; background: #E9E7E2; border-radius: 22px; padding: 14px; display: flex; flex-direction: column; gap: 12px">
+        <a href="#ejercicio" style="display: flex; align-items: flex-start; gap: 12px; text-decoration: none; color: #3A3840; min-height: 44px">
+          <span style="flex: none; width: 32px; height: 32px; border-radius: 999px; background: #FFFFFF; border: 2px solid #3A3840; box-sizing: border-box; color: #3A3840; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 16px; display: flex; align-items: center; justify-content: center">5</span>
+          <span style="flex: 1; display: flex; flex-direction: column; gap: 4px"><span style="font-weight: 700; font-size: 18px; line-height: 1.25">Hip thrust en máquina</span><span style="font-size: 15px; color: #48454F">Piso 3 · 3 × 10</span></span>
+          <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#48454F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 4px; flex: none"><path d="M9 6l6 6-6 6"></path></svg>
+        </a>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px solid #D9D6D0; padding-top: 12px">
+          <span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; background: #FFFFFF; color: #3A3840; font-weight: 700; font-size: 13px; white-space: nowrap"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 5l9 7-9 7zM18 5v14"></path></svg>Omitido</span>
+          <button type="button" style="min-height: 44px; border-radius: 999px; border: 2px solid #1B1A1F; background: #FFFFFF; color: #1B1A1F; font-weight: 700; font-size: 15px; padding: 0 16px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.5-5.8L4 8.5"></path><path d="M4 4v4.5h4.5"></path></svg>Recuperar</button>
+        </div>
+      </li>
+
+      <li style="list-style: none; background: #FFFFFF; border-radius: 22px; padding: 14px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 1px 2px rgba(27,26,31,0.08)">
+        <a href="#ejercicio" style="display: flex; align-items: flex-start; gap: 12px; text-decoration: none; color: #1B1A1F; min-height: 44px">
+          <span style="flex: none; width: 32px; height: 32px; border-radius: 999px; background: #1B1A1F; color: #FFFFFF; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 16px; display: flex; align-items: center; justify-content: center">6</span>
+          <span style="flex: 1; display: flex; flex-direction: column; gap: 4px"><span style="font-weight: 700; font-size: 18px; line-height: 1.25">Plancha frontal</span><span style="font-size: 15px; color: #55525C">Piso 3 · 3 × 30–45 s</span></span>
+          <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#55525C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 4px; flex: none"><path d="M9 6l6 6-6 6"></path></svg>
+        </a>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px solid #ECEAE6; padding-top: 12px">
+          <span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; background: #FFFFFF; color: #48454F; border: 1.5px solid #726E79; font-weight: 700; font-size: 13px; white-space: nowrap"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="8.5"></circle></svg>Sin registrar</span>
+          <div style="display: flex; gap: 12px">
+            <button type="button" aria-label="Subir Plancha frontal a la posición 5" style="width: 48px; height: 48px; border-radius: 999px; border: 0; background: #F2E4EE; color: #5A2149; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"></path></svg></button>
+            <button type="button" disabled="" aria-label="Bajar Plancha frontal. Ya está última" style="width: 48px; height: 48px; border-radius: 999px; border: 2px dashed #CFCCD4; background: #F4F3F0; color: #726E79; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"></path></svg></button>
+          </div>
+        </div>
+        <button type="button" style="align-self: flex-start; min-height: 44px; border-radius: 999px; border: 0; background: #E6E4DF; color: #1B1A1F; font-weight: 700; font-size: 15px; padding: 0 16px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 5l9 7-9 7zM18 5v14"></path></svg>Omitir</button>
+      </li>
+    </ol>
+  </main>
+
+  <div style="padding: 8px 20px 30px">
+    <a href="#cierre" style="min-height: 62px; border-radius: 999px; background: #6E2A5A; color: #FFFFFF; text-decoration: none; font-weight: 700; font-size: 19px; display: flex; align-items: center; justify-content: center; gap: 10px">Terminar y revisar<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+  </div>
+</div></div></div>
+</section>
+<section class="screen" id="ejercicio" aria-label="3 · Ejercicio">
+  <h2 class="screen-label">3 · Ejercicio</h2>
+  <div class="frame-scroll"><div class="frame"><div style="width: 390px; height: 2200px; box-sizing: border-box; background: #F4F3F0; color: #1B1A1F; font-family: 'Figtree', system-ui, sans-serif; display: flex; flex-direction: column">
+
+  <div style="padding: 52px 14px 10px; display: flex; align-items: center; justify-content: space-between; gap: 8px">
+    <a href="#rutina" style="min-height: 48px; display: inline-flex; align-items: center; gap: 2px; font-weight: 700; font-size: 17px; text-decoration: none; color: #6E2A5A; padding-right: 6px"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg>Rutina</a>
+    <div style="display: flex; align-items: center; gap: 4px; background: #FFFFFF; border-radius: 999px; padding: 4px; box-shadow: 0 1px 2px rgba(27,26,31,0.08)">
+      <button type="button" aria-label="Ejercicio anterior: Press de banca con mancuernas" style="width: 48px; height: 48px; border-radius: 999px; border: 0; background: #F4F3F0; color: #1B1A1F; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg></button>
+      <span style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 18px; min-width: 56px; text-align: center; font-variant-numeric: tabular-nums">3 de 6</span>
+      <button type="button" aria-label="Ejercicio siguiente: Peso muerto rumano" style="width: 48px; height: 48px; border-radius: 999px; border: 0; background: #F4F3F0; color: #1B1A1F; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></button>
+    </div>
+  </div>
+
+  <main style="flex: 1; padding: 10px 20px 24px; display: flex; flex-direction: column; gap: 16px">
+    <div style="display: flex; flex-direction: column; gap: 6px">
+      <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C">Piso 3 · Día 1</div>
+      <h1 style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 34px; line-height: 1.02; letter-spacing: -0.02em">Remo con mancuerna a una mano</h1>
+    </div>
+
+    <section aria-label="Demostración" style="background: #FFFFFF; border-radius: 24px; padding: 8px 8px 14px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 1px 2px rgba(27,26,31,0.08)">
+      <div style="position: relative; height: 190px; border-radius: 18px; background: #1B1A1F; display: flex; align-items: center; justify-content: center; overflow: hidden">
+        <button type="button" aria-label="Reproducir demostración de Remo con mancuerna" style="width: 72px; height: 72px; border-radius: 999px; border: 0; background: #FFFFFF; color: #1B1A1F; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5l12 7-12 7z"></path></svg></button>
+        <div style="position: absolute; left: 14px; bottom: 12px; color: #FFFFFF; font-size: 15px; font-weight: 700">Demostración · 0:24</div>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 6px; padding: 0 6px">
+        <span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; background: #E0F0E6; color: #1E5C3A; font-weight: 700; font-size: 13px; white-space: nowrap"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 17.7 9.5 4.25 4.25 0 0 1 17.5 18z"></path><path d="M4 4l16 16"></path></svg>Disponible offline</span>
+        <span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; background: #FFFFFF; color: #6e2a5a; border: 1.5px dashed #7A4A00; font-weight: 700; font-size: 13px; white-space: nowrap; border-color: #6e2a5a"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9c2-2 4-2 7 0s5 2 7 0M5 15c2-2 4-2 7 0s5 2 7 0"></path></svg>Variante aproximada</span>
+      </div>
+      <div style="font-size: 16px; line-height: 1.45; color: #55525C; padding: 0 6px">El video muestra el remo con apoyo en banco inclinado. Tu pauta es en banco plano.</div>
+    </section>
+
+    <div role="note" style="background: #FBEACB; border-radius: 20px; padding: 14px 16px; display: flex; gap: 12px; color: #5A3600">
+      <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none; margin-top: 1px"><path d="M12 3l10 18H2z"></path><path d="M12 10v4M12 17.5v.5"></path></svg>
+      <div style="display: flex; flex-direction: column; gap: 4px"><div style="font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase">Por confirmar con el coach</div><div style="font-size: 16px; line-height: 1.4">Agarre neutro o prono. Mientras tanto, la pauta asume neutro.</div></div>
+    </div>
+
+    <section aria-labelledby="d4e-pauta" style="background: #FFFFFF; border-radius: 24px; padding: 18px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 1px 2px rgba(27,26,31,0.08)">
+      <h2 id="d4e-pauta" style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C">Pauta del coach</h2>
+      <dl style="margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px">
+        <div style="display: flex; flex-direction: column"><dt style="font-size: 14px; color: #55525C">Series</dt><dd style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 32px; line-height: 1.1">3</dd></div>
+        <div style="display: flex; flex-direction: column"><dt style="font-size: 14px; color: #55525C">Reps</dt><dd style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 32px; line-height: 1.1">10–12</dd></div>
+        <div style="display: flex; flex-direction: column"><dt style="font-size: 14px; color: #55525C">Carga</dt><dd style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 32px; line-height: 1.1">14 kg</dd></div>
+      </dl>
+      <div style="font-size: 16px; border-top: 1px solid #ECEAE6; padding-top: 10px"><span style="color: #55525C">Equipo</span> <strong>Mancuerna y banco plano</strong></div>
+    </section>
+
+    <section aria-labelledby="d4e-ant" style="background: #E9E7E2; border-radius: 20px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px">
+      <h2 id="d4e-ant" style="margin: 0; display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #48454F"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"></path><path d="M3 3v5h5M12 7v5l3 2"></path></svg>La vez anterior · mar 13 oct</h2>
+      <div style="font-size: 18px; font-weight: 700; color: #3A3840; font-variant-numeric: tabular-nums">12 × 12 · 11 × 12 · 10 × 12 kg · RIR 2</div>
+    </section>
+
+    <section aria-labelledby="d4e-hoy" style="background: #FFFFFF; border: 2px solid #6E2A5A; border-radius: 24px; padding: 18px; display: flex; flex-direction: column; gap: 14px">
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px">
+        <h2 id="d4e-hoy" style="margin: 0; font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5A2149">Hoy</h2>
+        <span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; color: #5a2149; font-weight: 700; font-size: 13px; white-space: nowrap; background-color: #F2E4EE"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2.4"></circle><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"></path></svg>1 de 3 series</span>
+      </div>
+      <ul aria-label="Series registradas hoy" style="margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px">
+        <li style="list-style: none; display: flex; align-items: center; gap: 12px; background: #F4F3F0; border-radius: 16px; padding: 6px 6px 6px 14px">
+          <span style="font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #55525C; width: 60px">Serie 1</span>
+          <span style="flex: 1; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 22px; font-variant-numeric: tabular-nums">10 × 14 kg</span>
+          <button type="button" aria-label="Quitar serie 1: 10 reps con 14 kg" style="width: 48px; height: 48px; border-radius: 999px; border: 0; background: #FDE3E3; color: #A3161F; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+        </li>
+      </ul>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+        <div style="display: flex; flex-direction: column; gap: 6px"><label for="d4e-reps" style="font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C">Reps · serie 2</label><input id="d4e-reps" type="text" inputmode="numeric" value="10" style="height: 64px; border-radius: 16px; border: 2px solid #CFCCD4; background: #FFFFFF; color: #1B1A1F; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 30px; text-align: center; box-sizing: border-box; width: 100%"></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><label for="d4e-kg" style="font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C">Peso (kg)</label><input id="d4e-kg" type="text" inputmode="decimal" value="14" style="height: 64px; border-radius: 16px; border: 2px solid #CFCCD4; background: #FFFFFF; color: #1B1A1F; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 30px; text-align: center; box-sizing: border-box; width: 100%"></div>
+      </div>
+      <button type="button" style="min-height: 60px; border-radius: 999px; border: 0; background: #6E2A5A; color: #FFFFFF; font-weight: 700; font-size: 19px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg>Agregar serie 2</button>
+    </section>
+
+    <section aria-labelledby="d4e-rir" style="background: #FFFFFF; border-radius: 24px; padding: 18px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 1px 2px rgba(27,26,31,0.08)">
+      <h2 id="d4e-rir" style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C"><label for="d4e-rir-in">RIR de la última serie</label></h2>
+      <div style="display: flex; align-items: baseline; gap: 10px"><span style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 64px; line-height: 0.9">2</span><span style="font-size: 16px; color: #55525C">reps en reserva</span></div>
+      <div style="display: flex; align-items: center; gap: 12px">
+        <button type="button" aria-label="Bajar RIR a 1" style="flex: none; width: 52px; height: 52px; border-radius: 999px; border: 0; background: #F2E4EE; font-size: 28px; font-weight: 700; color: #5A2149; cursor: pointer">−</button>
+        <input id="d4e-rir-in" type="range" min="0" max="5" step="1" value="2" aria-valuetext="2 reps en reserva" style="flex: 1; height: 44px; accent-color: #6E2A5A">
+        <button type="button" aria-label="Subir RIR a 3" style="flex: none; width: 52px; height: 52px; border-radius: 999px; border: 0; background: #F2E4EE; font-size: 28px; font-weight: 700; color: #5A2149; cursor: pointer">+</button>
+      </div>
+    </section>
+
+    <div style="display: flex; flex-direction: column; gap: 6px">
+      <label for="d4e-com" style="font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C">Comentario (opcional)</label>
+      <textarea id="d4e-com" rows="3" placeholder="Cómo se sintió, molestias, ajustes" style="border-radius: 18px; border: 2px solid #CFCCD4; background: #FFFFFF; color: #1B1A1F; font-family: 'Figtree', system-ui, sans-serif; font-size: 18px; line-height: 1.4; padding: 14px; resize: vertical; box-sizing: border-box; width: 100%"></textarea>
+    </div>
+
+    <section aria-labelledby="d4e-cam" style="background: #FFFFFF; border-radius: 24px; padding: 18px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 1px 2px rgba(27,26,31,0.08)">
+      <h2 id="d4e-cam" style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C">Grabarte · hasta 3 min</h2>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+        <button type="button" style="min-height: 56px; border-radius: 999px; border: 0; background: #1B1A1F; color: #FFFFFF; font-weight: 700; font-size: 17px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#C33C9B"></circle></svg>Grabar</button>
+        <button type="button" style="min-height: 56px; border-radius: 999px; border: 2px solid #1B1A1F; background: #FFFFFF; color: #1B1A1F; font-weight: 700; font-size: 17px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11l-8.5 8.5a5 5 0 0 1-7-7L13 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L14 7"></path></svg>Adjuntar</button>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px; border-top: 1px solid #ECEAE6; padding-top: 12px">
+        <button type="button" aria-label="Reproducir video de serie 1, 0:38" style="flex: none; width: 84px; height: 60px; border-radius: 14px; border: 0; background: #1B1A1F; color: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5l12 7-12 7z"></path></svg></button>
+        <div style="flex: 1; display: flex; flex-direction: column; gap: 6px; min-width: 0">
+          <div style="font-weight: 700; font-size: 17px">Serie 1 · 0:38</div>
+          <span style="align-self: flex-start; display: inline-flex; align-items: center; gap: 5px; min-height: 26px; padding: 2px 10px 2px 7px; border-radius: 999px; color: #5a2149; font-weight: 700; font-size: 13px; white-space: nowrap; background-color: #F2E4EEF1"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="3" width="10" height="18" rx="2"></rect><path d="M11 18h2"></path></svg>Guardado en este dispositivo</span>
+        </div>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+        <button type="button" style="min-height: 48px; border-radius: 999px; border: 2px solid #1B1A1F; background: #FFFFFF; color: #1B1A1F; font-weight: 700; font-size: 16px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 8l5-5 5 5M5 14v6h14v-6"></path></svg>Compartir</button>
+        <button type="button" style="min-height: 48px; border-radius: 999px; border: 2px solid #A3161F; background: #FFFFFF; color: #A3161F; font-weight: 700; font-size: 16px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"></path></svg>Eliminar</button>
+      </div>
+    </section>
+
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <button type="button" style="min-height: 64px; border-radius: 999px; border: 0; background: #6E2A5A; color: #FFFFFF; font-weight: 700; font-size: 19px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer">Siguiente · Peso muerto rumano<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></button>
+      <button type="button" style="min-height: 52px; border-radius: 999px; border: 0; background: #E6E4DF; color: #1B1A1F; font-weight: 700; font-size: 17px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 5l9 7-9 7zM18 5v14"></path></svg>Omitir este ejercicio</button>
+    </div>
+  </main>
+</div></div></div>
+</section>
+<section class="screen" id="cierre" aria-label="4 · Cierre">
+  <h2 class="screen-label">4 · Cierre</h2>
+  <div class="frame-scroll"><div class="frame"><div style="width: 390px; height: 1500px; box-sizing: border-box; background: #F4F3F0; color: #1B1A1F; font-family: 'Figtree', system-ui, sans-serif; display: flex; flex-direction: column">
+  <header style="padding: 52px 20px 6px; display: flex; flex-direction: column; gap: 8px">
+    <a href="#rutina" style="align-self: flex-start; min-height: 44px; display: inline-flex; align-items: center; gap: 2px; font-weight: 700; font-size: 17px; text-decoration: none; color: #6E2A5A; margin-left: -6px; padding-right: 8px"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg>Rutina</a>
+    <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C">Día 1 · 18:42 a 19:51</div>
+    <h1 style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 40px; line-height: 1; letter-spacing: -0.02em">Cierre</h1>
+  </header>
+
+  <main style="flex: 1; padding: 12px 20px 20px; display: flex; flex-direction: column; gap: 12px">
+    <section aria-labelledby="fc-comp" style="background: #FFFFFF; border-radius: 22px; padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; box-shadow: 0 1px 2px rgba(27,26,31,0.08)">
+      <h2 id="fc-comp" style="margin: 0 0 4px; display: flex; align-items: center; gap: 8px"><span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; color: #FFFFFF; font-weight: 700; font-size: 13px; white-space: nowrap; background-color: #C33D9C"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"></path></svg>Completos</span><span style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 22px">3</span></h2>
+      <ul style="margin: 0; padding: 0; display: flex; flex-direction: column">
+        <li style="list-style: none; display: flex; justify-content: space-between; gap: 8px; padding: 10px 0; border-bottom: 1px solid #ECEAE6; font-size: 17px"><span style="font-weight: 700">Sentadilla goblet</span><span style="color: #55525C; white-space: nowrap">3 de 3</span></li>
+        <li style="list-style: none; display: flex; justify-content: space-between; gap: 8px; padding: 10px 0; border-bottom: 1px solid #ECEAE6; font-size: 17px"><span style="font-weight: 700">Press de banca con mancuernas</span><span style="color: #55525C; white-space: nowrap">3 de 3</span></li>
+        <li style="list-style: none; display: flex; justify-content: space-between; gap: 8px; padding: 10px 0; font-size: 17px"><span style="font-weight: 700">Remo con mancuerna a una mano</span><span style="color: #55525C; white-space: nowrap">3 de 3</span></li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="fc-sin" style="background: #FFFFFF; border: 2px solid #FBEACB; border-radius: 22px; padding: 16px 18px; display: flex; flex-direction: column; gap: 6px">
+      <h2 id="fc-sin" style="margin: 0 0 4px; display: flex; align-items: center; gap: 8px"><span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; background: #FFFFFF; color: #48454F; border: 1.5px solid #726E79; font-weight: 700; font-size: 13px; white-space: nowrap"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="8.5"></circle></svg>Sin registrar</span><span style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 22px">2</span></h2>
+      <ul style="margin: 0; padding: 0; display: flex; flex-direction: column">
+        <li style="list-style: none; padding: 10px 0; border-bottom: 1px solid #ECEAE6; font-size: 17px; font-weight: 700">Peso muerto rumano</li>
+        <li style="list-style: none; padding: 10px 0; font-size: 17px; font-weight: 700">Plancha frontal</li>
+      </ul>
+      <a href="#rutina" style="align-self: flex-start; min-height: 44px; display: inline-flex; align-items: center; gap: 4px; font-weight: 700; font-size: 16px">Volver a registrarlos<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+    </section>
+
+    <section aria-labelledby="fc-omit" style="background: #E9E7E2; border-radius: 22px; padding: 16px 18px; display: flex; flex-direction: column; gap: 6px">
+      <h2 id="fc-omit" style="margin: 0 0 4px; display: flex; align-items: center; gap: 8px"><span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; background: #FFFFFF; color: #3A3840; font-weight: 700; font-size: 13px; white-space: nowrap"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 5l9 7-9 7zM18 5v14"></path></svg>Omitidos</span><span style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 22px; color: #3A3840">1</span></h2>
+      <ul style="margin: 0; padding: 0">
+        <li style="list-style: none; padding: 8px 0; font-size: 17px; font-weight: 700; color: #3A3840">Hip thrust en máquina</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="fc-rpe" style="background: #FFFFFF; border-radius: 24px; padding: 18px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 1px 2px rgba(27,26,31,0.08)">
+      <h2 id="fc-rpe" style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C"><label for="fc-rpe-in">Esfuerzo de la sesión (RPE)</label></h2>
+      <div style="display: flex; align-items: baseline; gap: 10px">
+        <span style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 84px; line-height: 0.9; color: #6E2A5A">7</span>
+        <span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 17px; color: #55525C">de 10</span><span style="font-size: 17px; font-weight: 700">Duro, con margen</span></span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px">
+        <button type="button" aria-label="Bajar RPE a 6" style="flex: none; width: 52px; height: 52px; border-radius: 999px; border: 0; background: #F2E4EE; font-size: 28px; font-weight: 700; color: #5A2149; cursor: pointer">−</button>
+        <input id="fc-rpe-in" type="range" min="0" max="10" step="1" value="7" aria-valuetext="7 de 10, duro con margen" style="flex: 1; height: 44px; accent-color: #6E2A5A">
+        <button type="button" aria-label="Subir RPE a 8" style="flex: none; width: 52px; height: 52px; border-radius: 999px; border: 0; background: #F2E4EE; font-size: 28px; font-weight: 700; color: #5A2149; cursor: pointer">+</button>
+      </div>
+      <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; color: #55525C; padding: 0 64px"><span>0</span><span>5</span><span>10</span></div>
+    </section>
+
+    <div style="display: flex; flex-direction: column; gap: 6px">
+      <label for="fc-com" style="font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C">Comentario de cierre (opcional)</label>
+      <textarea id="fc-com" rows="3" style="border-radius: 18px; border: 2px solid #CFCCD4; background: #FFFFFF; color: #1B1A1F; font-family: 'Figtree', system-ui, sans-serif; font-size: 18px; line-height: 1.4; padding: 14px; resize: vertical; box-sizing: border-box; width: 100%">Me salté el hip thrust porque la máquina estaba ocupada.</textarea>
+    </div>
+
+    <div style="flex: 1"></div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: center; gap: 10px">
+        <span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; background: #F2E4EE; color: #5A2149; font-weight: 700; font-size: 13px; white-space: nowrap"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2.4"></circle><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"></path></svg>Parcial</span>
+        <span style="font-size: 16px; color: #55525C">Quedan 2 ejercicios sin registrar.</span>
+      </div>
+      <button type="button" style="min-height: 64px; border-radius: 999px; border: 0; background: #6E2A5A; color: #FFFFFF; font-weight: 700; font-size: 20px; cursor: pointer">Guardar como parcial</button>
+      <div style="font-size: 15px; color: #55525C; text-align: center">Se guarda en este teléfono. La puedes exportar desde Historial.</div>
+    </div>
+  </main>
+</div></div></div>
+</section>
+<section class="screen" id="historial" aria-label="5 · Historial">
+  <h2 class="screen-label">5 · Historial</h2>
+  <div class="frame-scroll"><div class="frame"><div style="width: 390px; height: 1380px; box-sizing: border-box; background: #F4F3F0; color: #1B1A1F; font-family: 'Figtree', system-ui, sans-serif; display: flex; flex-direction: column">
+  <header style="padding: 56px 20px 6px; display: flex; flex-direction: column; gap: 12px">
+    <div style="display: flex; flex-direction: column; gap: 6px">
+      <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C">Tus sesiones</div>
+      <h1 style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 44px; line-height: 1; letter-spacing: -0.02em">Historial</h1>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+      <button type="button" style="min-height: 48px; border-radius: 999px; border: 2px solid #1B1A1F; background: #FFFFFF; color: #1B1A1F; font-weight: 700; font-size: 16px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg>Exportar CSV</button>
+      <button type="button" style="min-height: 48px; border-radius: 999px; border: 2px solid #1B1A1F; background: #FFFFFF; color: #1B1A1F; font-weight: 700; font-size: 16px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg>Exportar JSON</button>
+    </div>
+    <div style="font-size: 15px; color: #55525C">Descarga un archivo con todas tus sesiones a este teléfono.</div>
+  </header>
+
+  <main style="flex: 1; padding: 12px 20px 16px; display: flex; flex-direction: column; gap: 10px">
+    <h2 style="margin: 4px 0 2px; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C">Octubre 2026</h2>
+
+    <div style="background: #FFFFFF; border: 2px solid #6E2A5A; border-radius: 22px">
+      <button type="button" aria-expanded="true" aria-controls="fh-15" style="width: 100%; min-height: 72px; border: 0; background: #FFFFFF; padding: 14px 16px; display: flex; align-items: center; gap: 10px; text-align: left; cursor: pointer; color: #1B1A1F; font-family: 'Figtree', system-ui, sans-serif">
+        <span style="flex: 1; display: flex; flex-direction: column; gap: 4px"><span style="font-weight: 700; font-size: 18px">Jueves 15 oct · Día 2</span><span style="font-size: 15px; color: #55525C">5 ejercicios · RPE 8</span></span>
+        <span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; color: #FFFFFF; font-weight: 700; font-size: 13px; white-space: nowrap; background-color: #C33D9C"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"></path></svg><span>Completa</span></span>
+        <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><path d="M6 15l6-6 6 6"></path></svg>
+      </button>
+      <ul id="fh-15" style="margin: 0; padding: 0 16px 6px; border-top: 1px solid #ECEAE6; display: flex; flex-direction: column">
+        <li style="list-style: none; padding: 12px 0; border-bottom: 1px solid #ECEAE6; display: flex; flex-direction: column; gap: 4px">
+          <div style="font-weight: 700; font-size: 17px">Prensa de piernas</div>
+          <div style="font-size: 16px; color: #3A3840; font-variant-numeric: tabular-nums">12 × 80 · 12 × 80 · 10 × 85 kg</div>
+          <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #55525C">RIR 2</div>
+        </li>
+        <li style="list-style: none; padding: 12px 0; border-bottom: 1px solid #ECEAE6; display: flex; flex-direction: column; gap: 4px">
+          <div style="font-weight: 700; font-size: 17px">Jalón al pecho</div>
+          <div style="font-size: 16px; color: #3A3840; font-variant-numeric: tabular-nums">10 × 35 · 10 × 35 · 9 × 35 kg</div>
+          <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #55525C">RIR 1</div>
+          <div style="font-size: 15px; color: #3A3840; background: #F4F3F0; border-radius: 14px; padding: 8px 12px; margin-top: 2px">“Probé agarre más cerrado, se sintió mejor.”</div>
+        </li>
+        <li style="list-style: none; padding: 12px 0; border-bottom: 1px solid #ECEAE6; display: flex; flex-direction: column; gap: 4px">
+          <div style="font-weight: 700; font-size: 17px">Press militar con mancuernas</div>
+          <div style="font-size: 16px; color: #3A3840; font-variant-numeric: tabular-nums">10 × 8 · 10 × 8 · 8 × 8 kg</div>
+          <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #55525C">RIR 1</div>
+        </li>
+        <li style="list-style: none; padding: 12px 0; border-bottom: 1px solid #ECEAE6; display: flex; flex-direction: column; gap: 4px">
+          <div style="font-weight: 700; font-size: 17px">Curl femoral</div>
+          <div style="font-size: 16px; color: #3A3840; font-variant-numeric: tabular-nums">12 × 25 · 12 × 25 · 12 × 25 kg</div>
+          <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #55525C">RIR 2</div>
+        </li>
+        <li style="list-style: none; padding: 12px 0; display: flex; flex-direction: column; gap: 4px">
+          <div style="font-weight: 700; font-size: 17px">Pallof press</div>
+          <div style="font-size: 16px; color: #3A3840; font-variant-numeric: tabular-nums">12 × 10 · 12 × 10 · 12 × 10 kg por lado</div>
+          <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #55525C">RIR 3</div>
+        </li>
+      </ul>
+      <div style="padding: 4px 16px 16px; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C">Comentario de cierre</span><span style="font-size: 16px">Buena energía. Subí la prensa.</span></div>
+    </div>
+
+    <div style="background: #FFFFFF; border-radius: 22px; box-shadow: 0 1px 2px rgba(27,26,31,0.08)">
+      <button type="button" aria-expanded="false" aria-controls="fh-13" style="width: 100%; min-height: 72px; border: 0; background: #FFFFFF; padding: 14px 16px; display: flex; align-items: center; gap: 10px; text-align: left; cursor: pointer; color: #1B1A1F; font-family: 'Figtree', system-ui, sans-serif">
+        <span style="flex: 1; display: flex; flex-direction: column; gap: 4px"><span style="font-weight: 700; font-size: 18px">Martes 13 oct · Día 1</span><span style="font-size: 15px; color: #55525C">5 de 6 ejercicios · RPE 7</span></span>
+        <span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; background: #F2E4EE; color: #5A2149; font-weight: 700; font-size: 13px; white-space: nowrap"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2.4"></circle><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"></path></svg>Parcial</span>
+        <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><path d="M6 9l6 6 6-6"></path></svg>
+      </button>
+      <div id="fh-13" hidden></div>
+    </div>
+
+    <div style="background: #FFFFFF; border-radius: 22px; box-shadow: 0 1px 2px rgba(27,26,31,0.08)">
+      <button type="button" aria-expanded="false" aria-controls="fh-10" style="width: 100%; min-height: 72px; border: 0; background: #FFFFFF; padding: 14px 16px; display: flex; align-items: center; gap: 10px; text-align: left; cursor: pointer; color: #1B1A1F; font-family: 'Figtree', system-ui, sans-serif">
+        <span style="flex: 1; display: flex; flex-direction: column; gap: 4px"><span style="font-weight: 700; font-size: 18px">Sábado 10 oct · Día 2</span><span style="font-size: 15px; color: #55525C">5 ejercicios · RPE 7</span></span>
+        <span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; color: #FFFFFF; font-weight: 700; font-size: 13px; white-space: nowrap; background-color: #c33d9c"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"></path></svg>Completa</span>
+        <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><path d="M6 9l6 6 6-6"></path></svg>
+      </button>
+      <div id="fh-10" hidden></div>
+    </div>
+
+    <div style="background: #FFFFFF; border-radius: 22px; box-shadow: 0 1px 2px rgba(27,26,31,0.08)">
+      <button type="button" aria-expanded="false" aria-controls="fh-8" style="width: 100%; min-height: 72px; border: 0; background: #FFFFFF; padding: 14px 16px; display: flex; align-items: center; gap: 10px; text-align: left; cursor: pointer; color: #1B1A1F; font-family: 'Figtree', system-ui, sans-serif">
+        <span style="flex: 1; display: flex; flex-direction: column; gap: 4px"><span style="font-weight: 700; font-size: 18px">Jueves 8 oct · Día 1</span><span style="font-size: 15px; color: #55525C">6 ejercicios · RPE 6</span></span>
+        <span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; color: #FFFFFF; font-weight: 700; font-size: 13px; white-space: nowrap; background-color: #c33d9c"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"></path></svg>Completa</span>
+        <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><path d="M6 9l6 6 6-6"></path></svg>
+      </button>
+      <div id="fh-8" hidden></div>
+    </div>
+  </main>
+
+  <div style="padding: 0 16px 26px">
+    <nav aria-label="Principal" style="background: #1B1A1F; border-radius: 28px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 6px; gap: 4px">
+      <a href="#hoy" style="min-height: 60px; border-radius: 22px; color: #DAD8DE; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-weight: 600; font-size: 13px"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>Hoy</a>
+      <a href="#historial" aria-current="page" style="min-height: 60px; border-radius: 22px; background: #FFFFFF; color: #1B1A1F; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-weight: 700; font-size: 13px"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"></path><path d="M3 3v5h5M12 7v5l3 2"></path></svg>Historial</a>
+      <a href="#mis-videos" style="min-height: 60px; border-radius: 22px; color: #DAD8DE; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-weight: 600; font-size: 13px"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="13" height="12" rx="2"></rect><path d="M16 10l5-3v10l-5-3z"></path></svg>Mis videos</a>
+      <a href="#ajustes" style="min-height: 60px; border-radius: 22px; color: #DAD8DE; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-weight: 600; font-size: 13px"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11M19 18h1"></path><circle cx="15" cy="6" r="2"></circle><circle cx="9" cy="12" r="2"></circle><circle cx="17" cy="18" r="2"></circle></svg>Ajustes</a>
+    </nav>
+  </div>
+</div></div></div>
+</section>
+<section class="screen" id="mis-videos" aria-label="6 · Mis videos">
+  <h2 class="screen-label">6 · Mis videos</h2>
+  <div class="frame-scroll"><div class="frame"><div style="width: 390px; height: 1160px; box-sizing: border-box; background: #F4F3F0; color: #1B1A1F; font-family: 'Figtree', system-ui, sans-serif; display: flex; flex-direction: column">
+  <header style="padding: 56px 20px 6px; display: flex; flex-direction: column; gap: 12px">
+    <div style="display: flex; flex-direction: column; gap: 6px">
+      <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C">5 videos · 312 MB</div>
+      <h1 style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 44px; line-height: 1; letter-spacing: -0.02em">Mis videos</h1>
+    </div>
+    <div role="note" style="background: #F2E4EE; border-radius: 20px; padding: 14px 16px; display: flex; gap: 12px; color: #4A1B3C">
+      <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex: none; margin-top: 1px"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/></svg>
+      <div style="display: flex; flex-direction: column; gap: 4px"><div style="font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase">Solo en este teléfono</div><div style="font-size: 16px; line-height: 1.4">Nada se sube a la nube todavía. Si borras la app o cambias de teléfono, se pierden. Compártelos para respaldarlos.</div></div>
+    </div>
+  </header>
+
+  <main style="flex: 1; padding: 10px 20px 16px; display: flex; flex-direction: column; gap: 14px">
+    <div role="group" aria-label="Filtrar por ejercicio" style="display: flex; flex-wrap: wrap; gap: 8px">
+      <button type="button" aria-pressed="true" style="min-height: 44px; border-radius: 999px; border: 0; background: #6E2A5A; color: #FFFFFF; font-weight: 700; font-size: 15px; padding: 0 16px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>Todos · 5</button>
+      <button type="button" aria-pressed="false" style="min-height: 44px; border-radius: 999px; border: 0; background: #FFFFFF; color: #1B1A1F; font-weight: 700; font-size: 15px; padding: 0 16px; cursor: pointer; box-shadow: 0 1px 2px rgba(27,26,31,0.08)">Remo con mancuerna · 2</button>
+      <button type="button" aria-pressed="false" style="min-height: 44px; border-radius: 999px; border: 0; background: #FFFFFF; color: #1B1A1F; font-weight: 700; font-size: 15px; padding: 0 16px; cursor: pointer; box-shadow: 0 1px 2px rgba(27,26,31,0.08)">Sentadilla goblet · 2</button>
+      <button type="button" aria-pressed="false" style="min-height: 44px; border-radius: 999px; border: 0; background: #FFFFFF; color: #1B1A1F; font-weight: 700; font-size: 15px; padding: 0 16px; cursor: pointer; box-shadow: 0 1px 2px rgba(27,26,31,0.08)">Jalón al pecho · 1</button>
+    </div>
+
+    <ul style="margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+      <li style="list-style: none; background: #FFFFFF; border-radius: 20px; display: flex; flex-direction: column; box-shadow: 0 1px 2px rgba(27,26,31,0.08)">
+        <button type="button" aria-label="Reproducir Remo con mancuerna, serie 1, 0:38" style="position: relative; height: 112px; border: 0; border-radius: 20px 20px 0 0; background: #1B1A1F; color: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5l12 7-12 7z"/></svg><span style="position: absolute; right: 8px; bottom: 8px; background: rgba(0,0,0,0.6); border-radius: 999px; padding: 2px 8px; font-size: 13px; font-weight: 700">0:38</span></button>
+        <div style="padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 6px">
+          <div style="font-weight: 700; font-size: 16px; line-height: 1.25">Remo con mancuerna · serie 1</div>
+          <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #55525C">Hoy · 19:05</div>
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 2px">
+            <button type="button" aria-label="Compartir video" style="height: 48px; border-radius: 999px; border: 0; background: #F2E4EE; color: #5A2149; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 8l5-5 5 5M5 14v6h14v-6"/></svg></button>
+            <button type="button" aria-label="Eliminar video" style="height: 48px; border-radius: 999px; border: 0; background: #FDE3E3; color: #A3161F; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></button>
+          </div>
+        </div>
+      </li>
+      <li style="list-style: none; background: #FFFFFF; border-radius: 20px; display: flex; flex-direction: column; box-shadow: 0 1px 2px rgba(27,26,31,0.08)">
+        <button type="button" aria-label="Reproducir Sentadilla goblet, serie 3, 0:51" style="position: relative; height: 112px; border: 0; border-radius: 20px 20px 0 0; background: #1B1A1F; color: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5l12 7-12 7z"/></svg><span style="position: absolute; right: 8px; bottom: 8px; background: rgba(0,0,0,0.6); border-radius: 999px; padding: 2px 8px; font-size: 13px; font-weight: 700">0:51</span></button>
+        <div style="padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 6px">
+          <div style="font-weight: 700; font-size: 16px; line-height: 1.25">Sentadilla goblet · serie 3</div>
+          <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #55525C">Hoy · 18:50</div>
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 2px">
+            <button type="button" aria-label="Compartir video" style="height: 48px; border-radius: 999px; border: 0; background: #F2E4EE; color: #5A2149; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 8l5-5 5 5M5 14v6h14v-6"/></svg></button>
+            <button type="button" aria-label="Eliminar video" style="height: 48px; border-radius: 999px; border: 0; background: #FDE3E3; color: #A3161F; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></button>
+          </div>
+        </div>
+      </li>
+      <li style="list-style: none; background: #FFFFFF; border-radius: 20px; display: flex; flex-direction: column; box-shadow: 0 1px 2px rgba(27,26,31,0.08)">
+        <button type="button" aria-label="Reproducir Jalón al pecho, serie 2, 1:12" style="position: relative; height: 112px; border: 0; border-radius: 20px 20px 0 0; background: #1B1A1F; color: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5l12 7-12 7z"/></svg><span style="position: absolute; right: 8px; bottom: 8px; background: rgba(0,0,0,0.6); border-radius: 999px; padding: 2px 8px; font-size: 13px; font-weight: 700">1:12</span></button>
+        <div style="padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 6px">
+          <div style="font-weight: 700; font-size: 16px; line-height: 1.25">Jalón al pecho · serie 2</div>
+          <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #55525C">Jue 15 oct</div>
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 2px">
+            <button type="button" aria-label="Compartir video" style="height: 48px; border-radius: 999px; border: 0; background: #F2E4EE; color: #5A2149; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 8l5-5 5 5M5 14v6h14v-6"/></svg></button>
+            <button type="button" aria-label="Eliminar video" style="height: 48px; border-radius: 999px; border: 0; background: #FDE3E3; color: #A3161F; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></button>
+          </div>
+        </div>
+      </li>
+      <li style="list-style: none; background: #FFFFFF; border-radius: 20px; display: flex; flex-direction: column; box-shadow: 0 1px 2px rgba(27,26,31,0.08)">
+        <button type="button" aria-label="Reproducir Remo con mancuerna, serie 2, 0:44" style="position: relative; height: 112px; border: 0; border-radius: 20px 20px 0 0; background: #1B1A1F; color: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5l12 7-12 7z"/></svg><span style="position: absolute; right: 8px; bottom: 8px; background: rgba(0,0,0,0.6); border-radius: 999px; padding: 2px 8px; font-size: 13px; font-weight: 700">0:44</span></button>
+        <div style="padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 6px">
+          <div style="font-weight: 700; font-size: 16px; line-height: 1.25">Remo con mancuerna · serie 2</div>
+          <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #55525C">Mar 13 oct</div>
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 2px">
+            <button type="button" aria-label="Compartir video" style="height: 48px; border-radius: 999px; border: 0; background: #F2E4EE; color: #5A2149; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 8l5-5 5 5M5 14v6h14v-6"/></svg></button>
+            <button type="button" aria-label="Eliminar video" style="height: 48px; border-radius: 999px; border: 0; background: #FDE3E3; color: #A3161F; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></button>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div style="font-size: 15px; color: #55525C; text-align: center">Desliza para ver el video 5 de 5.</div>
+  </main>
+
+  <div style="padding: 0 16px 26px">
+    <nav aria-label="Principal" style="background: #1B1A1F; border-radius: 28px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 6px; gap: 4px">
+      <a href="#hoy" style="min-height: 60px; border-radius: 22px; color: #DAD8DE; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-weight: 600; font-size: 13px"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Hoy</a>
+      <a href="#historial" style="min-height: 60px; border-radius: 22px; color: #DAD8DE; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-weight: 600; font-size: 13px"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></svg>Historial</a>
+      <a href="#mis-videos" aria-current="page" style="min-height: 60px; border-radius: 22px; background: #FFFFFF; color: #1B1A1F; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-weight: 700; font-size: 13px"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3z"/></svg>Mis videos</a>
+      <a href="#ajustes" style="min-height: 60px; border-radius: 22px; color: #DAD8DE; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-weight: 600; font-size: 13px"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11M19 18h1"/><circle cx="15" cy="6" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="17" cy="18" r="2"/></svg>Ajustes</a>
+    </nav>
+  </div>
+</div></div></div>
+</section>
+<section class="screen" id="ajustes" aria-label="7 · Ajustes">
+  <h2 class="screen-label">7 · Ajustes</h2>
+  <div class="frame-scroll"><div class="frame"><div style="width: 390px; height: 1320px; box-sizing: border-box; background: #F4F3F0; color: #1B1A1F; font-family: 'Figtree', system-ui, sans-serif; display: flex; flex-direction: column">
+  <header style="padding: 56px 20px 6px; display: flex; flex-direction: column; gap: 6px">
+    <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C">Kilogramos · Hora de Santiago</div>
+    <h1 style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 44px; line-height: 1; letter-spacing: -0.02em">Ajustes</h1>
+  </header>
+
+  <main style="flex: 1; padding: 14px 20px 16px; display: flex; flex-direction: column; gap: 14px">
+    <section aria-labelledby="fj-demo" style="background: #FFFFFF; border-radius: 24px; padding: 18px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 1px 2px rgba(27,26,31,0.08)">
+      <h2 id="fj-demo" style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C">Demostraciones guardadas</h2>
+      <div style="display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap">
+        <span style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 40px; line-height: 1; font-variant-numeric: tabular-nums">9 de 11</span>
+        <span style="font-size: 16px; color: #55525C">ejercicios · 186 MB</span>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 6px">
+        <span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; background: #E0F0E6; color: #1E5C3A; font-weight: 700; font-size: 13px; white-space: nowrap"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 17.7 9.5 4.25 4.25 0 0 1 17.5 18z"/><path d="M4 4l16 16"/></svg>9 offline</span>
+        <span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; background: #FBEACB; color: #7A4A00; font-weight: 700; font-size: 13px; white-space: nowrap"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>2 pendientes</span>
+      </div>
+      <div style="font-size: 16px; line-height: 1.4; color: #55525C">Necesita wifi. Liberar espacio borra las demostraciones, no tus registros ni tus videos.</div>
+      <button type="button" style="min-height: 56px; border-radius: 999px; border: 0; background: #6E2A5A; color: #FFFFFF; font-weight: 700; font-size: 18px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Preparar catálogo completo</button>
+      <button type="button" style="min-height: 52px; border-radius: 999px; border: 2px solid #1B1A1F; background: #FFFFFF; color: #1B1A1F; font-weight: 700; font-size: 17px; cursor: pointer">Liberar espacio</button>
+    </section>
+
+    <section aria-labelledby="fj-vid" style="background: #FFFFFF; border-radius: 24px; padding: 18px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 1px 2px rgba(27,26,31,0.08)">
+      <h2 id="fj-vid" style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C">Tus videos</h2>
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px">
+        <span style="font-size: 17px"><strong>5 videos</strong> · 312 MB</span>
+        <span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; background: #F2E4EE; color: #5A2149; font-weight: 700; font-size: 13px; white-space: nowrap"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/></svg>Solo en este teléfono</span>
+      </div>
+      <a href="#mis-videos" style="align-self: flex-start; min-height: 44px; display: inline-flex; align-items: center; gap: 4px; font-weight: 700; font-size: 16px">Ver mis videos<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></a>
+    </section>
+
+    <section aria-labelledby="fj-con" style="background: #FFFFFF; border-radius: 24px; padding: 18px; display: flex; flex-direction: column; gap: 4px; box-shadow: 0 1px 2px rgba(27,26,31,0.08)">
+      <h2 id="fj-con" style="margin: 0 0 4px; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C">Conexiones</h2>
+      <div style="font-size: 15px; color: #55525C; line-height: 1.4; margin-bottom: 6px">Ninguna existe todavía. Lo que registras queda en este teléfono y sale por exportación desde Historial.</div>
+
+      <div style="display: flex; flex-direction: column; gap: 6px; padding: 12px 0; border-top: 1px solid #ECEAE6">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px"><span style="font-weight: 700; font-size: 17px">Google Sheets</span><span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; background: #FFFFFF; color: #48454F; border: 1.5px dashed #48454F; font-weight: 700; font-size: 13px; white-space: nowrap"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M9 3v4M15 3v4M7 7h10v4a5 5 0 0 1-1.5 3.6M9.6 15.6A5 5 0 0 1 7 11V7M12 16v5"/></svg>No conectado</span></div>
+        <div style="font-size: 15px; color: #55525C">No implementado. Usa Exportar CSV.</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px; padding: 12px 0; border-top: 1px solid #ECEAE6">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px"><span style="font-weight: 700; font-size: 17px">COROS</span><span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; background: #FFFFFF; color: #48454F; border: 1.5px dashed #48454F; font-weight: 700; font-size: 13px; white-space: nowrap"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M9 3v4M15 3v4M7 7h10v4a5 5 0 0 1-1.5 3.6M9.6 15.6A5 5 0 0 1 7 11V7M12 16v5"/></svg>No conectado</span></div>
+        <div style="font-size: 15px; color: #55525C">No implementado.</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px; padding: 12px 0; border-top: 1px solid #ECEAE6">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px"><span style="font-weight: 700; font-size: 17px">Aviso a Telegram</span><span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; background: #FFFFFF; color: #48454F; border: 1.5px dashed #48454F; font-weight: 700; font-size: 13px; white-space: nowrap"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M9 3v4M15 3v4M7 7h10v4a5 5 0 0 1-1.5 3.6M9.6 15.6A5 5 0 0 1 7 11V7M12 16v5"/></svg>No conectado</span></div>
+        <div style="font-size: 15px; color: #55525C">No implementado.</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px; padding: 12px 0 0; border-top: 1px solid #ECEAE6">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px"><span style="font-weight: 700; font-size: 17px">Nube para videos</span><span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; background: #FFFFFF; color: #48454F; border: 1.5px dashed #48454F; font-weight: 700; font-size: 13px; white-space: nowrap"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M9 3v4M15 3v4M7 7h10v4a5 5 0 0 1-1.5 3.6M9.6 15.6A5 5 0 0 1 7 11V7M12 16v5"/></svg>No existe</span></div>
+        <div style="font-size: 15px; color: #55525C">Los videos quedan en el teléfono.</div>
+      </div>
+    </section>
+  </main>
+
+  <div style="padding: 0 16px 26px">
+    <nav aria-label="Principal" style="background: #1B1A1F; border-radius: 28px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 6px; gap: 4px">
+      <a href="#hoy" style="min-height: 60px; border-radius: 22px; color: #DAD8DE; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-weight: 600; font-size: 13px"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Hoy</a>
+      <a href="#historial" style="min-height: 60px; border-radius: 22px; color: #DAD8DE; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-weight: 600; font-size: 13px"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></svg>Historial</a>
+      <a href="#mis-videos" style="min-height: 60px; border-radius: 22px; color: #DAD8DE; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-weight: 600; font-size: 13px"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3z"/></svg>Mis videos</a>
+      <a href="#ajustes" aria-current="page" style="min-height: 60px; border-radius: 22px; background: #FFFFFF; color: #1B1A1F; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-weight: 700; font-size: 13px"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11M19 18h1"/><circle cx="15" cy="6" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="17" cy="18" r="2"/></svg>Ajustes</a>
+    </nav>
+  </div>
+</div></div></div>
+</section>
+</main>
+<section class="system" id="sistema" aria-label="Sistema de componentes">
+  <h2 class="screen-label">Sistema de componentes</h2>
+  <div class="system-scroll"><div style="width: 1280px; min-height: 1900px; box-sizing: border-box; padding: 64px; background: #F4F3F0; color: #1B1A1F; font-family: 'Figtree', system-ui, sans-serif; display: flex; flex-direction: column; gap: 48px">
+
+  <header style="display: flex; justify-content: space-between; align-items: flex-end; gap: 40px">
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C">Sistema de componentes · versión final</div>
+      <div style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 72px; line-height: 0.95; letter-spacing: -0.03em">SanWoot</div>
+      <div style="font-size: 19px; line-height: 1.45; color: #55525C; max-width: 620px">Gris cálido, tinta y ciruela. Tarjetas blancas con sombra suave, formas de píldora y etiquetas en mayúsculas.</div>
+    </div>
+    <div style="background: #1B1A1F; color: #FFFFFF; border-radius: 24px; padding: 22px 26px; max-width: 420px; display: flex; flex-direction: column; gap: 6px">
+      <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #E2C3D8">Principio rector</div>
+      <div style="font-size: 20px; line-height: 1.35; font-weight: 700">Nunca mostrar como listo o guardado algo que no lo está de verdad.</div>
+    </div>
+  </header>
+
+  <section style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px">
+    <div style="display: flex; flex-direction: column; gap: 16px">
+      <h2 style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C">Color</h2>
+      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px">
+        <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 64px; border-radius: 18px; background: #F4F3F0; border: 1px solid #DDDAD4"></div><div style="font-weight: 700; font-size: 15px">Fondo</div><div style="font-size: 14px; color: #55525C">#F4F3F0</div></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 64px; border-radius: 18px; background: #FFFFFF; box-shadow: 0 1px 2px rgba(27,26,31,0.08)"></div><div style="font-weight: 700; font-size: 15px">Tarjeta</div><div style="font-size: 14px; color: #55525C">#FFFFFF</div></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 64px; border-radius: 18px; background: #1B1A1F"></div><div style="font-weight: 700; font-size: 15px">Tinta</div><div style="font-size: 14px; color: #55525C">#1B1A1F</div></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 64px; border-radius: 18px; background: #55525C"></div><div style="font-weight: 700; font-size: 15px">Tinta suave</div><div style="font-size: 14px; color: #55525C">#55525C</div></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 64px; border-radius: 18px; background: #6E2A5A"></div><div style="font-weight: 700; font-size: 15px">Ciruela · acción</div><div style="font-size: 14px; color: #55525C">#6E2A5A</div></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 64px; border-radius: 18px; background: #F2E4EE"></div><div style="font-weight: 700; font-size: 15px">Ciruela claro</div><div style="font-size: 14px; color: #55525C">#F2E4EE · texto #5A2149</div></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 64px; border-radius: 18px; background: #E9E7E2"></div><div style="font-weight: 700; font-size: 15px">Pasado</div><div style="font-size: 14px; color: #55525C">#E9E7E2</div></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 64px; border-radius: 18px; background: #C33C9B"></div><div style="font-weight: 700; font-size: 15px">Grabar</div><div style="font-size: 14px; color: #55525C">#C33C9B · solo el punto</div></div>
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 16px">
+      <h2 style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C">Tipografía</h2>
+      <div style="background: #FFFFFF; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 1px 2px rgba(27,26,31,0.08)">
+        <div style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 64px; line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums">12 × 14 kg</div>
+        <div style="font-size: 15px; color: #55525C">Bricolage Grotesque 800 · títulos, números de series y RPE</div>
+        <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C">Etiqueta · Figtree 700 · 13 px · mayúsculas · 0.08 em</div>
+        <div style="font-size: 18px; line-height: 1.45">Figtree para el texto corrido, entre 15 y 18 px. Nunca menos de 13 px y solo en etiquetas.</div>
+      </div>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 16px">
+    <h2 style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C">Badges de estado · siempre ícono más texto</h2>
+    <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px">
+      <div style="background: #FFFFFF; border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; box-shadow: 0 1px 2px rgba(27,26,31,0.08)"><span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; background: #E0F0E6; color: #1E5C3A; font-weight: 700; font-size: 13px; white-space: nowrap"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 17.7 9.5 4.25 4.25 0 0 1 17.5 18z"></path><path d="M4 4l16 16"></path></svg>Disponible offline</span><span style="font-size: 14px; color: #55525C; line-height: 1.35">Demostración en el teléfono.</span></div>
+      <div style="background: #FFFFFF; border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; box-shadow: 0 1px 2px rgba(27,26,31,0.08)"><span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; background: #FBEACB; color: #7A4A00; font-weight: 700; font-size: 13px; white-space: nowrap"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>Pendiente</span><span style="font-size: 14px; color: #55525C; line-height: 1.35">Falta descargar o confirmar.</span></div>
+      <div style="background: #FFFFFF; border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; box-shadow: 0 1px 2px rgba(27,26,31,0.08)"><span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; background: #FFFFFF; color: #6E2A5A; border: 1.5px dashed #6E2A5A; font-weight: 700; font-size: 13px; white-space: nowrap"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9c2-2 4-2 7 0s5 2 7 0M5 15c2-2 4-2 7 0s5 2 7 0"></path></svg>Variante aproximada</span><span style="font-size: 14px; color: #55525C; line-height: 1.35">No calza exacto con la pauta.</span></div>
+      <div style="background: #FFFFFF; border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; box-shadow: 0 1px 2px rgba(27,26,31,0.08)"><span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; background: #F2E4EE; color: #5A2149; font-weight: 700; font-size: 13px; white-space: nowrap"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="3" width="10" height="18" rx="2"></rect><path d="M11 18h2"></path></svg>Guardado en este dispositivo</span><span style="font-size: 14px; color: #55525C; line-height: 1.35">Local. Nunca “subido”.</span></div>
+      <div style="background: #FFFFFF; border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; box-shadow: 0 1px 2px rgba(27,26,31,0.08)"><span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; background: #FDE3E3; color: #A3161F; font-weight: 700; font-size: 13px; white-space: nowrap"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l10 18H2z"></path><path d="M12 10v4M12 17.5v.5"></path></svg>No se pudo guardar</span><span style="font-size: 14px; color: #55525C; line-height: 1.35">Error real, con qué hacer.</span></div>
+      <div style="background: #FFFFFF; border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; box-shadow: 0 1px 2px rgba(27,26,31,0.08)"><span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; color: #FFFFFF; font-weight: 700; font-size: 13px; white-space: nowrap; background-color: #C33D9C"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"></path></svg><span>Completo</span></span><span style="font-size: 14px; color: #55525C; line-height: 1.35">Relleno, se ve de lejos.</span></div>
+      <div style="background: #FFFFFF; border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; box-shadow: 0 1px 2px rgba(27,26,31,0.08)"><span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; background: #F2E4EE; color: #5A2149; font-weight: 700; font-size: 13px; white-space: nowrap"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2.4"></circle><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"></path></svg>Parcial · 1 de 3</span><span style="font-size: 14px; color: #55525C; line-height: 1.35">Con el conteo real.</span></div>
+      <div style="background: #FFFFFF; border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; box-shadow: 0 1px 2px rgba(27,26,31,0.08)"><span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; background: #FFFFFF; color: #48454F; border: 1.5px solid #726E79; font-weight: 700; font-size: 13px; white-space: nowrap"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="8.5"></circle></svg>Sin registrar</span><span style="font-size: 14px; color: #55525C; line-height: 1.35">Aún no tiene series.</span></div>
+      <div style="background: #FFFFFF; border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; box-shadow: 0 1px 2px rgba(27,26,31,0.08)"><span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; background: #E6E4DF; color: #3A3840; font-weight: 700; font-size: 13px; white-space: nowrap"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 5l9 7-9 7zM18 5v14"></path></svg>Omitido</span><span style="font-size: 14px; color: #55525C; line-height: 1.35">Una decisión, no un error.</span></div>
+      <div style="background: #FFFFFF; border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; box-shadow: 0 1px 2px rgba(27,26,31,0.08)"><span style="display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 11px 2px 8px; border-radius: 999px; background: #FFFFFF; color: #48454F; border: 1.5px dashed #48454F; font-weight: 700; font-size: 13px; white-space: nowrap"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"></path><path d="M9 3v4M15 3v4M7 7h10v4a5 5 0 0 1-1.5 3.6M9.6 15.6A5 5 0 0 1 7 11V7M12 16v5"></path></svg>No conectado</span><span style="font-size: 14px; color: #55525C; line-height: 1.35">Nunca “próximamente”.</span></div>
+    </div>
+  </section>
+
+  <section style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px">
+    <div style="display: flex; flex-direction: column; gap: 12px">
+      <h2 style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C">Botones</h2>
+      <button type="button" style="min-height: 60px; border-radius: 999px; border: 0; background: #6E2A5A; color: #FFFFFF; font-weight: 700; font-size: 19px; cursor: pointer">Primario</button>
+      <button type="button" style="min-height: 52px; border-radius: 999px; border: 0; background: #F2E4EE; color: #5A2149; font-weight: 700; font-size: 17px; cursor: pointer">Secundario</button>
+      <button type="button" style="min-height: 52px; border-radius: 999px; border: 2px solid #1B1A1F; background: #FFFFFF; color: #1B1A1F; font-weight: 700; font-size: 17px; cursor: pointer">Outline</button>
+      <button type="button" style="min-height: 52px; border-radius: 999px; border: 0; background: #E6E4DF; color: #1B1A1F; font-weight: 700; font-size: 17px; cursor: pointer">Neutro · Omitir</button>
+      <button type="button" disabled="" style="min-height: 52px; border-radius: 999px; border: 2px dashed #CFCCD4; background: #F4F3F0; color: #6A6772; font-weight: 700; font-size: 17px">Deshabilitado</button>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px">
+      <h2 style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C">Controles</h2>
+      <div role="group" aria-label="Día de entrenamiento" style="background: #E6E4DF; border-radius: 999px; padding: 6px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px">
+        <button type="button" aria-pressed="true" style="min-height: 56px; border-radius: 999px; border: 0; background: #6E2A5A; color: #FFFFFF; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 20px; cursor: pointer">Día 1</button>
+        <button type="button" aria-pressed="false" style="min-height: 56px; border-radius: 999px; border: 0; background: transparent; color: #1B1A1F; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 700; font-size: 20px; cursor: pointer">Día 2</button>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px">
+        <button type="button" aria-label="Subir ejercicio" style="width: 48px; height: 48px; border-radius: 999px; border: 0; background: #F2E4EE; color: #5A2149; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"></path></svg></button>
+        <button type="button" aria-label="Bajar ejercicio" style="width: 48px; height: 48px; border-radius: 999px; border: 0; background: #F2E4EE; color: #5A2149; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"></path></svg></button>
+        <span style="font-size: 14px; color: #55525C; line-height: 1.35">Flechas de 48 px, 12 px entre ellas.</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px"><label for="fs-kg" style="font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C">Peso (kg) · con foco</label><input id="fs-kg" type="text" inputmode="decimal" value="14" style="height: 64px; border-radius: 16px; border: 2px solid #6E2A5A; background: #FFFFFF; color: #1B1A1F; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 30px; text-align: center; box-sizing: border-box; width: 100%; outline: 4px solid #F2E4EE"></div>
+      <div style="display: flex; align-items: center; gap: 12px">
+        <button type="button" aria-label="Bajar valor" style="flex: none; width: 52px; height: 52px; border-radius: 999px; border: 0; background: #F2E4EE; font-size: 28px; font-weight: 700; color: #5A2149; cursor: pointer">−</button>
+        <input type="range" min="0" max="10" value="7" aria-label="RPE" style="flex: 1; height: 44px; accent-color: #6E2A5A">
+        <button type="button" aria-label="Subir valor" style="flex: none; width: 52px; height: 52px; border-radius: 999px; border: 0; background: #F2E4EE; font-size: 28px; font-weight: 700; color: #5A2149; cursor: pointer">+</button>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px">
+      <h2 style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C">Mensajes</h2>
+      <div role="note" style="background: #FBEACB; border-radius: 20px; padding: 14px 16px; display: flex; gap: 12px; color: #5A3600"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><path d="M12 3l10 18H2z"></path><path d="M12 10v4M12 17.5v.5"></path></svg><div style="display: flex; flex-direction: column; gap: 4px"><div style="font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase">Por confirmar con el coach</div><div style="font-size: 16px; line-height: 1.4">Agarre neutro o prono.</div></div></div>
+      <div role="status" style="background: #E0F0E6; border-radius: 20px; padding: 14px 16px; display: flex; gap: 12px; color: #133D27"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><path d="M5 12l5 5L20 7"></path></svg><div style="display: flex; flex-direction: column; gap: 4px"><div style="font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase">Guardada en este dispositivo</div><div style="font-size: 16px; line-height: 1.4">Quedó como parcial.</div></div></div>
+      <div role="alert" style="background: #FDE3E3; border-radius: 20px; padding: 14px 16px; display: flex; gap: 12px; color: #7A0F17"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><path d="M12 3l10 18H2z"></path><path d="M12 10v4M12 17.5v.5"></path></svg><div style="display: flex; flex-direction: column; gap: 4px"><div style="font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase">No se pudo guardar el video</div><div style="font-size: 16px; line-height: 1.4">Sin espacio. Libera espacio en Ajustes.</div></div></div>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 16px">
+    <h2 style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #55525C">Navegación · barra flotante en móvil</h2>
+    <div style="display: flex; gap: 40px; align-items: center">
+      <nav aria-label="Ejemplo de navegación" style="width: 358px; background: #1B1A1F; border-radius: 28px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 6px; gap: 4px">
+        <a href="#" aria-current="page" style="min-height: 60px; border-radius: 22px; background: #FFFFFF; color: #1B1A1F; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-weight: 700; font-size: 13px"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>Hoy</a>
+        <a href="#" style="min-height: 60px; border-radius: 22px; color: #DAD8DE; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-weight: 600; font-size: 13px"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"></path><path d="M3 3v5h5M12 7v5l3 2"></path></svg>Historial</a>
+        <a href="#" style="min-height: 60px; border-radius: 22px; color: #DAD8DE; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-weight: 600; font-size: 13px"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="13" height="12" rx="2"></rect><path d="M16 10l5-3v10l-5-3z"></path></svg>Mis videos</a>
+        <a href="#" style="min-height: 60px; border-radius: 22px; color: #DAD8DE; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-weight: 600; font-size: 13px"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11M19 18h1"></path><circle cx="15" cy="6" r="2"></circle><circle cx="9" cy="12" r="2"></circle><circle cx="17" cy="18" r="2"></circle></svg>Ajustes</a>
+      </nav>
+      <p style="margin: 0; font-size: 16px; color: #55525C; line-height: 1.45; max-width: 520px">Rutina, Ejercicio y Cierre viven dentro del flujo de Hoy. En esas pantallas la barra se reemplaza por un botón de volver arriba y la acción principal abajo.</p>
+    </div>
+  </section>
+</div></div>
+</section>
+</body>
+</html>

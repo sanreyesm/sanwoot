@@ -10,7 +10,10 @@
 export const DEMO_CACHE_NAME = "sanwoot-demos-v1";
 
 function demoUrl(file: string): string {
-  return new URL(`/${file}`, window.location.origin).toString();
+  // import.meta.env.BASE_URL incluye la subruta de despliegue (p. ej. /sanwoot/
+  // en GitHub Pages); sin esto, los videos quedan apuntando a la raíz del
+  // dominio y dan 404 en cualquier despliegue que no esté en la raíz.
+  return new URL(`${import.meta.env.BASE_URL}${file}`, window.location.origin).toString();
 }
 
 export async function isDemoCached(file: string): Promise<boolean> {

@@ -113,6 +113,14 @@ export function HoyScreen() {
             Para cambiar de día, primero termina esta sesión.
           </div>
         </div>
+
+        <section className="card card--muted">
+          <p className="card__title">Opciones adicionales</p>
+          <button className="btn btn--outline" style={{ width: "100%" }} onClick={() => navigate("/ajustes")}>
+            <Icon name="settings" size={18} strokeWidth={2.2} />
+            Ajustes
+          </button>
+        </section>
       </div>
     );
   }
@@ -172,6 +180,14 @@ export function HoyScreen() {
         Comenzar Día {selectedDay}
         <Icon name="arrow-right" size={22} strokeWidth={2.8} />
       </button>
+
+      <section className="card card--muted">
+        <p className="card__title">Opciones adicionales</p>
+        <button className="btn btn--outline" style={{ width: "100%" }} onClick={() => navigate("/ajustes")}>
+          <Icon name="settings" size={18} strokeWidth={2.2} />
+          Ajustes
+        </button>
+      </section>
     </div>
   );
 }

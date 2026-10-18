@@ -5,7 +5,7 @@ const ITEMS: { to: string; label: string; icon: IconName }[] = [
   { to: "/", label: "Hoy", icon: "calendar" },
   { to: "/historial", label: "Historial", icon: "history" },
   { to: "/videos", label: "Mis videos", icon: "video" },
-  { to: "/ajustes", label: "Ajustes", icon: "settings" },
+  { to: "/timer", label: "Timer", icon: "clock" },
 ];
 
 export function BottomNav() {

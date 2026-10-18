@@ -8,6 +8,7 @@ import { CierreScreen } from "./screens/CierreScreen";
 import { HistorialScreen } from "./screens/HistorialScreen";
 import { MisVideosScreen } from "./screens/MisVideosScreen";
 import { AjustesScreen } from "./screens/AjustesScreen";
+import { TimerScreen } from "./screens/TimerScreen";
 import "./App.css";
 
 export default function App() {
@@ -24,6 +25,7 @@ export default function App() {
               <Route path="/historial" element={<HistorialScreen />} />
               <Route path="/videos" element={<MisVideosScreen />} />
               <Route path="/ajustes" element={<AjustesScreen />} />
+              <Route path="/timer" element={<TimerScreen />} />
             </Routes>
           </main>
           <BottomNav />

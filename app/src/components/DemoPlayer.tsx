@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { cacheDemo, isDemoCached } from "../lib/demo-cache";
 import type { DemoConfidence } from "../data/demo-map";
+import { Badge } from "./Badge";
+import { Icon } from "./Icon";
 
 interface DemoPlayerProps {
   file?: string;
@@ -51,28 +53,19 @@ export function DemoPlayer({ file, confidence, note, referenceUrl }: DemoPlayerP
 
   return (
     <div className="demo-player">
-      <video
-        className="demo-player__video"
-        src={`${import.meta.env.BASE_URL}${file}`}
-        controls
-        playsInline
-        loop
-        muted
-      />
+      <video className="demo-player__video" src={`${import.meta.env.BASE_URL}${file}`} controls playsInline loop muted />
       <div className="demo-player__status">
-        {cached === null && <span>Comprobando disponibilidad sin conexión…</span>}
-        {cached === true && <span className="badge badge--ok">Guardado para usar sin conexión</span>}
+        {cached === null && <span className="text-muted">Comprobando disponibilidad sin conexión…</span>}
+        {cached === true && <Badge variant="offline">Disponible offline</Badge>}
         {cached === false && (
           <button className="btn btn--small" onClick={prepare} disabled={preparing}>
+            <Icon name="download" size={16} />
             {preparing ? "Guardando…" : "Guardar para sin conexión"}
           </button>
         )}
+        {confidence === "approximate" && <Badge variant="approximate">Variante aproximada</Badge>}
       </div>
-      {confidence === "approximate" && note && (
-        <p className="demo-player__note demo-player__note--warn">
-          Variante aproximada, no exacta de tu pauta: {note}
-        </p>
-      )}
+      {confidence === "approximate" && note && <p className="demo-player__note">{note}</p>}
       {error && <p className="demo-player__note demo-player__note--error">{error}</p>}
     </div>
   );

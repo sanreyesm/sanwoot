@@ -7,6 +7,8 @@ import {
   type CacheAllProgress,
 } from "../lib/demo-cache";
 import { getClipsStorageBytes, listClips } from "../lib/clips-db";
+import { Icon } from "../components/Icon";
+import { Badge } from "../components/Badge";
 
 function formatMb(bytes: number): string {
   return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
@@ -50,37 +52,66 @@ export function AjustesScreen() {
 
   return (
     <div className="screen">
+      <div className="eyebrow">Kilogramos · Hora de Santiago</div>
       <h1>Ajustes</h1>
 
-      <div className="card">
-        <p className="card__title">Demostraciones sin conexión</p>
-        <p>
-          {demoBytes == null ? "Calculando…" : `${formatMb(demoBytes)} guardados de ${catalog.length} ejercicios del catálogo.`}
-        </p>
-        <div className="camera-actions">
-          <button className="btn btn--secondary" onClick={prepareFullCatalog} disabled={working}>
-            {working && progress ? `Preparando… ${progress.done}/${progress.total}` : "Preparar catálogo completo"}
-          </button>
-          <button className="btn btn--outline" onClick={clearDemos}>Liberar espacio</button>
+      <section className="card">
+        <p className="card__title">Demostraciones guardadas</p>
+        <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap" }}>
+          <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 40, fontVariantNumeric: "tabular-nums" }}>
+            {demoBytes == null ? "…" : `${catalog.length}`}
+          </span>
+          <span className="text-muted">ejercicios · {demoBytes == null ? "calculando…" : formatMb(demoBytes)}</span>
         </div>
-      </div>
+        <p className="text-muted">Necesita wifi. Liberar espacio borra las demostraciones, no tus registros ni tus videos.</p>
+        <button className="btn btn--primary" onClick={prepareFullCatalog} disabled={working}>
+          <Icon name="download" size={20} />
+          {working && progress ? `Preparando… ${progress.done}/${progress.total}` : "Preparar catálogo completo"}
+        </button>
+        <button className="btn btn--outline" onClick={clearDemos}>Liberar espacio</button>
+      </section>
 
-      <div className="card">
-        <p className="card__title">Videos personales</p>
-        <p>{clipCount} clip(s), {clipBytes != null ? formatMb(clipBytes) : "—"} en este dispositivo.</p>
-        <p className="text-muted">
-          No hay subida a la nube en esta versión: compartir usa el selector nativo del teléfono.
-        </p>
-      </div>
+      <section className="card">
+        <p className="card__title">Tus videos</p>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
+          <span style={{ fontSize: 17 }}><strong>{clipCount} videos</strong> · {clipBytes != null ? formatMb(clipBytes) : "—"}</span>
+          <Badge variant="device">Solo en este teléfono</Badge>
+        </div>
+      </section>
 
-      <div className="card">
-        <p className="card__title">Estado real de conexiones</p>
-        <ul className="connection-status">
-          <li>📄 Google Sheets — <strong>no conectado</strong>. La pauta mostrada es una copia importada el 15 de octubre de 2026.</li>
-          <li>⌚ COROS — <strong>no conectado</strong>.</li>
-          <li>📲 Aviso a Telegram por cambios del coach — <strong>pendiente</strong>: falta el token/chat del bot.</li>
-        </ul>
-      </div>
+      <section className="card">
+        <p className="card__title">Conexiones</p>
+        <p className="text-muted">Ninguna existe todavía. Lo que registras queda en este teléfono y sale por exportación desde Historial.</p>
+
+        <div className="connection-row">
+          <div className="connection-row__head">
+            <span className="connection-row__name">Google Sheets</span>
+            <Badge variant="not-connected">No conectado</Badge>
+          </div>
+          <div className="text-muted">No implementado. Usa Exportar CSV.</div>
+        </div>
+        <div className="connection-row">
+          <div className="connection-row__head">
+            <span className="connection-row__name">COROS</span>
+            <Badge variant="not-connected">No conectado</Badge>
+          </div>
+          <div className="text-muted">No implementado.</div>
+        </div>
+        <div className="connection-row">
+          <div className="connection-row__head">
+            <span className="connection-row__name">Aviso a Telegram</span>
+            <Badge variant="not-connected">No conectado</Badge>
+          </div>
+          <div className="text-muted">No implementado.</div>
+        </div>
+        <div className="connection-row">
+          <div className="connection-row__head">
+            <span className="connection-row__name">Nube para videos</span>
+            <Badge variant="not-connected">No existe</Badge>
+          </div>
+          <div className="text-muted">Los videos quedan en el teléfono.</div>
+        </div>
+      </section>
     </div>
   );
 }

@@ -9,6 +9,7 @@ import type { Day } from "../types";
 const FLOOR_LABEL: Record<string, string> = {
   "-1": "Piso -1",
   "3": "Piso 3",
+  any: "Cualquier piso",
   unknown: "Piso por confirmar",
 };
 

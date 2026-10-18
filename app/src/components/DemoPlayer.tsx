@@ -10,18 +10,49 @@ interface DemoPlayerProps {
   confidence: DemoConfidence;
   note?: string;
   referenceUrl?: string;
+  /** Si está presente, se embebe esto en vez de `file`: anulación manual de San. */
+  youtubeUrl?: string;
+  chosenByUser?: boolean;
 }
 
-export function DemoPlayer({ file, confidence, note, referenceUrl }: DemoPlayerProps) {
+export function DemoPlayer({ file, confidence, note, referenceUrl, youtubeUrl, chosenByUser }: DemoPlayerProps) {
   const [cached, setCached] = useState<boolean | null>(null);
   const [preparing, setPreparing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!file) return;
+    if (!file || youtubeUrl) return;
     setCached(null);
     isDemoCached(file).then(setCached);
-  }, [file]);
+  }, [file, youtubeUrl]);
+
+  // Video de YouTube elegido a mano por San: siempre tiene prioridad.
+  if (youtubeUrl) {
+    const embedUrl = getYoutubeEmbedUrl(youtubeUrl);
+    return (
+      <div className="demo-player">
+        {embedUrl ? (
+          <div className="demo-player__embed">
+            <iframe
+              src={embedUrl}
+              title="Video elegido por ti"
+              allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              loading="lazy"
+            />
+          </div>
+        ) : (
+          <p className="demo-player__note demo-player__note--error">
+            Ese enlace no parece ser de YouTube. Edítalo en "Ajustar este ejercicio".
+          </p>
+        )}
+        <div className="demo-player__status">
+          <Badge variant="device">Video elegido por ti</Badge>
+        </div>
+        <p className="demo-player__note">De YouTube: requiere conexión, no queda guardado para usar sin señal.</p>
+      </div>
+    );
+  }
 
   if (confidence === "pending" || !file) {
     const embedUrl = referenceUrl ? getYoutubeEmbedUrl(referenceUrl) : null;
@@ -78,9 +109,13 @@ export function DemoPlayer({ file, confidence, note, referenceUrl }: DemoPlayerP
             {preparing ? "Guardando…" : "Guardar para sin conexión"}
           </button>
         )}
-        {confidence === "approximate" && <Badge variant="approximate">Variante aproximada</Badge>}
+        {chosenByUser ? (
+          <Badge variant="device">Elegido por ti</Badge>
+        ) : (
+          confidence === "approximate" && <Badge variant="approximate">Variante aproximada</Badge>
+        )}
       </div>
-      {confidence === "approximate" && note && <p className="demo-player__note">{note}</p>}
+      {!chosenByUser && confidence === "approximate" && note && <p className="demo-player__note">{note}</p>}
       {error && <p className="demo-player__note demo-player__note--error">{error}</p>}
     </div>
   );

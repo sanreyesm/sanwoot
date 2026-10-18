@@ -3,14 +3,16 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useSession } from "../state/SessionContext";
 import { getExercise } from "../data/exercises";
 import { getPrescription } from "../data/prescription";
-import { resolveDemoFile } from "../data/demo-map";
+import { resolveDemo } from "../data/demo-map";
 import { DemoPlayer } from "../components/DemoPlayer";
+import { DemoPicker } from "../components/DemoPicker";
 import { Icon } from "../components/Icon";
 import { Badge } from "../components/Badge";
 import { getLastSetsForExercise } from "../lib/db";
 import { saveClip, listClipsForExercise, deleteClip, getClipBlob } from "../lib/clips-db";
 import { validateAttachment } from "../lib/camera";
 import { setOverride } from "../lib/exercise-overrides";
+import { floorLabel } from "../data/exercise-options";
 import type { PersonalClip, SetResult } from "../types";
 
 export function EjercicioScreen() {
@@ -24,6 +26,9 @@ export function EjercicioScreen() {
   const [clips, setClips] = useState<PersonalClip[]>([]);
   const [videoError, setVideoError] = useState<string | null>(null);
   const [myNote, setMyNote] = useState("");
+  const [editingNote, setEditingNote] = useState(false);
+  const [draftNote, setDraftNote] = useState("");
+  const [demoVersion, setDemoVersion] = useState(0);
   const recordInputRef = useRef<HTMLInputElement | null>(null);
   const attachInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -34,6 +39,7 @@ export function EjercicioScreen() {
 
   useEffect(() => {
     setMyNote(getExercise(exerciseId)?.myNote ?? "");
+    setEditingNote(false);
   }, [exerciseId]);
 
   if (!session) {
@@ -51,7 +57,7 @@ export function EjercicioScreen() {
     return <p className="screen">Ejercicio no encontrado en la pauta de este día.</p>;
   }
 
-  const demo = resolveDemoFile(exerciseId);
+  const demo = resolveDemo(exerciseId);
   const mySets = sets.filter((s) => s.exerciseId === exerciseId).sort((a, b) => a.index - b.index);
   const fb = feedback.find((f) => f.exerciseId === exerciseId);
   const skipped = session.skippedExerciseIds.includes(exerciseId);
@@ -76,9 +82,15 @@ export function EjercicioScreen() {
 
   const refreshClips = () => listClipsForExercise(exerciseId).then(setClips);
 
-  const saveMyNote = (value: string) => {
-    setMyNote(value);
-    setOverride(exerciseId, { myNote: value });
+  const startEditingNote = () => {
+    setDraftNote(myNote);
+    setEditingNote(true);
+  };
+
+  const saveNote = () => {
+    setMyNote(draftNote);
+    setOverride(exerciseId, { myNote: draftNote });
+    setEditingNote(false);
   };
 
   const persistClip = async (file: File, source: "recorded" | "attached") => {
@@ -143,26 +155,51 @@ export function EjercicioScreen() {
 
       <div className="eyebrow">
         {exercise.muscleGroup ? `${exercise.muscleGroup} · ` : ""}
-        {exercise.floor && (exercise.floor === "unknown" ? "Piso por confirmar" : `Piso ${exercise.floor}`)} · Día {session.day}
+        {floorLabel(exercise.floor)} · Día {session.day}
       </div>
       <h1 style={{ fontSize: 34 }}>{exercise.name}</h1>
 
-      <DemoPlayer file={demo.file} confidence={demo.confidence} note={demo.note} referenceUrl={exercise.referenceUrl} />
+      <DemoPlayer
+        key={demoVersion}
+        file={demo.file}
+        confidence={demo.confidence}
+        note={demo.note}
+        referenceUrl={exercise.referenceUrl}
+        youtubeUrl={demo.youtubeUrl}
+        chosenByUser={demo.chosenByUser}
+      />
+      <DemoPicker exerciseId={exerciseId} active={!!demo.chosenByUser} onChange={() => setDemoVersion((v) => v + 1)} />
 
       <div className="set-input__field">
-        <label htmlFor="my-note">
-          <Icon name="device" size={14} strokeWidth={2.4} /> Tu nota privada (solo para ti, nunca se le envía a tu entrenadora)
-        </label>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <label htmlFor="my-note" style={{ margin: 0 }}>
+            <Icon name="device" size={14} strokeWidth={2.4} /> Tu nota privada (solo para ti, nunca se le envía a tu entrenadora)
+          </label>
+          {!editingNote && (
+            <button className="icon-btn" aria-label="Editar tu nota" onClick={startEditingNote} style={{ width: 36, height: 36 }}>
+              ✏️
+            </button>
+          )}
+        </div>
         <textarea
           id="my-note"
           rows={2}
           placeholder='Ej. "es con mancuerna", "en COROS es el parecido a este pero con plancha normal"'
-          value={myNote}
-          onChange={(e) => saveMyNote(e.target.value)}
+          value={editingNote ? draftNote : myNote}
+          disabled={!editingNote}
+          onChange={(e) => setDraftNote(e.target.value)}
+          style={editingNote ? undefined : { background: "var(--screen-bg)", color: "var(--muted)" }}
         />
-        <span className="text-muted" style={{ fontSize: 13, textTransform: "none", fontWeight: 400, letterSpacing: 0 }}>
-          Queda guardada siempre para este ejercicio, no solo en la sesión de hoy.
-        </span>
+        {editingNote ? (
+          <div className="camera-actions">
+            <button className="btn btn--primary" onClick={saveNote}>Guardar</button>
+            <button className="btn btn--outline" onClick={() => setEditingNote(false)}>Cancelar</button>
+          </div>
+        ) : (
+          <span className="text-muted" style={{ fontSize: 13, textTransform: "none", fontWeight: 400, letterSpacing: 0 }}>
+            Queda guardada siempre para este ejercicio, no solo en la sesión de hoy.
+          </span>
+        )}
       </div>
 
       {exercise.needsConfirmation && (

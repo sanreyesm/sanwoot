@@ -7,7 +7,9 @@
 
 export type Day = 1 | 2;
 
-export type Floor = "-1" | "3" | "unknown";
+// 'unknown' = todavía sin determinar, pendiente de confirmar con el coach.
+// 'any' = ya se confirmó que da lo mismo el piso; son cosas distintas.
+export type Floor = "-1" | "3" | "unknown" | "any";
 
 /** Catálogo de ejercicios: identidad estable, independiente de la prescripción semanal. */
 export interface Exercise {
@@ -24,6 +26,10 @@ export interface Exercise {
   confirmationNote?: string;
   /** Nota propia de San sobre el ejercicio (ej. "es con mancuerna"), no sobre una sesión puntual. */
   myNote?: string;
+  /** Elegido a mano por San en vez del mapeo automático: slug del catálogo local (ej. "demos/clamshell.mp4"). */
+  demoFileOverride?: string;
+  /** Elegido a mano por San: URL de YouTube a embeber en vez de la demo local. Tiene prioridad sobre demoFileOverride. */
+  demoYoutubeOverride?: string;
 }
 
 /** Estado de una demostración en video para un ejercicio. */

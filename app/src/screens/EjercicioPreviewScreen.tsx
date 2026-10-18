@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getExercise } from "../data/exercises";
 import { getPrescription } from "../data/prescription";
-import { resolveDemoFile } from "../data/demo-map";
+import { resolveDemo } from "../data/demo-map";
 import { DemoPlayer } from "../components/DemoPlayer";
+import { DemoPicker } from "../components/DemoPicker";
 import { Icon } from "../components/Icon";
 import { getLastSetsForExercise } from "../lib/db";
 import { setOverride } from "../lib/exercise-overrides";
-import { MUSCLE_GROUPS, FLOORS } from "../data/exercise-options";
+import { MUSCLE_GROUPS, FLOORS, floorLabel } from "../data/exercise-options";
 import type { Day, Exercise, SetResult } from "../types";
 
 // Nivel 3 en modo informativo: mirar el ejercicio, dejar tu nota privada y
@@ -21,13 +22,17 @@ export function EjercicioPreviewScreen() {
 
   const [lastSets, setLastSets] = useState<SetResult[]>([]);
   const [myNote, setMyNote] = useState("");
+  const [editingNote, setEditingNote] = useState(false);
+  const [draftNote, setDraftNote] = useState("");
   const [exercise, setExerciseState] = useState<Exercise | undefined>(() => getExercise(exerciseId));
+  const [demoVersion, setDemoVersion] = useState(0); // fuerza releer resolveDemo() tras elegir video
 
   useEffect(() => {
     getLastSetsForExercise(exerciseId).then(setLastSets);
     const ex = getExercise(exerciseId);
     setExerciseState(ex);
     setMyNote(ex?.myNote ?? "");
+    setEditingNote(false);
   }, [exerciseId]);
 
   const prescription = getPrescription(day).find((p) => p.exerciseId === exerciseId);
@@ -40,11 +45,19 @@ export function EjercicioPreviewScreen() {
     return <p className="screen">Ejercicio no encontrado en la pauta de este día.</p>;
   }
 
-  const demo = resolveDemoFile(exerciseId);
+  // Se recalcula en cada render; demoVersion solo fuerza que haya un render
+  // nuevo justo después de que DemoPicker guarde una elección.
+  const demo = resolveDemo(exerciseId);
 
-  const saveMyNote = (value: string) => {
-    setMyNote(value);
-    setOverride(exerciseId, { myNote: value });
+  const startEditingNote = () => {
+    setDraftNote(myNote);
+    setEditingNote(true);
+  };
+
+  const saveNote = () => {
+    setMyNote(draftNote);
+    setOverride(exerciseId, { myNote: draftNote });
+    setEditingNote(false);
   };
 
   const editExercise = (patch: { muscleGroup?: string; floor?: Exercise["floor"] }) => {
@@ -70,10 +83,19 @@ export function EjercicioPreviewScreen() {
         </div>
       </div>
 
-      <div className="eyebrow">Vista informativa · {exercise.muscleGroup ? `${exercise.muscleGroup} · ` : ""}{exercise.floor && (exercise.floor === "unknown" ? "Piso por confirmar" : `Piso ${exercise.floor}`)}</div>
+      <div className="eyebrow">Vista informativa · {exercise.muscleGroup ? `${exercise.muscleGroup} · ` : ""}{floorLabel(exercise.floor)}</div>
       <h1 style={{ fontSize: 34 }}>{exercise.name}</h1>
 
-      <DemoPlayer file={demo.file} confidence={demo.confidence} note={demo.note} referenceUrl={exercise.referenceUrl} />
+      <DemoPlayer
+        key={demoVersion}
+        file={demo.file}
+        confidence={demo.confidence}
+        note={demo.note}
+        referenceUrl={exercise.referenceUrl}
+        youtubeUrl={demo.youtubeUrl}
+        chosenByUser={demo.chosenByUser}
+      />
+      <DemoPicker exerciseId={exerciseId} active={!!demo.chosenByUser} onChange={() => setDemoVersion((v) => v + 1)} />
 
       {exercise.needsConfirmation && (
         <div role="note" className="banner banner--warn">
@@ -118,16 +140,31 @@ export function EjercicioPreviewScreen() {
       )}
 
       <div className="set-input__field">
-        <label htmlFor="my-note-preview">
-          <Icon name="device" size={14} strokeWidth={2.4} /> Tu nota privada (solo para ti, nunca se le envía a tu entrenadora)
-        </label>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <label htmlFor="my-note-preview" style={{ margin: 0 }}>
+            <Icon name="device" size={14} strokeWidth={2.4} /> Tu nota privada (solo para ti, nunca se le envía a tu entrenadora)
+          </label>
+          {!editingNote && (
+            <button className="icon-btn" aria-label="Editar tu nota" onClick={startEditingNote} style={{ width: 36, height: 36 }}>
+              ✏️
+            </button>
+          )}
+        </div>
         <textarea
           id="my-note-preview"
           rows={2}
           placeholder='Ej. "es con mancuerna", "en COROS es el parecido a este pero con plancha normal"'
-          value={myNote}
-          onChange={(e) => saveMyNote(e.target.value)}
+          value={editingNote ? draftNote : myNote}
+          disabled={!editingNote}
+          onChange={(e) => setDraftNote(e.target.value)}
+          style={editingNote ? undefined : { background: "var(--screen-bg)", color: "var(--muted)" }}
         />
+        {editingNote && (
+          <div className="camera-actions">
+            <button className="btn btn--primary" onClick={saveNote}>Guardar</button>
+            <button className="btn btn--outline" onClick={() => setEditingNote(false)}>Cancelar</button>
+          </div>
+        )}
       </div>
 
       <section className="card">

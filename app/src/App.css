@@ -993,6 +993,18 @@ textarea {
   font-size: 17px;
 }
 
+/* Barra fija de acción en pantallas sin nav inferior (vista informativa) */
+
+.fixed-action-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 20px max(12px, env(safe-area-inset-bottom));
+  background: linear-gradient(to top, var(--screen-bg) 60%, transparent);
+  z-index: 10;
+}
+
 /* Barra de navegación inferior */
 
 .bottom-nav {

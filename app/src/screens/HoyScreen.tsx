@@ -35,7 +35,7 @@ function dayStats(day: Day) {
 }
 
 export function HoyScreen() {
-  const { session, sets, startSession, loading } = useSession();
+  const { session, sets, loading } = useSession();
   const navigate = useNavigate();
   const [cachedByDay, setCachedByDay] = useState<Record<Day, number | null>>({ 1: null, 2: null });
   const [preparingDay, setPreparingDay] = useState<Day | null>(null);
@@ -58,11 +58,6 @@ export function HoyScreen() {
     setCachedByDay((c) => ({ ...c, [day]: count }));
     setPreparingDay(null);
     setProgress(null);
-  };
-
-  const onStart = async (day: Day) => {
-    await startSession(day);
-    navigate("/rutina");
   };
 
   if (loading) return <p className="screen-loading">Cargando…</p>;
@@ -150,7 +145,7 @@ export function HoyScreen() {
       <section key={day} className="card" style={{ gap: 14 }}>
         <button
           type="button"
-          onClick={() => onStart(day)}
+          onClick={() => navigate(`/dia/${day}`)}
           style={{ background: "none", border: "none", padding: 0, textAlign: "left", cursor: "pointer", display: "flex", flexDirection: "column", gap: 8 }}
         >
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
@@ -192,8 +187,8 @@ export function HoyScreen() {
           </div>
         )}
 
-        <button className="btn btn--primary btn--large" onClick={() => onStart(day)}>
-          Comenzar Día {day}
+        <button className="btn btn--primary btn--large" onClick={() => navigate(`/dia/${day}`)}>
+          Ver rutina
           <Icon name="arrow-right" size={22} strokeWidth={2.8} />
         </button>
       </section>

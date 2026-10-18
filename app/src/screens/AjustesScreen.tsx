@@ -9,6 +9,7 @@ import {
 import { getClipsStorageBytes, listClips } from "../lib/clips-db";
 import { getAllExercises } from "../data/exercises";
 import { setOverride } from "../lib/exercise-overrides";
+import { MUSCLE_GROUPS, FLOORS } from "../data/exercise-options";
 import { Icon } from "../components/Icon";
 import { Badge } from "../components/Badge";
 import type { Exercise } from "../types";
@@ -16,13 +17,6 @@ import type { Exercise } from "../types";
 function formatMb(bytes: number): string {
   return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
 }
-
-const MUSCLE_GROUPS = ["Tren superior", "Tren inferior", "Core"];
-const FLOORS: { value: Exercise["floor"]; label: string }[] = [
-  { value: "-1", label: "Piso -1" },
-  { value: "3", label: "Piso 3" },
-  { value: "unknown", label: "Por confirmar" },
-];
 
 export function AjustesScreen() {
   const [demoBytes, setDemoBytes] = useState<number | null>(null);

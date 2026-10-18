@@ -417,6 +417,14 @@ h1 {
   border: 0;
 }
 
+/* Un Short es vertical (9:16): meterlo en un recuadro 16:9 lo deja chico y
+   pegado a un lado, con espacio en blanco alrededor. */
+.demo-player__embed--vertical {
+  aspect-ratio: 9 / 16;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
 .demo-player__title {
   margin: 0;
   font-weight: 800;

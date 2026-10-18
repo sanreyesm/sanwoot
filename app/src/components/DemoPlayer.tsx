@@ -3,7 +3,7 @@ import { cacheDemo, isDemoCached } from "../lib/demo-cache";
 import type { DemoConfidence } from "../data/demo-map";
 import { Badge } from "./Badge";
 import { Icon } from "./Icon";
-import { getYoutubeEmbedUrl } from "../lib/youtube";
+import { getYoutubeEmbedUrl, isYoutubeShorts } from "../lib/youtube";
 
 interface DemoPlayerProps {
   file?: string;
@@ -29,10 +29,11 @@ export function DemoPlayer({ file, confidence, note, referenceUrl, youtubeUrl, c
   // Video de YouTube elegido a mano por San: siempre tiene prioridad.
   if (youtubeUrl) {
     const embedUrl = getYoutubeEmbedUrl(youtubeUrl);
+    const vertical = isYoutubeShorts(youtubeUrl);
     return (
       <div className="demo-player">
         {embedUrl ? (
-          <div className="demo-player__embed">
+          <div className={`demo-player__embed${vertical ? " demo-player__embed--vertical" : ""}`}>
             <iframe
               src={embedUrl}
               title="Video elegido por ti"
@@ -56,13 +57,14 @@ export function DemoPlayer({ file, confidence, note, referenceUrl, youtubeUrl, c
 
   if (confidence === "pending" || !file) {
     const embedUrl = referenceUrl ? getYoutubeEmbedUrl(referenceUrl) : null;
+    const vertical = referenceUrl ? isYoutubeShorts(referenceUrl) : false;
     return (
       <div className="demo-player demo-player--pending">
         <p className="demo-player__title">Demostración pendiente</p>
         {note && <p className="demo-player__note">{note}</p>}
         {embedUrl ? (
           <>
-            <div className="demo-player__embed">
+            <div className={`demo-player__embed${vertical ? " demo-player__embed--vertical" : ""}`}>
               <iframe
                 src={embedUrl}
                 title="Referencia en YouTube"

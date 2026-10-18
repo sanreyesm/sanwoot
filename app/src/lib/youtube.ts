@@ -21,3 +21,16 @@ export function getYoutubeEmbedUrl(url: string): string | null {
     return null;
   }
 }
+
+/**
+ * Un Short es vertical (9:16), no horizontal (16:9). Si se embebe en un
+ * recuadro 16:9 queda chico y pegado a un lado con espacio en blanco
+ * alrededor: hay que usar un recuadro vertical para estos casos.
+ */
+export function isYoutubeShorts(url: string): boolean {
+  try {
+    return new URL(url).pathname.startsWith("/shorts/");
+  } catch {
+    return false;
+  }
+}

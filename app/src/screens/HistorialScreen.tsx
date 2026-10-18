@@ -82,7 +82,8 @@ export function HistorialScreen() {
   }, [selectedDate, sessionsByDate]);
 
   const grid = buildMonthGrid(month);
-  const monthLabel = month.toLocaleDateString("es-CL", { month: "long", year: "numeric" });
+  const monthLabelRaw = month.toLocaleDateString("es-CL", { month: "long", year: "numeric" });
+  const monthLabel = monthLabelRaw.charAt(0).toUpperCase() + monthLabelRaw.slice(1);
   const todayKey = dateKey(new Date());
 
   const selectedSession = selectedDate ? sessionsByDate.get(selectedDate)?.[0] : null;
@@ -112,7 +113,7 @@ export function HistorialScreen() {
           <button className="icon-btn" aria-label="Mes anterior" onClick={() => setMonth((m) => new Date(m.getFullYear(), m.getMonth() - 1, 1))}>
             <Icon name="chevron-left" size={20} strokeWidth={2.6} />
           </button>
-          <p className="card__title" style={{ margin: 0, textTransform: "capitalize" }}>{monthLabel}</p>
+          <p className="card__title" style={{ margin: 0, textTransform: "none" }}>{monthLabel}</p>
           <button className="icon-btn" aria-label="Mes siguiente" onClick={() => setMonth((m) => new Date(m.getFullYear(), m.getMonth() + 1, 1))}>
             <Icon name="chevron-right" size={20} strokeWidth={2.6} />
           </button>

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { listSessions, getSetsForSession, getFeedbackForSession } from "../lib/db";
+import { listSessions, getSetsForSession, getFeedbackForSession, deleteSession } from "../lib/db";
 import { getExercise } from "../data/exercises";
 import { buildBackup, buildSessionsCsv, downloadCsv, downloadJson } from "../lib/export";
 import { Icon } from "../components/Icon";
@@ -44,6 +44,8 @@ export function HistorialScreen() {
   const [month, setMonth] = useState(() => startOfMonth(new Date()));
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [detail, setDetail] = useState<{ sets: SetResult[]; feedback: ExerciseFeedback[] } | null>(null);
+  const [exportMenuOpen, setExportMenuOpen] = useState(false);
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
 
   useEffect(() => {
     listSessions().then((all) => {
@@ -66,6 +68,7 @@ export function HistorialScreen() {
   }, [sessions]);
 
   useEffect(() => {
+    setConfirmingDelete(false);
     if (!selectedDate) {
       setDetail(null);
       return;
@@ -88,24 +91,66 @@ export function HistorialScreen() {
 
   const selectedSession = selectedDate ? sessionsByDate.get(selectedDate)?.[0] : null;
 
+  const onDeleteSession = async () => {
+    if (!selectedSession) return;
+    await deleteSession(selectedSession.id);
+    const remaining = await listSessions();
+    setSessions(remaining);
+    setConfirmingDelete(false);
+    setSelectedDate(null);
+    setDetail(null);
+  };
+
   return (
     <div className="screen">
-      <div className="eyebrow">Tus sesiones</div>
-      <h1>Historial</h1>
-
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-        <button
-          className="btn btn--outline"
-          onClick={async () => downloadCsv(await buildSessionsCsv(), `sanwoot-sesiones-${Date.now()}.csv`)}
-        >
-          <Icon name="download" size={18} /> Exportar CSV
-        </button>
-        <button
-          className="btn btn--outline"
-          onClick={async () => downloadJson(await buildBackup(), `sanwoot-respaldo-${Date.now()}.json`)}
-        >
-          <Icon name="download" size={18} /> Exportar JSON
-        </button>
+      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
+        <div>
+          <div className="eyebrow">Tus sesiones</div>
+          <h1>Historial</h1>
+        </div>
+        <div style={{ position: "relative" }}>
+          <button className="icon-btn" aria-label="Exportar" aria-haspopup="true" aria-expanded={exportMenuOpen} onClick={() => setExportMenuOpen((v) => !v)}>
+            <Icon name="download" size={20} strokeWidth={2.2} />
+          </button>
+          {exportMenuOpen && (
+            <>
+              <div onClick={() => setExportMenuOpen(false)} style={{ position: "fixed", inset: 0, zIndex: 19 }} />
+              <div
+                className="card"
+                style={{
+                  position: "absolute",
+                  right: 0,
+                  top: "calc(100% + 6px)",
+                  zIndex: 20,
+                  minWidth: 180,
+                  padding: 8,
+                  gap: 2,
+                }}
+              >
+                <button
+                  className="btn btn--neutral"
+                  style={{ width: "100%", justifyContent: "flex-start" }}
+                  onClick={async () => {
+                    setExportMenuOpen(false);
+                    downloadCsv(await buildSessionsCsv(), `sanwoot-sesiones-${Date.now()}.csv`);
+                  }}
+                >
+                  Exportar CSV
+                </button>
+                <button
+                  className="btn btn--neutral"
+                  style={{ width: "100%", justifyContent: "flex-start" }}
+                  onClick={async () => {
+                    setExportMenuOpen(false);
+                    downloadJson(await buildBackup(), `sanwoot-respaldo-${Date.now()}.json`);
+                  }}
+                >
+                  Exportar JSON
+                </button>
+              </div>
+            </>
+          )}
+        </div>
       </div>
 
       <section className="card">
@@ -176,8 +221,29 @@ export function HistorialScreen() {
             <p className="card__title" style={{ margin: 0 }}>
               {new Date(selectedSession.startedAt).toLocaleDateString("es-CL", { weekday: "long", day: "numeric", month: "long" })} · Día {selectedSession.day}
             </p>
-            <Badge variant={STATUS[selectedSession.status].variant}>{STATUS[selectedSession.status].label}</Badge>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <Badge variant={STATUS[selectedSession.status].variant}>{STATUS[selectedSession.status].label}</Badge>
+              <button className="icon-btn icon-btn--danger" aria-label="Eliminar esta sesión" onClick={() => setConfirmingDelete(true)}>
+                <Icon name="trash" size={18} />
+              </button>
+            </div>
           </div>
+          {confirmingDelete && (
+            <div className="banner banner--error">
+              <Icon name="warning" size={22} strokeWidth={2.4} />
+              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                <div>¿Eliminar esta sesión? No se puede deshacer.</div>
+                <div className="camera-actions">
+                  <button className="btn btn--primary" style={{ background: "var(--error-text)" }} onClick={onDeleteSession}>
+                    Sí, eliminar
+                  </button>
+                  <button className="btn btn--outline" onClick={() => setConfirmingDelete(false)}>
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
           {selectedSession.rpe != null && <p className="text-muted">RPE {selectedSession.rpe}</p>}
           {selectedSession.sessionNote && <p className="text-muted">{selectedSession.sessionNote}</p>}
           <ul className="set-history">

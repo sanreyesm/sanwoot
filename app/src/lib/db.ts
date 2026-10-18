@@ -70,6 +70,22 @@ export async function listSessions(): Promise<WorkoutSession[]> {
   return all.sort((a, b) => b.startedAt.localeCompare(a.startedAt));
 }
 
+/** Borra la sesión y todo lo que cuelga de ella (series y feedback). Irreversible. */
+export async function deleteSession(sessionId: string): Promise<void> {
+  const db = await getDb();
+  const [sets, feedbackRows] = await Promise.all([
+    db.getAllFromIndex("setResults", "by-session", sessionId),
+    db.getAllFromIndex("feedback", "by-session", sessionId),
+  ]);
+  const tx = db.transaction(["sessions", "setResults", "feedback"], "readwrite");
+  await Promise.all([
+    tx.objectStore("sessions").delete(sessionId),
+    ...sets.map((s) => tx.objectStore("setResults").delete(s.id)),
+    ...feedbackRows.map((f) => tx.objectStore("feedback").delete([f.sessionId, f.exerciseId])),
+  ]);
+  await tx.done;
+}
+
 // --- Series -----------------------------------------------------------------
 
 export async function upsertSetResult(result: SetResult): Promise<void> {

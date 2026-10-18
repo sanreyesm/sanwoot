@@ -5,6 +5,7 @@ import { getExercise } from "../data/exercises";
 import { getPrescription } from "../data/prescription";
 import { Icon } from "../components/Icon";
 import { Badge } from "../components/Badge";
+import { buildSessionSummaryText, shareSessionSummary } from "../lib/session-summary";
 
 const RPE_LABELS: Record<number, string> = {
   0: "Nada de esfuerzo",
@@ -21,11 +22,13 @@ const RPE_LABELS: Record<number, string> = {
 };
 
 export function CierreScreen() {
-  const { session, sets, finishSession, discardActiveSessionView } = useSession();
+  const { session, sets, feedback, finishSession, discardActiveSessionView } = useSession();
   const navigate = useNavigate();
   const [rpe, setRpe] = useState(session?.rpe ?? 5);
   const [note, setNote] = useState(session?.sessionNote ?? "");
   const [saved, setSaved] = useState(false);
+  const [shareResult, setShareResult] = useState<"shared" | "copied" | "manual" | null>(null);
+  const [summaryText, setSummaryText] = useState("");
 
   if (!session) {
     return (
@@ -45,7 +48,13 @@ export function CierreScreen() {
 
   const onSave = async () => {
     await finishSession(rpe, note);
+    setSummaryText(buildSessionSummaryText({ ...session, rpe, sessionNote: note }, sets, feedback));
     setSaved(true);
+  };
+
+  const onShare = async () => {
+    const result = await shareSessionSummary(summaryText);
+    setShareResult(result);
   };
 
   if (saved) {
@@ -57,6 +66,16 @@ export function CierreScreen() {
           <Badge variant={isComplete ? "complete" : "partial"}>{isComplete ? "Completa" : "Parcial"}</Badge>
           {!isComplete && <span className="text-muted">Quedan {partial.length} ejercicio(s) sin registrar.</span>}
         </div>
+        <button className="btn btn--secondary btn--large" onClick={onShare}>
+          <Icon name="share" size={20} />
+          Compartir resumen con mi entrenadora
+        </button>
+        {shareResult === "shared" && <p className="text-muted">Compartido.</p>}
+        {shareResult === "copied" && <p className="text-muted">Copiado. Pégalo donde quieras enviarlo.</p>}
+        {shareResult === "manual" && (
+          <textarea readOnly rows={6} value={summaryText} onClick={(e) => (e.target as HTMLTextAreaElement).select()} />
+        )}
+
         <button
           className="btn btn--primary btn--large"
           onClick={() => {

@@ -5,7 +5,7 @@ import type { Exercise } from "../types";
 
 const STORAGE_KEY = "sanwoot-exercise-overrides";
 
-export type ExerciseOverride = Partial<Pick<Exercise, "muscleGroup" | "floor">>;
+export type ExerciseOverride = Partial<Pick<Exercise, "muscleGroup" | "floor" | "myNote">>;
 
 function readAll(): Record<string, ExerciseOverride> {
   try {

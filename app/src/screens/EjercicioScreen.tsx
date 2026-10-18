@@ -10,6 +10,7 @@ import { Badge } from "../components/Badge";
 import { getLastSetsForExercise } from "../lib/db";
 import { saveClip, listClipsForExercise, deleteClip, getClipBlob } from "../lib/clips-db";
 import { validateAttachment } from "../lib/camera";
+import { setOverride } from "../lib/exercise-overrides";
 import type { PersonalClip, SetResult } from "../types";
 
 export function EjercicioScreen() {
@@ -22,6 +23,7 @@ export function EjercicioScreen() {
   const [weight, setWeight] = useState("");
   const [clips, setClips] = useState<PersonalClip[]>([]);
   const [videoError, setVideoError] = useState<string | null>(null);
+  const [myNote, setMyNote] = useState("");
   const recordInputRef = useRef<HTMLInputElement | null>(null);
   const attachInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -29,6 +31,10 @@ export function EjercicioScreen() {
     getLastSetsForExercise(exerciseId, session?.id).then(setLastSets);
     listClipsForExercise(exerciseId).then(setClips);
   }, [exerciseId, session?.id]);
+
+  useEffect(() => {
+    setMyNote(getExercise(exerciseId)?.myNote ?? "");
+  }, [exerciseId]);
 
   if (!session) {
     return (
@@ -69,6 +75,11 @@ export function EjercicioScreen() {
   };
 
   const refreshClips = () => listClipsForExercise(exerciseId).then(setClips);
+
+  const saveMyNote = (value: string) => {
+    setMyNote(value);
+    setOverride(exerciseId, { myNote: value });
+  };
 
   const persistClip = async (file: File, source: "recorded" | "attached") => {
     const error = validateAttachment(file);
@@ -137,6 +148,17 @@ export function EjercicioScreen() {
       <h1 style={{ fontSize: 34 }}>{exercise.name}</h1>
 
       <DemoPlayer file={demo.file} confidence={demo.confidence} note={demo.note} referenceUrl={exercise.referenceUrl} />
+
+      <div className="set-input__field">
+        <label htmlFor="my-note">Tu nota sobre este ejercicio (queda guardada siempre, no solo hoy)</label>
+        <textarea
+          id="my-note"
+          rows={2}
+          placeholder='Ej. "es con mancuerna", "en COROS es el parecido a este pero con plancha normal"'
+          value={myNote}
+          onChange={(e) => saveMyNote(e.target.value)}
+        />
+      </div>
 
       {exercise.needsConfirmation && (
         <div role="note" className="banner banner--warn">

@@ -22,6 +22,8 @@ export interface Exercise {
   /** true si algo de esta ficha (variante, repeticiones, nombre) está pendiente de confirmar con el coach. */
   needsConfirmation: boolean;
   confirmationNote?: string;
+  /** Nota propia de San sobre el ejercicio (ej. "es con mancuerna"), no sobre una sesión puntual. */
+  myNote?: string;
 }
 
 /** Estado de una demostración en video para un ejercicio. */

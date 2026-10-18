@@ -56,6 +56,22 @@ body {
   min-height: 100vh;
 }
 
+/* Reset de controles nativos. Sin esto, un <button> o <select> sin estilo
+   propio hereda la apariencia del sistema operativo en vez de nuestros
+   colores — en iOS Safari eso tiñe el texto con el color de acento del
+   sistema, distinto a lo que se ve en Chrome de escritorio. Esto es lo que
+   causaba, por ejemplo, que "Día 1" / "Día 2" en Hoy se viera de otro color
+   en el iPhone. */
+button,
+select,
+input:not([type="range"]),
+textarea {
+  color: inherit;
+  font: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
 .app-shell {
   display: flex;
   flex-direction: column;
@@ -674,6 +690,15 @@ textarea:focus-visible,
 .select:focus-visible {
   border-color: var(--accent);
   outline: 4px solid var(--accent-light-bg);
+}
+
+/* appearance:none (arriba) le saca la flechita nativa al <select>; se
+   repone a mano para que se siga viendo como un desplegable. */
+select.select {
+  padding-right: 36px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2355525c' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
 }
 
 textarea {

@@ -67,15 +67,15 @@ export function AjustesScreen() {
 
       <section className="card">
         <p className="card__title">Demostraciones guardadas</p>
-        <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap" }}>
-          <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 40, fontVariantNumeric: "tabular-nums" }}>
+        <div style={{ display: "flex", alignItems: "baseline", gap: 6, flexWrap: "wrap" }}>
+          <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 32, fontVariantNumeric: "tabular-nums" }}>
             {demoBytes == null ? "…" : `${catalog.length}`}
           </span>
           <span className="text-muted">ejercicios · {demoBytes == null ? "calculando…" : formatMb(demoBytes)}</span>
         </div>
         <p className="text-muted">Necesita wifi. Liberar espacio borra las demostraciones, no tus registros ni tus videos.</p>
         <button className="btn btn--primary" onClick={prepareFullCatalog} disabled={working}>
-          <Icon name="download" size={20} />
+          <Icon name="download" size={16} />
           {working && progress ? `Preparando… ${progress.done}/${progress.total}` : "Preparar catálogo completo"}
         </button>
         <button className="btn btn--outline" onClick={clearDemos}>Liberar espacio</button>
@@ -83,8 +83,8 @@ export function AjustesScreen() {
 
       <section className="card">
         <p className="card__title">Tus videos</p>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
-          <span style={{ fontSize: 17 }}><strong>{clipCount} videos</strong> · {clipBytes != null ? formatMb(clipBytes) : "—"}</span>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+          <span style={{ fontSize: 14 }}><strong>{clipCount} videos</strong> · {clipBytes != null ? formatMb(clipBytes) : "—"}</span>
           <Badge variant="device">Solo en este teléfono</Badge>
         </div>
       </section>
@@ -92,11 +92,11 @@ export function AjustesScreen() {
       <section className="card">
         <p className="card__title">Editar ejercicios</p>
         <p className="text-muted">Cambia tren superior/inferior/core o el piso. Se guarda en este teléfono.</p>
-        <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
           {exercises.map((ex) => (
-            <div key={ex.id} className="connection-row" style={{ gap: 8 }}>
-              <span className="connection-row__name" style={{ fontSize: 16 }}>{ex.name}</span>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+            <div key={ex.id} className="connection-row" style={{ gap: 6 }}>
+              <span className="connection-row__name" style={{ fontSize: 13 }}>{ex.name}</span>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
                 <select
                   className="select"
                   value={ex.muscleGroup ?? ""}

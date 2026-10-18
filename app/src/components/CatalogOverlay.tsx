@@ -24,7 +24,7 @@ export function CatalogOverlay({ onPick, onClose }: CatalogOverlayProps) {
       <div className="catalog-overlay__header">
         <p className="card__title" style={{ margin: 0 }}>Catálogo de videos</p>
         <button className="icon-btn" aria-label="Cerrar" onClick={onClose}>
-          <Icon name="close" size={20} strokeWidth={2.6} />
+          <Icon name="close" size={16} strokeWidth={2.6} />
         </button>
       </div>
       <input
@@ -35,7 +35,7 @@ export function CatalogOverlay({ onPick, onClose }: CatalogOverlayProps) {
         onChange={(e) => setQuery(e.target.value)}
         className="catalog-overlay__search"
       />
-      {results.length === 0 && <p className="text-muted" style={{ padding: "0 20px" }}>Sin resultados.</p>}
+      {results.length === 0 && <p className="text-muted" style={{ padding: "0 16px" }}>Sin resultados.</p>}
       <div className="catalog-overlay__grid">
         {results.map((c) => (
           <button key={c.file} className="catalog-thumb-card" onClick={() => onPick(c.file)}>

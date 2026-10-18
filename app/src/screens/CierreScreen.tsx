@@ -62,12 +62,12 @@ export function CierreScreen() {
     return (
       <div className="screen">
         <h1>Sesión guardada</h1>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <Badge variant={isComplete ? "complete" : "partial"}>{isComplete ? "Completa" : "Parcial"}</Badge>
           {!isComplete && <span className="text-muted">Quedan {partial.length} ejercicio(s) sin registrar.</span>}
         </div>
         <button className="btn btn--secondary btn--large" onClick={onShare}>
-          <Icon name="share" size={20} />
+          <Icon name="share" size={16} />
           Compartir resumen con mi entrenadora
         </button>
         {shareResult === "shared" && <p className="text-muted">Compartido.</p>}
@@ -95,20 +95,20 @@ export function CierreScreen() {
   return (
     <div className="screen">
       <button className="exercise-nav__back" onClick={() => navigate("/rutina")}>
-        <Icon name="chevron-left" size={24} strokeWidth={2.6} />
+        <Icon name="chevron-left" size={19} strokeWidth={2.6} />
         Rutina
       </button>
       <div className="eyebrow">Día {session.day}</div>
       <h1>Cierre</h1>
 
       <section className="card">
-        <p className="card__title" style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <p className="card__title" style={{ display: "flex", alignItems: "center", gap: 6 }}>
           <Badge variant="complete">Completos</Badge>
-          <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 22 }}>{complete.length}</span>
+          <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 18 }}>{complete.length}</span>
         </p>
         <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
           {complete.map((p) => (
-            <li key={p.id} style={{ display: "flex", justifyContent: "space-between", padding: "10px 0", borderBottom: "1px solid var(--border)", fontSize: 17 }}>
+            <li key={p.id} style={{ display: "flex", justifyContent: "space-between", padding: "8px 0", borderBottom: "1px solid var(--border)", fontSize: 14 }}>
               <span style={{ fontWeight: 700 }}>{getExercise(p.exerciseId)?.name}</span>
             </li>
           ))}
@@ -117,13 +117,13 @@ export function CierreScreen() {
 
       {partial.length > 0 && (
         <section className="card" style={{ border: "2px solid var(--warn-bg)", boxShadow: "none" }}>
-          <p className="card__title" style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <p className="card__title" style={{ display: "flex", alignItems: "center", gap: 6 }}>
             <Badge variant="unregistered">Sin registrar</Badge>
-            <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 22 }}>{partial.length}</span>
+            <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 18 }}>{partial.length}</span>
           </p>
           <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
             {partial.map((p) => (
-              <li key={p.id} style={{ padding: "10px 0", borderBottom: "1px solid var(--border)", fontSize: 17, fontWeight: 700 }}>
+              <li key={p.id} style={{ padding: "8px 0", borderBottom: "1px solid var(--border)", fontSize: 14, fontWeight: 700 }}>
                 {getExercise(p.exerciseId)?.name}
               </li>
             ))}
@@ -136,13 +136,13 @@ export function CierreScreen() {
 
       {skipped.length > 0 && (
         <section className="card card--muted">
-          <p className="card__title" style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <p className="card__title" style={{ display: "flex", alignItems: "center", gap: 6 }}>
             <Badge variant="skipped">Omitidos</Badge>
-            <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 22 }}>{skipped.length}</span>
+            <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 18 }}>{skipped.length}</span>
           </p>
           <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
             {skipped.map((p) => (
-              <li key={p.id} style={{ padding: "8px 0", fontSize: 17, fontWeight: 700 }}>{getExercise(p.exerciseId)?.name}</li>
+              <li key={p.id} style={{ padding: "6px 0", fontSize: 14, fontWeight: 700 }}>{getExercise(p.exerciseId)?.name}</li>
             ))}
           </ul>
         </section>
@@ -155,7 +155,7 @@ export function CierreScreen() {
             <span className="stepper__number stepper__number--accent">{rpe}</span>
             <span style={{ display: "flex", flexDirection: "column", gap: 2 }}>
               <span className="stepper__unit">de 10</span>
-              <span style={{ fontSize: 17, fontWeight: 700 }}>{RPE_LABELS[rpe]}</span>
+              <span style={{ fontSize: 14, fontWeight: 700 }}>{RPE_LABELS[rpe]}</span>
             </span>
           </div>
           <div className="stepper__row">

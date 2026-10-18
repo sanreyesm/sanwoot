@@ -50,9 +50,9 @@ export function YoutubeEmbed({ videoId, referenceUrl, vertical }: YoutubeEmbedPr
     return (
       <div className={className} style={{ background: "var(--neutral-bg)" }}>
         <div className="demo-player__blocked">
-          <Icon name="no-connection" size={28} strokeWidth={2.2} />
+          <Icon name="no-connection" size={22} strokeWidth={2.2} />
           <p style={{ margin: 0, fontWeight: 700 }}>No se puede ver aquí</p>
-          <p className="text-muted" style={{ margin: 0, fontSize: 14 }}>
+          <p className="text-muted" style={{ margin: 0, fontSize: 11 }}>
             Quien subió este video a YouTube no permite reproducirlo embebido en otros sitios.
           </p>
           <a className="btn btn--secondary" href={referenceUrl} target="_blank" rel="noreferrer">

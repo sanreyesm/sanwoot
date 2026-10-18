@@ -87,7 +87,7 @@ export function RutinaScreen() {
               {presc.repsText ? ` · ${presc.repsText}` : ""}
             </span>
           </span>
-          <Icon name="chevron-right" size={22} strokeWidth={2.4} />
+          <Icon name="chevron-right" size={18} strokeWidth={2.4} />
         </button>
 
         <div className="exercise-list__bottom">
@@ -105,7 +105,7 @@ export function RutinaScreen() {
               onClick={() => move(index, -1)}
               disabled={index === 0}
             >
-              <Icon name="arrow-up" size={20} strokeWidth={2.6} />
+              <Icon name="arrow-up" size={16} strokeWidth={2.6} />
             </button>
             <button
               className="icon-btn"
@@ -113,13 +113,13 @@ export function RutinaScreen() {
               onClick={() => move(index, 1)}
               disabled={index === order.length - 1}
             >
-              <Icon name="arrow-down" size={20} strokeWidth={2.6} />
+              <Icon name="arrow-down" size={16} strokeWidth={2.6} />
             </button>
           </div>
         </div>
 
         <button className="btn btn--neutral" onClick={() => toggleSkip(exerciseId)}>
-          {skipped ? <Icon name="undo" size={16} /> : <Icon name="skip" size={16} />}
+          {skipped ? <Icon name="undo" size={13} /> : <Icon name="skip" size={13} />}
           {skipped ? "Recuperar" : "Omitir"}
         </button>
       </li>
@@ -129,7 +129,7 @@ export function RutinaScreen() {
   return (
     <div className="screen">
       <button className="exercise-nav__back" onClick={() => navigate("/")}>
-        <Icon name="chevron-left" size={24} strokeWidth={2.6} />
+        <Icon name="chevron-left" size={19} strokeWidth={2.6} />
         Hoy
       </button>
       <div className="eyebrow">Día {session.day} · {order.length} ejercicios</div>
@@ -137,8 +137,8 @@ export function RutinaScreen() {
       <p className="text-muted">Toca un ejercicio para abrirlo. Usa las flechas para cambiar el orden de hoy.</p>
 
       {groups.map((group, gi) => (
-        <div key={gi} style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-          <h2 className="eyebrow" style={{ margin: "4px 0 0" }}>
+        <div key={gi} style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          <h2 className="eyebrow" style={{ margin: "3px 0 0" }}>
             {group.isWarmup ? "🔸 Calentamiento" : "Entrenamiento principal"}
           </h2>
           <ol className="exercise-list">{group.rows.map(renderRow)}</ol>
@@ -147,7 +147,7 @@ export function RutinaScreen() {
 
       <button className="btn btn--primary btn--large" onClick={() => navigate("/cierre")}>
         Terminar y revisar
-        <Icon name="arrow-right" size={22} strokeWidth={2.8} />
+        <Icon name="arrow-right" size={18} strokeWidth={2.8} />
       </button>
     </div>
   );

@@ -85,7 +85,7 @@ export function MisVideosScreen() {
       <h1>Mis videos</h1>
 
       <div role="note" className="banner" style={{ background: "var(--accent-light-bg)", color: "var(--accent-light-text)" }}>
-        <Icon name="device" size={22} strokeWidth={2.2} />
+        <Icon name="device" size={18} strokeWidth={2.2} />
         <div>
           <div className="banner__title">Solo en este teléfono</div>
           <div>Nada se sube a la nube todavía. Si borras la app o cambias de teléfono, se pierden. Compártelos para respaldarlos.</div>
@@ -95,7 +95,7 @@ export function MisVideosScreen() {
       {exerciseIds.length > 0 && (
         <div role="group" aria-label="Filtrar por ejercicio" className="filter-row">
           <button className={`filter-chip${filter === "all" ? " filter-chip--active" : ""}`} aria-pressed={filter === "all"} onClick={() => setFilter("all")}>
-            {filter === "all" && <Icon name="check" size={14} strokeWidth={3} />}
+            {filter === "all" && <Icon name="check" size={11} strokeWidth={3} />}
             Todos · {clips.length}
           </button>
           {exerciseIds.map((id) => {
@@ -115,7 +115,7 @@ export function MisVideosScreen() {
         {visible.map((clip) => (
           <li key={clip.id} className="clip-card">
             <button className="clip-card__thumb" aria-label={`Reproducir video, ${formatDuration(clip.durationSeconds)}`} onClick={() => play(clip)}>
-              <Icon name="play" size={28} />
+              <Icon name="play" size={22} />
               {clip.durationSeconds != null && <span className="clip-card__duration">{formatDuration(clip.durationSeconds)}</span>}
             </button>
             <div className="clip-card__body">
@@ -124,7 +124,7 @@ export function MisVideosScreen() {
               <Badge variant="device">{(clip.size / 1024 / 1024).toFixed(1)} MB</Badge>
               <div className="camera-actions">
                 <button className="icon-btn" aria-label="Compartir video" onClick={() => share(clip)}>
-                  <Icon name="share" size={20} />
+                  <Icon name="share" size={16} />
                 </button>
                 <button
                   className="icon-btn icon-btn--danger"
@@ -134,7 +134,7 @@ export function MisVideosScreen() {
                     refresh();
                   }}
                 >
-                  <Icon name="trash" size={20} />
+                  <Icon name="trash" size={16} />
                 </button>
               </div>
             </div>

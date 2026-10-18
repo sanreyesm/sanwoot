@@ -139,16 +139,16 @@ export function EjercicioScreen() {
     <div className="screen">
       <div className="exercise-nav">
         <button className="exercise-nav__back" onClick={() => navigate("/rutina")}>
-          <Icon name="chevron-left" size={24} strokeWidth={2.6} />
+          <Icon name="chevron-left" size={19} strokeWidth={2.6} />
           Rutina
         </button>
         <div className="exercise-nav__pager">
           <button className="icon-btn" aria-label={prevId ? `Ejercicio anterior: ${getExercise(prevId)?.name}` : "Sin ejercicio anterior"} disabled={!prevId} onClick={() => prevId && navigate(`/ejercicio/${prevId}`)}>
-            <Icon name="chevron-left" size={22} strokeWidth={2.6} />
+            <Icon name="chevron-left" size={18} strokeWidth={2.6} />
           </button>
           <span className="exercise-nav__count">{currentIndex + 1} de {order.length}</span>
           <button className="icon-btn" aria-label={nextId ? `Ejercicio siguiente: ${getExercise(nextId)?.name}` : "Sin ejercicio siguiente"} disabled={!nextId} onClick={() => nextId && navigate(`/ejercicio/${nextId}`)}>
-            <Icon name="chevron-right" size={22} strokeWidth={2.6} />
+            <Icon name="chevron-right" size={18} strokeWidth={2.6} />
           </button>
         </div>
       </div>
@@ -157,7 +157,7 @@ export function EjercicioScreen() {
         {exercise.muscleGroup ? `${exercise.muscleGroup} · ` : ""}
         {floorLabel(exercise.floor)} · Día {session.day}
       </div>
-      <h1 style={{ fontSize: 34 }}>{exercise.name}</h1>
+      <h1 style={{ fontSize: 27 }}>{exercise.name}</h1>
 
       <DemoPlayer
         key={demoVersion}
@@ -173,10 +173,10 @@ export function EjercicioScreen() {
       <div className="set-input__field">
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <label htmlFor="my-note" style={{ margin: 0 }}>
-            <Icon name="device" size={14} strokeWidth={2.4} /> Tu nota privada (solo para ti, nunca se le envía a tu entrenadora)
+            <Icon name="device" size={11} strokeWidth={2.4} /> Tu nota privada (solo para ti, nunca se le envía a tu entrenadora)
           </label>
           {!editingNote && (
-            <button className="icon-btn" aria-label="Editar tu nota" onClick={startEditingNote} style={{ width: 36, height: 36 }}>
+            <button className="icon-btn" aria-label="Editar tu nota" onClick={startEditingNote} style={{ width: 29, height: 29 }}>
               ✏️
             </button>
           )}
@@ -196,7 +196,7 @@ export function EjercicioScreen() {
             <button className="btn btn--outline" onClick={() => setEditingNote(false)}>Cancelar</button>
           </div>
         ) : (
-          <span className="text-muted" style={{ fontSize: 13, textTransform: "none", fontWeight: 400, letterSpacing: 0 }}>
+          <span className="text-muted" style={{ fontSize: 10, textTransform: "none", fontWeight: 400, letterSpacing: 0 }}>
             Queda guardada siempre para este ejercicio, no solo en la sesión de hoy.
           </span>
         )}
@@ -204,7 +204,7 @@ export function EjercicioScreen() {
 
       {exercise.needsConfirmation && (
         <div role="note" className="banner banner--warn">
-          <Icon name="warning" size={24} strokeWidth={2.4} />
+          <Icon name="warning" size={19} strokeWidth={2.4} />
           <div>
             <div className="banner__title">Por confirmar con el coach</div>
             <div>{exercise.confirmationNote}</div>
@@ -228,7 +228,7 @@ export function EjercicioScreen() {
             <dd style={{ fontSize: prescription.loadText && prescription.loadText.length > 8 ? 18 : 32 }}>{prescription.loadText ?? "–"}</dd>
           </div>
         </dl>
-        <div style={{ fontSize: 16, borderTop: "1px solid var(--border)", paddingTop: 10 }}>
+        <div style={{ fontSize: 13, borderTop: "1px solid var(--border)", paddingTop: 10 }}>
           <span className="text-muted">Equipo</span> <strong>{exercise.equipment}</strong>
         </div>
       </section>
@@ -236,9 +236,9 @@ export function EjercicioScreen() {
       {lastSets.length > 0 && (
         <section className="card card--muted">
           <p className="card__title">
-            <Icon name="history" size={16} strokeWidth={2.4} /> La vez anterior
+            <Icon name="history" size={13} strokeWidth={2.4} /> La vez anterior
           </p>
-          <div style={{ fontSize: 18, fontWeight: 700, fontVariantNumeric: "tabular-nums" }}>
+          <div style={{ fontSize: 14, fontWeight: 700, fontVariantNumeric: "tabular-nums" }}>
             {lastSets.map((s) => `${s.reps ?? "–"} × ${s.weightKg ?? "–"}kg`).join(" · ")}
           </div>
         </section>
@@ -255,7 +255,7 @@ export function EjercicioScreen() {
               <span className="set-history__label">Serie {i + 1}</span>
               <span className="set-history__value">{s.reps ?? "–"} × {s.weightKg ?? "–"} kg</span>
               <button className="icon-btn icon-btn--danger" aria-label={`Quitar serie ${i + 1}: ${s.reps ?? "–"} reps con ${s.weightKg ?? "–"} kg`} onClick={() => removeSet(s.id)}>
-                <Icon name="close" size={20} strokeWidth={2.6} />
+                <Icon name="close" size={16} strokeWidth={2.6} />
               </button>
             </li>
           ))}
@@ -263,14 +263,14 @@ export function EjercicioScreen() {
         <div className="set-input">
           <div className="set-input__field">
             <label htmlFor="reps-input">Reps · serie {mySets.length + 1}</label>
-            <input id="reps-input" type="text" inputMode="numeric" value={reps} onChange={(e) => setReps(e.target.value)} />
+            <input id="reps-input" className="input--big" type="text" inputMode="numeric" value={reps} onChange={(e) => setReps(e.target.value)} />
           </div>
           <div className="set-input__field">
             <label htmlFor="weight-input">Peso (kg)</label>
-            <input id="weight-input" type="text" inputMode="decimal" value={weight} onChange={(e) => setWeight(e.target.value)} />
+            <input id="weight-input" className="input--big" type="text" inputMode="decimal" value={weight} onChange={(e) => setWeight(e.target.value)} />
           </div>
           <button className="btn btn--primary" onClick={onAddSet}>
-            <Icon name="plus" size={22} strokeWidth={3} />
+            <Icon name="plus" size={18} strokeWidth={3} />
             Agregar serie {mySets.length + 1}
           </button>
         </div>
@@ -302,7 +302,7 @@ export function EjercicioScreen() {
 
       <div className="set-input__field">
         <label htmlFor="comment-input">
-          <Icon name="share" size={14} strokeWidth={2.4} /> Comentario para tu entrenadora (opcional)
+          <Icon name="share" size={11} strokeWidth={2.4} /> Comentario para tu entrenadora (opcional)
         </label>
         <textarea
           id="comment-input"
@@ -311,7 +311,7 @@ export function EjercicioScreen() {
           value={fb?.note ?? ""}
           onChange={(e) => setFeedback(exerciseId, { note: e.target.value })}
         />
-        <span className="text-muted" style={{ fontSize: 13, textTransform: "none", fontWeight: 400, letterSpacing: 0 }}>
+        <span className="text-muted" style={{ fontSize: 10, textTransform: "none", fontWeight: 400, letterSpacing: 0 }}>
           Va en el resumen que compartes al terminar la sesión. Uno por ejercicio, de hoy.
         </span>
       </div>
@@ -322,7 +322,7 @@ export function EjercicioScreen() {
         <button
           type="button"
           className="connection-row"
-          style={{ border: "none", background: "none", textAlign: "left", cursor: "pointer", padding: "6px 0" }}
+          style={{ border: "none", background: "none", textAlign: "left", cursor: "pointer", padding: "5px 0" }}
           onClick={() => setFeedback(exerciseId, { videoSent: !videoSent })}
         >
           <div className="connection-row__head">
@@ -334,11 +334,11 @@ export function EjercicioScreen() {
 
         <div className="camera-actions">
           <button className="btn btn--record" onClick={() => recordInputRef.current?.click()}>
-            <Icon name="record-dot" size={18} />
+            <Icon name="record-dot" size={14} />
             Grabar
           </button>
           <button className="btn btn--outline" onClick={() => attachInputRef.current?.click()}>
-            <Icon name="attach" size={18} />
+            <Icon name="attach" size={14} />
             Adjuntar
           </button>
           {/* capture="environment" abre la cámara nativa real (con selector de
@@ -363,7 +363,7 @@ export function EjercicioScreen() {
 
         {videoError && (
           <div role="alert" className="banner banner--error">
-            <Icon name="warning" size={22} strokeWidth={2.4} />
+            <Icon name="warning" size={18} strokeWidth={2.4} />
             <div>{videoError}</div>
           </div>
         )}
@@ -371,7 +371,7 @@ export function EjercicioScreen() {
         {clips.map((c) => (
           <div key={c.id} className="clip-row">
             <button className="clip-row__thumb" aria-label="Reproducir video" onClick={() => play(c)}>
-              <Icon name="play" size={20} />
+              <Icon name="play" size={16} />
             </button>
             <div className="clip-row__meta">
               <div className="clip-row__title">{c.source === "recorded" ? "Grabación" : "Adjunto"} · {(c.size / 1024 / 1024).toFixed(1)} MB</div>
@@ -385,21 +385,21 @@ export function EjercicioScreen() {
                 refreshClips();
               }}
             >
-              <Icon name="trash" size={18} />
+              <Icon name="trash" size={14} />
             </button>
           </div>
         ))}
       </section>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         {nextExercise && (
           <button className="btn btn--primary btn--large" onClick={() => nextId && navigate(`/ejercicio/${nextId}`)}>
             Siguiente · {nextExercise.name}
-            <Icon name="arrow-right" size={20} strokeWidth={2.8} />
+            <Icon name="arrow-right" size={16} strokeWidth={2.8} />
           </button>
         )}
-        <button className="btn btn--neutral" style={{ width: "100%", minHeight: 52 }} onClick={() => toggleSkip(exerciseId)}>
-          <Icon name="skip" size={18} />
+        <button className="btn btn--neutral" style={{ width: "100%", minHeight: 42 }} onClick={() => toggleSkip(exerciseId)}>
+          <Icon name="skip" size={14} />
           {skipped ? "Deshacer omitir" : "Omitir este ejercicio"}
         </button>
       </div>

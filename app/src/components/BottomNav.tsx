@@ -18,7 +18,7 @@ export function BottomNav() {
           end={item.to === "/"}
           className={({ isActive }) => `bottom-nav__item${isActive ? " bottom-nav__item--active" : ""}`}
         >
-          <Icon name={item.icon} size={22} strokeWidth={2.2} />
+          <Icon name={item.icon} size={18} strokeWidth={2.2} />
           <span>{item.label}</span>
         </NavLink>
       ))}

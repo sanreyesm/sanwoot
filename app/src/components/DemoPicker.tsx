@@ -45,16 +45,16 @@ export function DemoPicker({ exerciseId, active, onChange }: DemoPickerProps) {
     <>
       <div className="camera-actions">
         <button className="btn btn--outline" onClick={() => setYoutubeOpen(true)}>
-          <Icon name="share" size={16} strokeWidth={2.2} />
+          <Icon name="share" size={13} strokeWidth={2.2} />
           Link YouTube
         </button>
         <button className="btn btn--outline" onClick={() => setCatalogOpen(true)}>
-          <Icon name="video" size={16} strokeWidth={2.2} />
+          <Icon name="video" size={13} strokeWidth={2.2} />
           Catálogo videos
         </button>
         {active && (
           <button className="btn btn--neutral" onClick={clearChoice}>
-            <Icon name="undo" size={16} />
+            <Icon name="undo" size={13} />
             Volver al automático
           </button>
         )}

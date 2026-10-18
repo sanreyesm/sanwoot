@@ -69,22 +69,22 @@ export function EjercicioPreviewScreen() {
     <div className="screen">
       <div className="exercise-nav">
         <button className="exercise-nav__back" onClick={() => navigate(`/dia/${day}`)}>
-          <Icon name="chevron-left" size={24} strokeWidth={2.6} />
+          <Icon name="chevron-left" size={19} strokeWidth={2.6} />
           Día {day}
         </button>
         <div className="exercise-nav__pager">
           <button className="icon-btn" aria-label="Ejercicio anterior" disabled={!prevId} onClick={() => prevId && navigate(`/dia/${day}/ejercicio/${prevId}`)}>
-            <Icon name="chevron-left" size={22} strokeWidth={2.6} />
+            <Icon name="chevron-left" size={18} strokeWidth={2.6} />
           </button>
           <span className="exercise-nav__count">{currentIndex + 1} de {order.length}</span>
           <button className="icon-btn" aria-label="Ejercicio siguiente" disabled={!nextId} onClick={() => nextId && navigate(`/dia/${day}/ejercicio/${nextId}`)}>
-            <Icon name="chevron-right" size={22} strokeWidth={2.6} />
+            <Icon name="chevron-right" size={18} strokeWidth={2.6} />
           </button>
         </div>
       </div>
 
       <div className="eyebrow">Vista informativa · {exercise.muscleGroup ? `${exercise.muscleGroup} · ` : ""}{floorLabel(exercise.floor)}</div>
-      <h1 style={{ fontSize: 34 }}>{exercise.name}</h1>
+      <h1 style={{ fontSize: 27 }}>{exercise.name}</h1>
 
       <DemoPlayer
         key={demoVersion}
@@ -99,7 +99,7 @@ export function EjercicioPreviewScreen() {
 
       {exercise.needsConfirmation && (
         <div role="note" className="banner banner--warn">
-          <Icon name="warning" size={24} strokeWidth={2.4} />
+          <Icon name="warning" size={19} strokeWidth={2.4} />
           <div>
             <div className="banner__title">Por confirmar con el coach</div>
             <div>{exercise.confirmationNote}</div>
@@ -123,7 +123,7 @@ export function EjercicioPreviewScreen() {
             <dd style={{ fontSize: prescription.loadText && prescription.loadText.length > 8 ? 18 : 32 }}>{prescription.loadText ?? "–"}</dd>
           </div>
         </dl>
-        <div style={{ fontSize: 16, borderTop: "1px solid var(--border)", paddingTop: 10 }}>
+        <div style={{ fontSize: 13, borderTop: "1px solid var(--border)", paddingTop: 10 }}>
           <span className="text-muted">Equipo</span> <strong>{exercise.equipment}</strong>
         </div>
       </section>
@@ -131,9 +131,9 @@ export function EjercicioPreviewScreen() {
       {lastSets.length > 0 && (
         <section className="card card--muted">
           <p className="card__title">
-            <Icon name="history" size={16} strokeWidth={2.4} /> La vez anterior
+            <Icon name="history" size={13} strokeWidth={2.4} /> La vez anterior
           </p>
-          <div style={{ fontSize: 18, fontWeight: 700, fontVariantNumeric: "tabular-nums" }}>
+          <div style={{ fontSize: 14, fontWeight: 700, fontVariantNumeric: "tabular-nums" }}>
             {lastSets.map((s) => `${s.reps ?? "–"} × ${s.weightKg ?? "–"}kg`).join(" · ")}
           </div>
         </section>
@@ -142,10 +142,10 @@ export function EjercicioPreviewScreen() {
       <div className="set-input__field">
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <label htmlFor="my-note-preview" style={{ margin: 0 }}>
-            <Icon name="device" size={14} strokeWidth={2.4} /> Tu nota privada (solo para ti, nunca se le envía a tu entrenadora)
+            <Icon name="device" size={11} strokeWidth={2.4} /> Tu nota privada (solo para ti, nunca se le envía a tu entrenadora)
           </label>
           {!editingNote && (
-            <button className="icon-btn" aria-label="Editar tu nota" onClick={startEditingNote} style={{ width: 36, height: 36 }}>
+            <button className="icon-btn" aria-label="Editar tu nota" onClick={startEditingNote} style={{ width: 29, height: 29 }}>
               ✏️
             </button>
           )}
@@ -170,7 +170,7 @@ export function EjercicioPreviewScreen() {
       <section className="card">
         <p className="card__title">Ajustar este ejercicio</p>
         <p className="text-muted">Se guarda en este teléfono y se aplica en toda la app.</p>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
           <select className="select" value={exercise.muscleGroup ?? ""} onChange={(e) => editExercise({ muscleGroup: e.target.value })}>
             <option value="">Sin clasificar</option>
             {MUSCLE_GROUPS.map((g) => (

@@ -110,7 +110,7 @@ export function HistorialScreen() {
         </div>
         <div style={{ position: "relative" }}>
           <button className="icon-btn" aria-label="Exportar" aria-haspopup="true" aria-expanded={exportMenuOpen} onClick={() => setExportMenuOpen((v) => !v)}>
-            <Icon name="download" size={20} strokeWidth={2.2} />
+            <Icon name="download" size={16} strokeWidth={2.2} />
           </button>
           {exportMenuOpen && (
             <>
@@ -120,10 +120,10 @@ export function HistorialScreen() {
                 style={{
                   position: "absolute",
                   right: 0,
-                  top: "calc(100% + 6px)",
+                  top: "calc(100% + 5px)",
                   zIndex: 20,
                   minWidth: 180,
-                  padding: 8,
+                  padding: 6,
                   gap: 2,
                 }}
               >
@@ -156,17 +156,17 @@ export function HistorialScreen() {
       <section className="card">
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <button className="icon-btn" aria-label="Mes anterior" onClick={() => setMonth((m) => new Date(m.getFullYear(), m.getMonth() - 1, 1))}>
-            <Icon name="chevron-left" size={20} strokeWidth={2.6} />
+            <Icon name="chevron-left" size={16} strokeWidth={2.6} />
           </button>
           <p className="card__title" style={{ margin: 0, textTransform: "none" }}>{monthLabel}</p>
           <button className="icon-btn" aria-label="Mes siguiente" onClick={() => setMonth((m) => new Date(m.getFullYear(), m.getMonth() + 1, 1))}>
-            <Icon name="chevron-right" size={20} strokeWidth={2.6} />
+            <Icon name="chevron-right" size={16} strokeWidth={2.6} />
           </button>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(7, minmax(0, 1fr))", gap: 4, textAlign: "center" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(7, minmax(0, 1fr))", gap: 3, textAlign: "center" }}>
           {WEEKDAY_LABELS.map((w, i) => (
-            <span key={i} className="eyebrow" style={{ fontSize: 11 }}>{w}</span>
+            <span key={i} className="eyebrow" style={{ fontSize: 9 }}>{w}</span>
           ))}
           {grid.map((d) => {
             const key = dateKey(d);
@@ -187,7 +187,7 @@ export function HistorialScreen() {
                   background: isSelected ? "var(--accent-light-bg)" : "transparent",
                   color: inMonth ? "var(--ink)" : "var(--border-strong)",
                   fontWeight: key === todayKey ? 800 : 500,
-                  fontSize: 15,
+                  fontSize: 12,
                   cursor: daySessions ? "pointer" : "default",
                   display: "flex",
                   alignItems: "center",
@@ -199,9 +199,9 @@ export function HistorialScreen() {
                   <span
                     style={{
                       position: "absolute",
-                      bottom: 4,
-                      width: 6,
-                      height: 6,
+                      bottom: 3,
+                      width: 5,
+                      height: 5,
                       borderRadius: 999,
                       background: status === "complete" ? "var(--complete)" : "var(--accent)",
                     }}
@@ -217,21 +217,21 @@ export function HistorialScreen() {
 
       {selectedSession && detail && (
         <section className="card">
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
             <p className="card__title" style={{ margin: 0 }}>
               {new Date(selectedSession.startedAt).toLocaleDateString("es-CL", { weekday: "long", day: "numeric", month: "long" })} · Día {selectedSession.day}
             </p>
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
               <Badge variant={STATUS[selectedSession.status].variant}>{STATUS[selectedSession.status].label}</Badge>
               <button className="icon-btn icon-btn--danger" aria-label="Eliminar esta sesión" onClick={() => setConfirmingDelete(true)}>
-                <Icon name="trash" size={18} />
+                <Icon name="trash" size={14} />
               </button>
             </div>
           </div>
           {confirmingDelete && (
             <div className="banner banner--error">
-              <Icon name="warning" size={22} strokeWidth={2.4} />
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              <Icon name="warning" size={18} strokeWidth={2.4} />
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                 <div>¿Eliminar esta sesión? No se puede deshacer.</div>
                 <div className="camera-actions">
                   <button className="btn btn--primary" style={{ background: "var(--error-text)" }} onClick={onDeleteSession}>
@@ -254,29 +254,29 @@ export function HistorialScreen() {
               const isSkipped = selectedSession.skippedExerciseIds.includes(exerciseId);
               if (isSkipped) {
                 return (
-                  <li key={exerciseId} style={{ padding: "12px 0", borderBottom: "1px solid var(--border)" }}>
-                    <div style={{ fontWeight: 700, fontSize: 17 }}>{name}</div>
+                  <li key={exerciseId} style={{ padding: "10px 0", borderBottom: "1px solid var(--border)" }}>
+                    <div style={{ fontWeight: 700, fontSize: 14 }}>{name}</div>
                     <Badge variant="skipped">Omitido</Badge>
                   </li>
                 );
               }
               if (exSets.length === 0) {
                 return (
-                  <li key={exerciseId} style={{ padding: "12px 0", borderBottom: "1px solid var(--border)" }}>
-                    <div style={{ fontWeight: 700, fontSize: 17 }}>{name}</div>
+                  <li key={exerciseId} style={{ padding: "10px 0", borderBottom: "1px solid var(--border)" }}>
+                    <div style={{ fontWeight: 700, fontSize: 14 }}>{name}</div>
                     <Badge variant="unregistered">Sin registrar</Badge>
                   </li>
                 );
               }
               return (
-                <li key={exerciseId} style={{ padding: "12px 0", borderBottom: "1px solid var(--border)", display: "flex", flexDirection: "column", gap: 4 }}>
-                  <div style={{ fontWeight: 700, fontSize: 17 }}>{name}</div>
-                  <div style={{ fontSize: 16, fontVariantNumeric: "tabular-nums" }}>
+                <li key={exerciseId} style={{ padding: "10px 0", borderBottom: "1px solid var(--border)", display: "flex", flexDirection: "column", gap: 3 }}>
+                  <div style={{ fontWeight: 700, fontSize: 14 }}>{name}</div>
+                  <div style={{ fontSize: 13, fontVariantNumeric: "tabular-nums" }}>
                     {exSets.map((s) => `${s.reps ?? "–"} × ${s.weightKg ?? "–"}`).join(" · ")} kg
                   </div>
                   {fb?.rir != null && <div className="eyebrow">RIR {fb.rir}</div>}
                   {fb?.note && (
-                    <div style={{ fontSize: 15, background: "var(--screen-bg)", borderRadius: 14, padding: "8px 12px" }}>
+                    <div style={{ fontSize: 12, background: "var(--screen-bg)", borderRadius: 14, padding: "6px 10px" }}>
                       &ldquo;{fb.note}&rdquo;
                     </div>
                   )}

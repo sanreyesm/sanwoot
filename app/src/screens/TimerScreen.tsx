@@ -120,7 +120,7 @@ export function TimerScreen() {
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 800,
-            fontSize: 72,
+            fontSize: 58,
             fontVariantNumeric: "tabular-nums",
             color: finished ? "var(--accent)" : "var(--ink)",
           }}
@@ -131,13 +131,13 @@ export function TimerScreen() {
         <div className="camera-actions" style={{ width: "100%" }}>
           {!running ? (
             <button className="btn btn--primary" onClick={start} disabled={mode === "countdown" && remaining === 0}>
-              <Icon name="play" size={18} /> {elapsed > 0 || remaining !== presetSeconds ? "Continuar" : "Empezar"}
+              <Icon name="play" size={14} /> {elapsed > 0 || remaining !== presetSeconds ? "Continuar" : "Empezar"}
             </button>
           ) : (
             <button className="btn btn--outline" onClick={pause}>Pausar</button>
           )}
           <button className="btn btn--neutral" onClick={reset}>
-            <Icon name="undo" size={16} /> Reiniciar
+            <Icon name="undo" size={13} /> Reiniciar
           </button>
         </div>
       </section>
@@ -161,7 +161,7 @@ export function TimerScreen() {
               <label htmlFor="custom-min">Minutos a mano</label>
               <input id="custom-min" type="text" inputMode="decimal" value={customInput} onChange={(e) => setCustomInput(e.target.value)} placeholder="Ej. 1.5" />
             </div>
-            <button className="btn btn--secondary" style={{ alignSelf: "end", minHeight: 64 }} onClick={applyCustom}>Usar</button>
+            <button className="btn btn--secondary" style={{ alignSelf: "end", minHeight: 51 }} onClick={applyCustom}>Usar</button>
           </div>
         </section>
       )}

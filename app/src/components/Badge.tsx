@@ -38,7 +38,7 @@ export function Badge({ variant, children }: { variant: BadgeVariant; children: 
         border: v.border ? `1.5px ${v.dashed ? "dashed" : "solid"} ${v.border}` : undefined,
       }}
     >
-      <Icon name={v.icon} size={14} />
+      <Icon name={v.icon} size={11} />
       <span>{children}</span>
     </span>
   );

@@ -81,18 +81,18 @@ export function HoyScreen() {
         <h1>Hoy</h1>
 
         <section className="card card--current">
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
-            <span style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--accent-light-text)" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 6 }}>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 10, fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--accent-light-text)" }}>
               <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><circle cx="5" cy="5" r="5" fill="var(--accent)" /></svg>
               Sesión en curso
             </span>
             <span className="text-muted">desde las {new Date(session.startedAt).toLocaleTimeString("es-CL", { hour: "2-digit", minute: "2-digit" })}</span>
           </div>
-          <h2 style={{ margin: 0, fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 34 }}>Día {session.day}</h2>
+          <h2 style={{ margin: 0, fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 27 }}>Día {session.day}</h2>
           <div>
             <strong>{completeCount} de {total}</strong> ejercicios con registro
           </div>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
             <Badge variant="complete">{completeCount} completos</Badge>
             {skippedCount > 0 && <Badge variant="skipped">{skippedCount} omitido{skippedCount > 1 ? "s" : ""}</Badge>}
             <Badge variant="unregistered">{total - completeCount - skippedCount} sin registrar</Badge>
@@ -100,19 +100,19 @@ export function HoyScreen() {
           {currentExercise && (
             <div style={{ borderTop: "1px solid var(--border)", paddingTop: 12 }}>
               <div className="eyebrow">Ibas en</div>
-              <div style={{ fontSize: 17 }}>
+              <div style={{ fontSize: 14 }}>
                 <strong>{currentExercise.name}</strong>
               </div>
             </div>
           )}
         </section>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           <button className="btn btn--primary btn--large" onClick={() => navigate("/rutina")}>
             Continuar entrenamiento
-            <Icon name="arrow-right" size={22} strokeWidth={2.8} />
+            <Icon name="arrow-right" size={18} strokeWidth={2.8} />
           </button>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
             <button className="btn btn--secondary" onClick={() => navigate("/rutina")}>
               Ver rutina
             </button>
@@ -128,7 +128,7 @@ export function HoyScreen() {
         <section className="card card--muted">
           <p className="card__title">Opciones adicionales</p>
           <button className="btn btn--outline" style={{ width: "100%" }} onClick={() => navigate("/ajustes")}>
-            <Icon name="settings" size={18} strokeWidth={2.2} />
+            <Icon name="settings" size={14} strokeWidth={2.2} />
             Ajustes
           </button>
         </section>
@@ -142,17 +142,17 @@ export function HoyScreen() {
     const ready = cachedCount != null && cachedCount === demoFiles.length;
 
     return (
-      <section key={day} className="card" style={{ gap: 14 }}>
+      <section key={day} className="card" style={{ gap: 11 }}>
         <button
           type="button"
           onClick={() => navigate(`/dia/${day}`)}
-          style={{ background: "none", border: "none", padding: 0, textAlign: "left", cursor: "pointer", display: "flex", flexDirection: "column", gap: 8 }}
+          style={{ background: "none", border: "none", padding: 0, textAlign: "left", cursor: "pointer", display: "flex", flexDirection: "column", gap: 6 }}
         >
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <h2 style={{ margin: 0, fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 34 }}>Día {day}</h2>
-            <Icon name="chevron-right" size={24} strokeWidth={2.4} />
+            <h2 style={{ margin: 0, fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 27 }}>Día {day}</h2>
+            <Icon name="chevron-right" size={19} strokeWidth={2.4} />
           </div>
-          <div style={{ fontSize: 16, color: "var(--muted)" }}>
+          <div style={{ fontSize: 13, color: "var(--muted)" }}>
             {prescription.length} ejercicios · {totalSets} series{floors.length > 0 ? ` · ${floors.map((f) => FLOOR_LABEL[f]).join(" y ")}` : ""}
           </div>
         </button>
@@ -160,7 +160,7 @@ export function HoyScreen() {
         {cachedCount == null ? (
           <p className="text-muted" style={{ margin: 0 }}>Comprobando demostraciones…</p>
         ) : (
-          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8 }}>
+          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 6 }}>
             {ready ? (
               <Badge variant="offline">Listo para usar sin conexión</Badge>
             ) : (
@@ -174,13 +174,13 @@ export function HoyScreen() {
                   }}
                   disabled={preparingDay === day}
                 >
-                  <Icon name="download" size={14} />
+                  <Icon name="download" size={11} />
                   {preparingDay === day && progress ? `${progress.done}/${progress.total}` : "Preparar con wifi"}
                 </button>
               </>
             )}
             {pendingExercises.length > 0 && (
-              <span className="text-muted" style={{ fontSize: 13 }}>
+              <span className="text-muted" style={{ fontSize: 10 }}>
                 {pendingExercises.length} ejercicio(s) sin video del catálogo.
               </span>
             )}
@@ -189,7 +189,7 @@ export function HoyScreen() {
 
         <button className="btn btn--primary btn--large" onClick={() => navigate(`/dia/${day}`)}>
           Ver rutina
-          <Icon name="arrow-right" size={22} strokeWidth={2.8} />
+          <Icon name="arrow-right" size={18} strokeWidth={2.8} />
         </button>
       </section>
     );
@@ -207,7 +207,7 @@ export function HoyScreen() {
       <section className="card card--muted">
         <p className="card__title">Opciones adicionales</p>
         <button className="btn btn--outline" style={{ width: "100%" }} onClick={() => navigate("/ajustes")}>
-          <Icon name="settings" size={18} strokeWidth={2.2} />
+          <Icon name="settings" size={14} strokeWidth={2.2} />
           Ajustes
         </button>
       </section>

@@ -92,7 +92,7 @@ export function DemoPlayer({ file, confidence, note, referenceUrl, youtubeUrl, c
         {cached === true && <Badge variant="offline">Disponible offline</Badge>}
         {cached === false && (
           <button className="btn btn--small" onClick={prepare} disabled={preparing}>
-            <Icon name="download" size={16} />
+            <Icon name="download" size={13} />
             {preparing ? "Guardando…" : "Guardar para sin conexión"}
           </button>
         )}

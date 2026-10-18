@@ -27,6 +27,10 @@ self.addEventListener("install", (event) => {
     (async () => {
       const cache = await caches.open(APP_SHELL_CACHE);
       await cache.addAll(shellUrls);
+      // Activa la versión nueva sin esperar a que se cierren todas las
+      // pestañas: en iOS eso casi nunca pasa y la app quedaba mostrando
+      // una versión vieja aunque ya hubiera un arreglo publicado.
+      await self.skipWaiting();
     })()
   );
 });

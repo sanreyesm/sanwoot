@@ -45,7 +45,7 @@ export function DiaPreviewScreen() {
   return (
     <div className="screen" style={{ paddingBottom: 100 }}>
       <button className="exercise-nav__back" onClick={() => navigate("/")}>
-        <Icon name="chevron-left" size={24} strokeWidth={2.6} />
+        <Icon name="chevron-left" size={19} strokeWidth={2.6} />
         Hoy
       </button>
       <div className="eyebrow">Vista informativa · no inicia registro</div>
@@ -53,8 +53,8 @@ export function DiaPreviewScreen() {
       <p className="text-muted">{prescription.length} ejercicios · {totalSets} series. Toca uno para ver su detalle.</p>
 
       {groups.map((group, gi) => (
-        <div key={gi} style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-          <h2 className="eyebrow" style={{ margin: "4px 0 0" }}>
+        <div key={gi} style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          <h2 className="eyebrow" style={{ margin: "3px 0 0" }}>
             {group.isWarmup ? "🔸 Calentamiento" : "Entrenamiento principal"}
           </h2>
           <ol className="exercise-list">
@@ -72,7 +72,7 @@ export function DiaPreviewScreen() {
                         {p.repsText ? ` · ${p.repsText}` : ""}
                       </span>
                     </span>
-                    <Icon name="chevron-right" size={22} strokeWidth={2.4} />
+                    <Icon name="chevron-right" size={18} strokeWidth={2.4} />
                   </button>
                 </li>
               );
@@ -84,7 +84,7 @@ export function DiaPreviewScreen() {
       <div className="fixed-action-bar">
         <button className="btn btn--primary btn--large" onClick={onStart}>
           Hacer rutina
-          <Icon name="arrow-right" size={22} strokeWidth={2.8} />
+          <Icon name="arrow-right" size={18} strokeWidth={2.8} />
         </button>
       </div>
     </div>

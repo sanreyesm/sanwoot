@@ -3,7 +3,8 @@ import { cacheDemo, isDemoCached } from "../lib/demo-cache";
 import type { DemoConfidence } from "../data/demo-map";
 import { Badge } from "./Badge";
 import { Icon } from "./Icon";
-import { getYoutubeEmbedUrl, isYoutubeShorts } from "../lib/youtube";
+import { YoutubeEmbed } from "./YoutubeEmbed";
+import { getYoutubeVideoId, isYoutubeShorts } from "../lib/youtube";
 
 interface DemoPlayerProps {
   file?: string;
@@ -28,20 +29,12 @@ export function DemoPlayer({ file, confidence, note, referenceUrl, youtubeUrl, c
 
   // Video de YouTube elegido a mano por San: siempre tiene prioridad.
   if (youtubeUrl) {
-    const embedUrl = getYoutubeEmbedUrl(youtubeUrl);
+    const videoId = getYoutubeVideoId(youtubeUrl);
     const vertical = isYoutubeShorts(youtubeUrl);
     return (
       <div className="demo-player">
-        {embedUrl ? (
-          <div className={`demo-player__embed${vertical ? " demo-player__embed--vertical" : ""}`}>
-            <iframe
-              src={embedUrl}
-              title="Video elegido por ti"
-              allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              loading="lazy"
-            />
-          </div>
+        {videoId ? (
+          <YoutubeEmbed videoId={videoId} referenceUrl={youtubeUrl} vertical={vertical} />
         ) : (
           <p className="demo-player__note demo-player__note--error">
             Ese enlace no parece ser de YouTube. Edítalo en "Ajustar este ejercicio".
@@ -56,23 +49,15 @@ export function DemoPlayer({ file, confidence, note, referenceUrl, youtubeUrl, c
   }
 
   if (confidence === "pending" || !file) {
-    const embedUrl = referenceUrl ? getYoutubeEmbedUrl(referenceUrl) : null;
+    const videoId = referenceUrl ? getYoutubeVideoId(referenceUrl) : null;
     const vertical = referenceUrl ? isYoutubeShorts(referenceUrl) : false;
     return (
       <div className="demo-player demo-player--pending">
         <p className="demo-player__title">Demostración pendiente</p>
         {note && <p className="demo-player__note">{note}</p>}
-        {embedUrl ? (
+        {videoId && referenceUrl ? (
           <>
-            <div className={`demo-player__embed${vertical ? " demo-player__embed--vertical" : ""}`}>
-              <iframe
-                src={embedUrl}
-                title="Referencia en YouTube"
-                allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                loading="lazy"
-              />
-            </div>
+            <YoutubeEmbed videoId={videoId} referenceUrl={referenceUrl} vertical={vertical} />
             <p className="demo-player__note">Este video es de YouTube: requiere conexión, no queda guardado para usar sin señal.</p>
           </>
         ) : referenceUrl ? (

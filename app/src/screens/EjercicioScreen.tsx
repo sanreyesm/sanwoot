@@ -150,7 +150,9 @@ export function EjercicioScreen() {
       <DemoPlayer file={demo.file} confidence={demo.confidence} note={demo.note} referenceUrl={exercise.referenceUrl} />
 
       <div className="set-input__field">
-        <label htmlFor="my-note">Tu nota sobre este ejercicio (queda guardada siempre, no solo hoy)</label>
+        <label htmlFor="my-note">
+          <Icon name="device" size={14} strokeWidth={2.4} /> Tu nota privada (solo para ti, nunca se le envía a tu entrenadora)
+        </label>
         <textarea
           id="my-note"
           rows={2}
@@ -158,6 +160,9 @@ export function EjercicioScreen() {
           value={myNote}
           onChange={(e) => saveMyNote(e.target.value)}
         />
+        <span className="text-muted" style={{ fontSize: 13, textTransform: "none", fontWeight: 400, letterSpacing: 0 }}>
+          Queda guardada siempre para este ejercicio, no solo en la sesión de hoy.
+        </span>
       </div>
 
       {exercise.needsConfirmation && (
@@ -259,7 +264,9 @@ export function EjercicioScreen() {
       </section>
 
       <div className="set-input__field">
-        <label htmlFor="comment-input">Comentario (opcional)</label>
+        <label htmlFor="comment-input">
+          <Icon name="share" size={14} strokeWidth={2.4} /> Comentario para tu entrenadora (opcional)
+        </label>
         <textarea
           id="comment-input"
           rows={3}
@@ -267,6 +274,9 @@ export function EjercicioScreen() {
           value={fb?.note ?? ""}
           onChange={(e) => setFeedback(exerciseId, { note: e.target.value })}
         />
+        <span className="text-muted" style={{ fontSize: 13, textTransform: "none", fontWeight: 400, letterSpacing: 0 }}>
+          Va en el resumen que compartes al terminar la sesión. Uno por ejercicio, de hoy.
+        </span>
       </div>
 
       <section className="card">

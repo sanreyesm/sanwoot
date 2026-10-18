@@ -176,7 +176,7 @@ export function CierreScreen() {
       </section>
 
       <div className="set-input__field">
-        <label htmlFor="cierre-comment">Comentario de cierre (opcional)</label>
+        <label htmlFor="cierre-comment">Comentario de fin de sesión para tu entrenadora (opcional)</label>
         <textarea id="cierre-comment" rows={3} value={note} onChange={(e) => setNote(e.target.value)} />
       </div>
 

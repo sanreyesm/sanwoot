@@ -14,38 +14,54 @@ function formatToday(): string {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-export function HoyScreen() {
-  const { session, sets, startSession, loading } = useSession();
-  const navigate = useNavigate();
-  const [selectedDay, setSelectedDay] = useState<Day>(1);
-  const [cachedCount, setCachedCount] = useState<number | null>(null);
-  const [progress, setProgress] = useState<CacheAllProgress | null>(null);
-  const [preparing, setPreparing] = useState(false);
+const FLOOR_LABEL: Record<string, string> = { "-1": "Piso -1", "3": "Piso 3" };
 
-  const prescription = getPrescription(selectedDay);
+function dayStats(day: Day) {
+  const prescription = getPrescription(day);
+  const totalSets = prescription.reduce((sum, p) => sum + p.sets, 0);
+  const floors = Array.from(
+    new Set(
+      prescription
+        .map((p) => getExercise(p.exerciseId)?.floor)
+        .filter((f): f is "-1" | "3" => f === "-1" || f === "3")
+    )
+  ).sort();
   const demoFiles = prescription
     .map((p) => resolveDemoFile(p.exerciseId))
     .filter((d) => d.confidence !== "pending" && d.file)
     .map((d) => d.file!) as string[];
   const pendingExercises = prescription.filter((p) => resolveDemoFile(p.exerciseId).confidence === "pending");
+  return { prescription, totalSets, floors, demoFiles, pendingExercises };
+}
+
+export function HoyScreen() {
+  const { session, sets, startSession, loading } = useSession();
+  const navigate = useNavigate();
+  const [cachedByDay, setCachedByDay] = useState<Record<Day, number | null>>({ 1: null, 2: null });
+  const [preparingDay, setPreparingDay] = useState<Day | null>(null);
+  const [progress, setProgress] = useState<CacheAllProgress | null>(null);
+
+  const stats1 = dayStats(1);
+  const stats2 = dayStats(2);
 
   useEffect(() => {
-    setCachedCount(null);
-    getCachedDemoCount(demoFiles).then(setCachedCount);
+    getCachedDemoCount(stats1.demoFiles).then((n) => setCachedByDay((c) => ({ ...c, 1: n })));
+    getCachedDemoCount(stats2.demoFiles).then((n) => setCachedByDay((c) => ({ ...c, 2: n })));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedDay]);
+  }, []);
 
-  const prepareOffline = async () => {
-    setPreparing(true);
+  const prepareOffline = async (day: Day) => {
+    const { demoFiles } = day === 1 ? stats1 : stats2;
+    setPreparingDay(day);
     await cacheAllDemos(demoFiles, setProgress);
     const count = await getCachedDemoCount(demoFiles);
-    setCachedCount(count);
-    setPreparing(false);
+    setCachedByDay((c) => ({ ...c, [day]: count }));
+    setPreparingDay(null);
     setProgress(null);
   };
 
-  const onStart = async () => {
-    await startSession(selectedDay);
+  const onStart = async (day: Day) => {
+    await startSession(day);
     navigate("/rutina");
   };
 
@@ -125,61 +141,73 @@ export function HoyScreen() {
     );
   }
 
-  const ready = cachedCount != null && cachedCount === demoFiles.length;
+  const renderDayCard = (day: Day) => {
+    const { prescription, totalSets, floors, demoFiles, pendingExercises } = day === 1 ? stats1 : stats2;
+    const cachedCount = cachedByDay[day];
+    const ready = cachedCount != null && cachedCount === demoFiles.length;
+
+    return (
+      <section key={day} className="card" style={{ gap: 14 }}>
+        <button
+          type="button"
+          onClick={() => onStart(day)}
+          style={{ background: "none", border: "none", padding: 0, textAlign: "left", cursor: "pointer", display: "flex", flexDirection: "column", gap: 8 }}
+        >
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <h2 style={{ margin: 0, fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 34 }}>Día {day}</h2>
+            <Icon name="chevron-right" size={24} strokeWidth={2.4} />
+          </div>
+          <div style={{ fontSize: 16, color: "var(--muted)" }}>
+            {prescription.length} ejercicios · {totalSets} series{floors.length > 0 ? ` · ${floors.map((f) => FLOOR_LABEL[f]).join(" y ")}` : ""}
+          </div>
+        </button>
+
+        {cachedCount == null ? (
+          <p className="text-muted" style={{ margin: 0 }}>Comprobando demostraciones…</p>
+        ) : (
+          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8 }}>
+            {ready ? (
+              <Badge variant="offline">Listo para usar sin conexión</Badge>
+            ) : (
+              <>
+                <Badge variant="pending">{cachedCount} de {demoFiles.length} demos listas</Badge>
+                <button
+                  className="btn btn--small"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    prepareOffline(day);
+                  }}
+                  disabled={preparingDay === day}
+                >
+                  <Icon name="download" size={14} />
+                  {preparingDay === day && progress ? `${progress.done}/${progress.total}` : "Preparar con wifi"}
+                </button>
+              </>
+            )}
+            {pendingExercises.length > 0 && (
+              <span className="text-muted" style={{ fontSize: 13 }}>
+                {pendingExercises.length} ejercicio(s) sin video del catálogo.
+              </span>
+            )}
+          </div>
+        )}
+
+        <button className="btn btn--primary btn--large" onClick={() => onStart(day)}>
+          Comenzar Día {day}
+          <Icon name="arrow-right" size={22} strokeWidth={2.8} />
+        </button>
+      </section>
+    );
+  };
 
   return (
     <div className="screen">
       <div className="eyebrow">{formatToday()}</div>
       <h1>Hoy toca</h1>
+      <p className="text-muted">Toca una rutina para ver el detalle y empezar.</p>
 
-      <div className="day-picker" role="group" aria-label="Día de entrenamiento">
-        {[1, 2].map((d) => (
-          <button
-            key={d}
-            type="button"
-            aria-pressed={selectedDay === d}
-            className={`day-picker__btn${selectedDay === d ? " day-picker__btn--selected" : ""}`}
-            onClick={() => setSelectedDay(d as Day)}
-          >
-            {selectedDay === d && <Icon name="check" size={18} strokeWidth={3} />}
-            Día {d}
-          </button>
-        ))}
-      </div>
-      <div className="eyebrow">{prescription.length} ejercicios</div>
-
-      <section className="card">
-        <p className="card__title">Sin señal</p>
-        {cachedCount == null ? (
-          <p>Comprobando…</p>
-        ) : (
-          <>
-            <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-              <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 30 }}>
-                {cachedCount} de {demoFiles.length}
-              </span>
-              <span className="text-muted">demostraciones listas</span>
-            </div>
-            {pendingExercises.length > 0 && (
-              <Badge variant="pending">
-                Pendientes · {pendingExercises.map((p) => getExercise(p.exerciseId)?.name).join(", ")}
-              </Badge>
-            )}
-            {!ready && (
-              <button className="btn btn--secondary" onClick={prepareOffline} disabled={preparing}>
-                <Icon name="download" size={20} />
-                {preparing && progress ? `Preparando… ${progress.done}/${progress.total}` : "Preparar con wifi"}
-              </button>
-            )}
-            {ready && <Badge variant="offline">Listo para usar sin conexión</Badge>}
-          </>
-        )}
-      </section>
-
-      <button className="btn btn--primary btn--large" onClick={onStart}>
-        Comenzar Día {selectedDay}
-        <Icon name="arrow-right" size={22} strokeWidth={2.8} />
-      </button>
+      {renderDayCard(1)}
+      {renderDayCard(2)}
 
       <section className="card card--muted">
         <p className="card__title">Opciones adicionales</p>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSession } from "../state/SessionContext";
-import { getPrescription } from "../data/prescription";
+import { getPrescription, PRESCRIPTION_WEEK, PRESCRIPTION_TOTAL_WEEKS } from "../data/prescription";
 import { getExercise } from "../data/exercises";
 import { resolveDemoFile } from "../data/demo-map";
 import { cacheAllDemos, getCachedDemoCount, type CacheAllProgress } from "../lib/demo-cache";
@@ -199,7 +199,9 @@ export function HoyScreen() {
     <div className="screen">
       <div className="eyebrow">{formatToday()}</div>
       <h1>Hoy toca</h1>
-      <p className="text-muted">Toca una rutina para ver el detalle y empezar.</p>
+      <p className="text-muted">
+        Semana {PRESCRIPTION_WEEK} de {PRESCRIPTION_TOTAL_WEEKS}. Toca una rutina para ver el detalle y empezar.
+      </p>
 
       {renderDayCard(1)}
       {renderDayCard(2)}

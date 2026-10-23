@@ -3,6 +3,7 @@ import { buildSessionSummaryText, shareSessionSummary } from "../lib/session-sum
 import { listSessions, getSetsForSession, getFeedbackForSession, deleteSession } from "../lib/db";
 import { getExercise } from "../data/exercises";
 import { buildBackup, buildSessionsCsv, downloadCsv, downloadJson } from "../lib/export";
+import { CopyChip } from "../components/CopyChip";
 import { Icon } from "../components/Icon";
 import { Badge, type BadgeVariant } from "../components/Badge";
 import type { ExerciseFeedback, SetResult, WorkoutSession } from "../types";
@@ -38,6 +39,11 @@ function buildMonthGrid(month: Date): Date[] {
     days.push(d);
   }
   return days;
+}
+
+// Coma decimal, como se escribe en la planilla ("2,5").
+function formatKg(kg: number | null | undefined): string {
+  return kg == null ? "-" : String(kg).replace(".", ",");
 }
 
 export function HistorialScreen() {
@@ -241,8 +247,12 @@ export function HistorialScreen() {
           </div>
           {shareStatus === "copied" && <p className="text-muted">Resumen copiado. Pégalo en WhatsApp.</p>}
           {shareStatus === "manual" && <p className="text-muted">Este navegador no permite compartir ni copiar automáticamente.</p>}
-          {selectedSession.rpe != null && <p className="text-muted">RPE {selectedSession.rpe}</p>}
-          {selectedSession.sessionNote && <p className="text-muted">{selectedSession.sessionNote}</p>}
+          {(selectedSession.rpe != null || selectedSession.sessionNote) && (
+            <div className="copy-chips">
+              {selectedSession.rpe != null && <CopyChip label="RPE final" value={String(selectedSession.rpe)} />}
+              {selectedSession.sessionNote && <CopyChip label="Fin de sesión" value={selectedSession.sessionNote} />}
+            </div>
+          )}
           <ul className="set-history">
             {selectedSession.exerciseOrder.map((exerciseId) => {
               const name = getExercise(exerciseId)?.name ?? exerciseId;
@@ -269,14 +279,14 @@ export function HistorialScreen() {
                 <li key={exerciseId} style={{ padding: "10px 0", borderBottom: "1px solid var(--border)", display: "flex", flexDirection: "column", gap: 3 }}>
                   <div style={{ fontWeight: 700, fontSize: 14 }}>{name}</div>
                   <div style={{ fontSize: 13, fontVariantNumeric: "tabular-nums" }}>
-                    {exSets.map((s) => `${s.reps ?? "–"} × ${s.weightKg ?? "–"}`).join(" · ")} kg
+                    {exSets.map((s) => `${s.reps ?? "–"} × ${formatKg(s.weightKg)}`).join(" · ")} kg
                   </div>
-                  {fb?.rir != null && <div className="eyebrow">RIR {fb.rir}</div>}
-                  {fb?.note && (
-                    <div style={{ fontSize: 12, background: "var(--screen-bg)", borderRadius: 14, padding: "6px 10px" }}>
-                      &ldquo;{fb.note}&rdquo;
-                    </div>
-                  )}
+                  <div className="copy-chips">
+                    <CopyChip label="Reps" value={exSets.map((s) => s.reps ?? "-").join("/")} />
+                    <CopyChip label="Carga" value={exSets.map((s) => formatKg(s.weightKg)).join("/")} />
+                    {fb?.rir != null && <CopyChip label="RIR" value={String(fb.rir)} />}
+                    {fb?.note && <CopyChip label="Comentario" value={fb.note} />}
+                  </div>
                 </li>
               );
             })}

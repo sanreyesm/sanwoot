@@ -29,6 +29,7 @@ export type IconName =
   | "device"
   | "share"
   | "trash"
+  | "copy"
   | "chevron-up"
   | "chevron-down"
   | "no-connection"
@@ -75,6 +76,7 @@ const PATHS: Record<IconName, { d: string[]; circles?: { cx: number; cy: number;
   device: { d: ["M11 18h2"], rect: { x: 7, y: 3, w: 10, h: 18, rx: 2 } },
   share: { d: ["M12 3v13M7 8l5-5 5 5M5 14v6h14v-6"] },
   trash: { d: ["M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"] },
+  copy: { d: ["M9 9h11v11H9z", "M5 15H4V4h11v1"] },
   "chevron-up": { d: ["M6 15l6-6 6 6"] },
   "chevron-down": { d: ["M6 9l6 6 6-6"] },
   "no-connection": { d: ["M3 3l18 18", "M9 3v4M15 3v4M7 7h10v4a5 5 0 0 1-1.5 3.6M9.6 15.6A5 5 0 0 1 7 11V7M12 16v5"] },

@@ -64,6 +64,8 @@ export function EjercicioScreen() {
   const skipped = session.skippedExerciseIds.includes(exerciseId);
   const rir = fb?.rir ?? 0;
   const videoSent = fb?.videoSent ?? false;
+  const setsDone = mySets.length >= prescription.sets;
+  const extraCount = Math.max(0, mySets.length - prescription.sets);
 
   const order = session.exerciseOrder;
   const currentIndex = order.indexOf(exerciseId);
@@ -250,31 +252,45 @@ export function EjercicioScreen() {
       <section className="card card--current">
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <p className="card__title" style={{ margin: 0, color: "var(--accent-light-text)", fontWeight: 800 }}>Hoy</p>
-          <Badge variant="partial">{mySets.length} de {prescription.sets} series</Badge>
+          <Badge variant={setsDone ? "complete" : "partial"}>
+            {Math.min(mySets.length, prescription.sets)} de {prescription.sets} series{extraCount > 0 ? ` · +${extraCount} extra` : ""}
+          </Badge>
         </div>
         <ul className="set-history" aria-label="Series registradas hoy">
-          {mySets.map((s, i) => (
-            <li key={s.id} className="set-history__row">
-              <span className="set-history__label">Serie {i + 1}</span>
-              <span className="set-history__value">{s.reps ?? "–"} × {s.weightKg ?? "–"} kg</span>
-              <button className="icon-btn icon-btn--danger" aria-label={`Quitar serie ${i + 1}: ${s.reps ?? "–"} reps con ${s.weightKg ?? "–"} kg`} onClick={() => removeSet(s.id)}>
-                <Icon name="close" size={16} strokeWidth={2.6} />
-              </button>
-            </li>
-          ))}
+          {mySets.map((s, i) => {
+            const isExtra = i >= prescription.sets;
+            const desc = `${s.reps ?? "–"} reps con ${s.weightKg ?? "–"} kg`;
+            return (
+              <li key={s.id} className={`set-history__row${isExtra ? " set-history__row--extra" : ""}`}>
+                <span className="set-history__label">{isExtra ? `Extra ${i + 1 - prescription.sets}` : `Serie ${i + 1}`}</span>
+                <span className="set-history__value">{s.reps ?? "–"} × {s.weightKg ?? "–"} kg</span>
+                <button className="icon-btn" aria-label={`Duplicar serie ${i + 1}: ${desc}`} onClick={() => addSet(exerciseId, s.reps, s.weightKg)}>
+                  <Icon name="copy" size={16} strokeWidth={2.4} />
+                </button>
+                <button className="icon-btn icon-btn--danger" aria-label={`Quitar serie ${i + 1}: ${desc}`} onClick={() => removeSet(s.id)}>
+                  <Icon name="close" size={16} strokeWidth={2.6} />
+                </button>
+              </li>
+            );
+          })}
         </ul>
+        {setsDone && (
+          <p className="set-history__done">
+            <Icon name="check" size={13} strokeWidth={2.8} /> Completaste las {prescription.sets} series de la pauta. Lo que agregues ahora queda como extra.
+          </p>
+        )}
         <div className="set-input">
           <div className="set-input__field">
-            <label htmlFor="reps-input">Reps · serie {mySets.length + 1}</label>
+            <label htmlFor="reps-input">Reps · {setsDone ? `extra ${extraCount + 1}` : `serie ${mySets.length + 1}`}</label>
             <input id="reps-input" className="input--big" type="text" inputMode="numeric" value={reps} onChange={(e) => setReps(e.target.value)} />
           </div>
           <div className="set-input__field">
             <label htmlFor="weight-input">Peso (kg)</label>
             <input id="weight-input" className="input--big" type="text" inputMode="decimal" value={weight} onChange={(e) => setWeight(e.target.value)} />
           </div>
-          <button className="btn btn--primary" onClick={onAddSet}>
+          <button className={`btn ${setsDone ? "btn--outline" : "btn--primary"}`} onClick={onAddSet}>
             <Icon name="plus" size={18} strokeWidth={3} />
-            Agregar serie {mySets.length + 1}
+            {setsDone ? "Agregar serie extra" : `Agregar serie ${mySets.length + 1}`}
           </button>
         </div>
       </section>

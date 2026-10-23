@@ -6,6 +6,7 @@ import { resolveDemo } from "../data/demo-map";
 import { DemoPlayer } from "../components/DemoPlayer";
 import { DemoPicker } from "../components/DemoPicker";
 import { Icon } from "../components/Icon";
+import { CoachComments } from "../components/CoachComments";
 import { getLastSetsForExercise } from "../lib/db";
 import { setOverride } from "../lib/exercise-overrides";
 import { MUSCLE_GROUPS, FLOORS, floorLabel } from "../data/exercise-options";
@@ -126,6 +127,7 @@ export function EjercicioPreviewScreen() {
         <div style={{ fontSize: 13, borderTop: "1px solid var(--border)", paddingTop: 10 }}>
           <span className="text-muted">Equipo</span> <strong>{exercise.equipment}</strong>
         </div>
+        <CoachComments prescription={prescription} />
       </section>
 
       {lastSets.length > 0 && (

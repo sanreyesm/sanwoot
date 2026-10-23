@@ -57,6 +57,8 @@ export interface Prescription {
   repsText: string | null;
   loadText: string | null;
   coachNote?: string;
+  /** Comentarios de celda que la coach dejó en el Sheet para este ejercicio. */
+  coachComments?: string[];
   isWarmup: boolean;
 }
 

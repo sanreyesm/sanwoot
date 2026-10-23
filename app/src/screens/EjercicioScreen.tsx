@@ -7,6 +7,7 @@ import { resolveDemo } from "../data/demo-map";
 import { DemoPlayer } from "../components/DemoPlayer";
 import { DemoPicker } from "../components/DemoPicker";
 import { Icon } from "../components/Icon";
+import { CoachComments } from "../components/CoachComments";
 import { Badge } from "../components/Badge";
 import { getLastSetsForExercise } from "../lib/db";
 import { saveClip, listClipsForExercise, deleteClip, getClipBlob } from "../lib/clips-db";
@@ -71,8 +72,9 @@ export function EjercicioScreen() {
   const nextExercise = nextId ? getExercise(nextId) : null;
 
   const onAddSet = async () => {
-    const r = reps.trim() === "" ? null : Number(reps);
-    const w = weight.trim() === "" ? null : Number(weight);
+    // El teclado del iPhone en español escribe coma decimal ("2,5").
+    const r = reps.trim() === "" ? null : Number(reps.trim().replace(",", "."));
+    const w = weight.trim() === "" ? null : Number(weight.trim().replace(",", "."));
     if (r !== null && Number.isNaN(r)) return;
     if (w !== null && Number.isNaN(w)) return;
     await addSet(exerciseId, r, w);
@@ -231,6 +233,7 @@ export function EjercicioScreen() {
         <div style={{ fontSize: 13, borderTop: "1px solid var(--border)", paddingTop: 10 }}>
           <span className="text-muted">Equipo</span> <strong>{exercise.equipment}</strong>
         </div>
+        <CoachComments prescription={prescription} />
       </section>
 
       {lastSets.length > 0 && (

@@ -308,7 +308,7 @@ export function HistorialScreen() {
             </div>
           )}
           {!confirmingDelete && (
-            <button className="btn btn--neutral" style={{ width: "100%" }} onClick={() => setConfirmingDelete(true)}>
+            <button className="btn btn--outline" style={{ width: "100%", marginTop: 6 }} onClick={() => setConfirmingDelete(true)}>
               <Icon name="trash" size={14} />
               Eliminar sesión
             </button>

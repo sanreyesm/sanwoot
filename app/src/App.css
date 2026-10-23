@@ -181,8 +181,8 @@ h1 {
 
 .btn--outline {
   background: var(--card-bg);
-  color: var(--ink);
-  border: 2px solid var(--ink);
+  color: var(--accent);
+  border: 2px solid var(--accent);
   min-height: 42px;
   font-size: 14px;
 }
@@ -1293,8 +1293,17 @@ textarea {
 
 .copyable {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
+}
+
+/* El comentario se muestra entero, con sus saltos de línea: San lo usa
+   para hacerse seguimiento, no solo para copiarlo. */
+.copyable > :first-child {
+  flex: 1;
+  min-width: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 .copy-btn {

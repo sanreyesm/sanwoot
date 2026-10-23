@@ -28,7 +28,7 @@ export const PRESCRIPTION_DAY1: Prescription[] = [
 
 export const PRESCRIPTION_DAY2: Prescription[] = [
   { id: "d2-1", version: PRESCRIPTION_VERSION, day: 2, exerciseId: "rotation", order: 1, block: "Calentamiento", sets: 2, repsText: "6 por lado", loadText: "Sin carga", isWarmup: true },
-  { id: "d2-2", version: PRESCRIPTION_VERSION, day: 2, exerciseId: "er", order: 2, block: "Calentamiento", sets: 2, repsText: null, loadText: "2 kg", isWarmup: true, coachNote: "Repeticiones no indicadas en la pauta." },
+  { id: "d2-2", version: PRESCRIPTION_VERSION, day: 2, exerciseId: "er", order: 2, block: "Calentamiento", sets: 2, repsText: "5 por lado", loadText: "2 kg", isWarmup: true },
   { id: "d2-3", version: PRESCRIPTION_VERSION, day: 2, exerciseId: "hams", order: 3, block: "Calentamiento", sets: 2, repsText: "6 por lado", loadText: null, isWarmup: true },
   { id: "d2-4", version: PRESCRIPTION_VERSION, day: 2, exerciseId: "rdl", order: 4, block: "A", sets: 4, repsText: "8 a 10 por lado (tal como aparece en la pauta)", loadText: "20 / 30 kg / = / =", isWarmup: false },
   { id: "d2-5", version: PRESCRIPTION_VERSION, day: 2, exerciseId: "incline", order: 5, block: "B", sets: 3, repsText: "10 a 12", loadText: "10 × 5 kg / 10 × 5 kg / 8 × 6 kg", isWarmup: false, coachNote: "Por serie: repeticiones × kilos." },

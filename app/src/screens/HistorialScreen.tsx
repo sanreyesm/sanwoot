@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { buildSessionSummaryText, shareSessionSummary } from "../lib/session-summary";
 import { listSessions, getSetsForSession, getFeedbackForSession, deleteSession } from "../lib/db";
 import { getExercise } from "../data/exercises";
 import { buildBackup, buildSessionsCsv, downloadCsv, downloadJson } from "../lib/export";
@@ -46,6 +47,7 @@ export function HistorialScreen() {
   const [detail, setDetail] = useState<{ sets: SetResult[]; feedback: ExerciseFeedback[] } | null>(null);
   const [exportMenuOpen, setExportMenuOpen] = useState(false);
   const [confirmingDelete, setConfirmingDelete] = useState(false);
+  const [shareStatus, setShareStatus] = useState<"copied" | "manual" | null>(null);
 
   useEffect(() => {
     listSessions().then((all) => {
@@ -69,6 +71,7 @@ export function HistorialScreen() {
 
   useEffect(() => {
     setConfirmingDelete(false);
+    setShareStatus(null);
     if (!selectedDate) {
       setDetail(null);
       return;
@@ -90,6 +93,14 @@ export function HistorialScreen() {
   const todayKey = dateKey(new Date());
 
   const selectedSession = selectedDate ? sessionsByDate.get(selectedDate)?.[0] : null;
+
+  // Abre la hoja de compartir del iPhone (donde aparece WhatsApp) con el
+  // mismo resumen que se arma al cerrar una sesión.
+  const onShareSession = async () => {
+    if (!selectedSession || !detail) return;
+    const result = await shareSessionSummary(buildSessionSummaryText(selectedSession, detail.sets, detail.feedback));
+    setShareStatus(result === "shared" ? null : result);
+  };
 
   const onDeleteSession = async () => {
     if (!selectedSession) return;
@@ -223,27 +234,13 @@ export function HistorialScreen() {
             </p>
             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
               <Badge variant={STATUS[selectedSession.status].variant}>{STATUS[selectedSession.status].label}</Badge>
-              <button className="icon-btn icon-btn--danger" aria-label="Eliminar esta sesión" onClick={() => setConfirmingDelete(true)}>
-                <Icon name="trash" size={14} />
+              <button className="icon-btn" aria-label="Compartir resumen de esta sesión" onClick={onShareSession}>
+                <Icon name="share" size={15} strokeWidth={2.2} />
               </button>
             </div>
           </div>
-          {confirmingDelete && (
-            <div className="banner banner--error">
-              <Icon name="warning" size={18} strokeWidth={2.4} />
-              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                <div>¿Eliminar esta sesión? No se puede deshacer.</div>
-                <div className="camera-actions">
-                  <button className="btn btn--primary" style={{ background: "var(--error-text)" }} onClick={onDeleteSession}>
-                    Sí, eliminar
-                  </button>
-                  <button className="btn btn--outline" onClick={() => setConfirmingDelete(false)}>
-                    Cancelar
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
+          {shareStatus === "copied" && <p className="text-muted">Resumen copiado. Pégalo en WhatsApp.</p>}
+          {shareStatus === "manual" && <p className="text-muted">Este navegador no permite compartir ni copiar automáticamente.</p>}
           {selectedSession.rpe != null && <p className="text-muted">RPE {selectedSession.rpe}</p>}
           {selectedSession.sessionNote && <p className="text-muted">{selectedSession.sessionNote}</p>}
           <ul className="set-history">
@@ -284,6 +281,28 @@ export function HistorialScreen() {
               );
             })}
           </ul>
+          {confirmingDelete && (
+            <div className="banner banner--error">
+              <Icon name="warning" size={18} strokeWidth={2.4} />
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                <div>¿Eliminar esta sesión? No se puede deshacer.</div>
+                <div className="camera-actions">
+                  <button className="btn btn--primary" style={{ background: "var(--error-text)" }} onClick={onDeleteSession}>
+                    Sí, eliminar
+                  </button>
+                  <button className="btn btn--outline" onClick={() => setConfirmingDelete(false)}>
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+          {!confirmingDelete && (
+            <button className="btn btn--neutral" style={{ width: "100%" }} onClick={() => setConfirmingDelete(true)}>
+              <Icon name="trash" size={14} />
+              Eliminar sesión
+            </button>
+          )}
         </section>
       )}
     </div>

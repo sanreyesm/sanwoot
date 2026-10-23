@@ -1289,42 +1289,24 @@ textarea {
   }
 }
 
-/* Copiar valores del historial para pegarlos en el Sheet */
+/* Copiar comentarios del historial para pegarlos en el Sheet */
 
-.copy-chips {
+.copyable {
   display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-}
-
-.copy-chip {
-  display: inline-flex;
   align-items: center;
-  gap: 6px;
-  max-width: 100%;
-  min-height: 32px;
-  padding: 4px 10px;
-  border: 1.5px solid var(--border-strong);
-  border-radius: 999px;
-  background: var(--card-bg);
-  color: var(--ink);
-  font-size: 12px;
-  cursor: pointer;
+  gap: 8px;
 }
 
-.copy-chip__label {
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--muted);
+.copy-btn {
+  width: 32px;
+  height: 32px;
   flex: none;
-}
-
-.copy-chip__value {
-  font-weight: 700;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-width: 0;
+  border: none;
+  border-radius: 999px;
+  background: var(--accent-light-bg);
+  color: var(--accent-light-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }

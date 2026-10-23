@@ -3,7 +3,7 @@ import { buildSessionSummaryText, shareSessionSummary } from "../lib/session-sum
 import { listSessions, getSetsForSession, getFeedbackForSession, deleteSession } from "../lib/db";
 import { getExercise } from "../data/exercises";
 import { buildBackup, buildSessionsCsv, downloadCsv, downloadJson } from "../lib/export";
-import { CopyChip } from "../components/CopyChip";
+import { CopyButton } from "../components/CopyButton";
 import { Icon } from "../components/Icon";
 import { Badge, type BadgeVariant } from "../components/Badge";
 import type { ExerciseFeedback, SetResult, WorkoutSession } from "../types";
@@ -247,10 +247,11 @@ export function HistorialScreen() {
           </div>
           {shareStatus === "copied" && <p className="text-muted">Resumen copiado. Pégalo en WhatsApp.</p>}
           {shareStatus === "manual" && <p className="text-muted">Este navegador no permite compartir ni copiar automáticamente.</p>}
-          {(selectedSession.rpe != null || selectedSession.sessionNote) && (
-            <div className="copy-chips">
-              {selectedSession.rpe != null && <CopyChip label="RPE final" value={String(selectedSession.rpe)} />}
-              {selectedSession.sessionNote && <CopyChip label="Fin de sesión" value={selectedSession.sessionNote} />}
+          {selectedSession.rpe != null && <p className="text-muted">RPE {selectedSession.rpe}</p>}
+          {selectedSession.sessionNote && (
+            <div className="copyable">
+              <p className="text-muted" style={{ margin: 0, flex: 1 }}>{selectedSession.sessionNote}</p>
+              <CopyButton label="comentario de fin de sesión" value={selectedSession.sessionNote} />
             </div>
           )}
           <ul className="set-history">
@@ -281,12 +282,13 @@ export function HistorialScreen() {
                   <div style={{ fontSize: 13, fontVariantNumeric: "tabular-nums" }}>
                     {exSets.map((s) => `${s.reps ?? "–"} × ${formatKg(s.weightKg)}`).join(" · ")} kg
                   </div>
-                  <div className="copy-chips">
-                    <CopyChip label="Reps" value={exSets.map((s) => s.reps ?? "-").join("/")} />
-                    <CopyChip label="Carga" value={exSets.map((s) => formatKg(s.weightKg)).join("/")} />
-                    {fb?.rir != null && <CopyChip label="RIR" value={String(fb.rir)} />}
-                    {fb?.note && <CopyChip label="Comentario" value={fb.note} />}
-                  </div>
+                  {fb?.rir != null && <div className="eyebrow">RIR {fb.rir}</div>}
+                  {fb?.note && (
+                    <div className="copyable" style={{ fontSize: 12, background: "var(--screen-bg)", borderRadius: 14, padding: "6px 6px 6px 10px" }}>
+                      <span style={{ flex: 1 }}>&ldquo;{fb.note}&rdquo;</span>
+                      <CopyButton label={`comentario de ${name}`} value={fb.note} />
+                    </div>
+                  )}
                 </li>
               );
             })}

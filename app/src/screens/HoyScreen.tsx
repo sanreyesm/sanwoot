@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSession } from "../state/SessionContext";
-import { getPrescription, PRESCRIPTION_WEEK, PRESCRIPTION_TOTAL_WEEKS } from "../data/prescription";
+import { getPrescription, DAY_COACH_NOTES, PRESCRIPTION_WEEK, PRESCRIPTION_TOTAL_WEEKS } from "../data/prescription";
 import { getExercise } from "../data/exercises";
 import { resolveDemoFile } from "../data/demo-map";
 import { cacheAllDemos, getCachedDemoCount, type CacheAllProgress } from "../lib/demo-cache";
@@ -156,6 +156,13 @@ export function HoyScreen() {
             {prescription.length} ejercicios · {totalSets} series{floors.length > 0 ? ` · ${floors.map((f) => FLOOR_LABEL[f]).join(" y ")}` : ""}
           </div>
         </button>
+
+        {DAY_COACH_NOTES[day] && (
+          <div style={{ fontSize: 13, background: "var(--screen-bg)", borderRadius: 8, padding: "8px 10px" }}>
+            <span className="text-muted" style={{ fontSize: 11, fontWeight: 700, display: "block" }}>Tu coach</span>
+            {DAY_COACH_NOTES[day]}
+          </div>
+        )}
 
         {cachedCount == null ? (
           <p className="text-muted" style={{ margin: 0 }}>Comprobando demostraciones…</p>

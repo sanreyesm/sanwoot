@@ -59,6 +59,8 @@ export interface Prescription {
   coachNote?: string;
   /** Comentarios de celda que la coach dejó en el Sheet para este ejercicio. */
   coachComments?: string[];
+  /** Comentarios de la coach de semanas anteriores, que siguen visibles más abajo. */
+  previousCoachComments?: string[];
   isWarmup: boolean;
 }
 

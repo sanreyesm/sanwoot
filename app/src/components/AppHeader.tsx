@@ -1,6 +1,6 @@
-// Barra superior fija. La barra de estado de iOS es translúcida
-// (black-translucent + viewport-fit=cover), así que sin esto el contenido
-// queda debajo de la hora y el notch al hacer scroll.
+// Barra superior (no fija: se va con el scroll). La barra de estado de iOS es
+// translúcida (black-translucent + viewport-fit=cover), así que el padding
+// superior deja libre la zona de la hora y el notch.
 export function AppHeader() {
   return (
     <header className="app-header">

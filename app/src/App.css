@@ -80,9 +80,6 @@ textarea {
 }
 
 .app-header {
-  position: sticky;
-  top: 0;
-  z-index: 9;
   background: var(--screen-bg);
   padding: max(10px, env(safe-area-inset-top)) 16px 8px;
   border-bottom: 1px solid var(--border);

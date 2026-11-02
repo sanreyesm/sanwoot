@@ -868,6 +868,32 @@ textarea {
   line-height: 1.4;
 }
 
+/* Nota guardada, fuera de edición: se lee como texto ingresado (no como
+   placeholder). readOnly en vez de disabled, porque Safari atenúa el texto
+   de un campo deshabilitado. */
+textarea.textarea--filled,
+textarea.textarea--empty {
+  resize: none;
+  cursor: default;
+}
+
+textarea.textarea--filled {
+  background: var(--card-bg);
+  border-color: var(--border);
+  color: var(--ink);
+}
+
+textarea.textarea--empty {
+  background: var(--screen-bg);
+  color: var(--muted);
+}
+
+textarea.textarea--filled:focus-visible,
+textarea.textarea--empty:focus-visible {
+  border-color: var(--border-strong);
+  outline: none;
+}
+
 /* RIR / RPE */
 
 .stepper {

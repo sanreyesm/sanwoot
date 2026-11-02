@@ -195,9 +195,9 @@ export function EjercicioScreen() {
           rows={2}
           placeholder='Ej. "es con mancuerna", "en COROS es el parecido a este pero con plancha normal"'
           value={editingNote ? draftNote : myNote}
-          disabled={!editingNote}
+          readOnly={!editingNote}
           onChange={(e) => setDraftNote(e.target.value)}
-          style={editingNote ? undefined : { background: "var(--screen-bg)", color: "var(--muted)" }}
+          className={editingNote ? undefined : myNote ? "textarea--filled" : "textarea--empty"}
         />
         {editingNote ? (
           <div className="camera-actions">

@@ -166,12 +166,22 @@ export function HoyScreen() {
     const ready = cachedCount != null && cachedCount === demoFiles.length;
 
     return (
-      <section key={day} className="card" style={{ gap: 11 }}>
-        <button
-          type="button"
-          onClick={() => navigate(`/dia/${day}`)}
-          style={{ background: "none", border: "none", padding: 0, textAlign: "left", cursor: "pointer", display: "flex", flexDirection: "column", gap: 6 }}
-        >
+      <section
+        key={day}
+        className="card card--clickable"
+        style={{ gap: 11 }}
+        role="button"
+        tabIndex={0}
+        onClick={() => navigate(`/dia/${day}`)}
+        onKeyDown={(e) => {
+          if (e.target !== e.currentTarget) return;
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            navigate(`/dia/${day}`);
+          }
+        }}
+      >
+        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <h2 style={{ margin: 0, fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 27 }}>Día {day}</h2>
             <Icon name="chevron-right" size={19} strokeWidth={2.4} />
@@ -179,7 +189,7 @@ export function HoyScreen() {
           <div style={{ fontSize: 13, color: "var(--muted)" }}>
             {prescription.length} ejercicios · {totalSets} series{floors.length > 0 ? ` · ${floors.map((f) => FLOOR_LABEL[f]).join(" y ")}` : ""}
           </div>
-        </button>
+        </div>
 
         {plan?.dayCoachNotes[day] && (
           <div style={{ fontSize: 13, background: "var(--screen-bg)", borderRadius: 8, padding: "8px 10px" }}>
@@ -218,10 +228,6 @@ export function HoyScreen() {
           </div>
         )}
 
-        <button className="btn btn--primary btn--large" onClick={() => navigate(`/dia/${day}`)}>
-          Ver rutina
-          <Icon name="arrow-right" size={18} strokeWidth={2.8} />
-        </button>
       </section>
     );
   };
@@ -283,7 +289,7 @@ export function HoyScreen() {
     return (
       <>
         <p className="text-muted" style={{ margin: 0 }}>
-          Semana {currentWeek} de {PRESCRIPTION_TOTAL_WEEKS}. {pendingDays.length === 1 ? "Te queda 1 día." : `Te quedan ${pendingDays.length} días.`} Toca una rutina para ver el detalle y empezar.
+          Semana {currentWeek} de {PRESCRIPTION_TOTAL_WEEKS}. {pendingDays.length === 1 ? "Te queda 1 día." : `Te quedan ${pendingDays.length} días.`} Toca un día para ver el detalle y empezar.
         </p>
         {pendingDays.map((day) => renderDayCard(day))}
         {doneDays.length > 0 && (

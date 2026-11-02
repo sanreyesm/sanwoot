@@ -79,6 +79,22 @@ textarea {
   margin: 0 auto;
 }
 
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 9;
+  background: var(--screen-bg);
+  padding: max(10px, env(safe-area-inset-top)) 16px 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.app-header__title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--accent);
+}
+
 .screen-loading {
   padding: 26px;
   text-align: center;
@@ -124,6 +140,19 @@ h1 {
   flex-direction: column;
   gap: 8px;
   box-shadow: 0 1px 2px rgba(27, 26, 31, 0.08);
+}
+
+.card--clickable {
+  cursor: pointer;
+}
+
+.card--clickable:active {
+  transform: scale(0.99);
+}
+
+.card--clickable:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .card--current {

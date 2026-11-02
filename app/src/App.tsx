@@ -1,5 +1,6 @@
 import { HashRouter, Route, Routes, useLocation } from "react-router-dom";
 import { SessionProvider } from "./state/SessionContext";
+import { AppHeader } from "./components/AppHeader";
 import { BottomNav } from "./components/BottomNav";
 import { HoyScreen } from "./screens/HoyScreen";
 import { DiaPreviewScreen } from "./screens/DiaPreviewScreen";
@@ -22,6 +23,7 @@ function AppShell() {
   return (
     <div className="app-shell">
       <main className="app-main">
+        <AppHeader />
         <Routes>
           <Route path="/" element={<HoyScreen />} />
           <Route path="/dia/:day" element={<DiaPreviewScreen />} />

@@ -21,11 +21,11 @@ export function DiaPreviewScreen() {
   const { day: dayParam } = useParams();
   const day = Number(dayParam) as Day;
   const navigate = useNavigate();
-  const { startSession } = useSession();
+  const { startSession, currentWeek } = useSession();
 
-  const prescription = getPrescription(day);
-  if (day !== 1 && day !== 2) {
-    return <p className="screen">Día no válido.</p>;
+  const prescription = getPrescription(currentWeek, day);
+  if ((day !== 1 && day !== 2) || prescription.length === 0) {
+    return <p className="screen">Este día no tiene pauta esta semana.</p>;
   }
 
   const totalSets = prescription.reduce((sum, p) => sum + p.sets, 0);
@@ -48,14 +48,14 @@ export function DiaPreviewScreen() {
         <Icon name="chevron-left" size={19} strokeWidth={2.6} />
         Hoy
       </button>
-      <div className="eyebrow">Vista informativa · no inicia registro</div>
+      <div className="eyebrow">Semana {currentWeek} · Vista informativa · no inicia registro</div>
       <h1>Día {day}</h1>
       <p className="text-muted">{prescription.length} ejercicios · {totalSets} series. Toca uno para ver su detalle.</p>
 
       {groups.map((group, gi) => (
         <div key={gi} style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           <h2 className="eyebrow" style={{ margin: "3px 0 0" }}>
-            {group.isWarmup ? "🔸 Calentamiento" : "Entrenamiento principal"}
+            {group.isWarmup ? "🔸 Calentamiento · solo para mirar" : "Entrenamiento principal"}
           </h2>
           <ol className="exercise-list">
             {group.items.map((p) => {

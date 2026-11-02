@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { getExercise } from "../data/exercises";
 import { getPrescription } from "../data/prescription";
 import { resolveDemo } from "../data/demo-map";
@@ -8,6 +8,7 @@ import { DemoPicker } from "../components/DemoPicker";
 import { Icon } from "../components/Icon";
 import { CoachComments } from "../components/CoachComments";
 import { getLastSetsForExercise } from "../lib/db";
+import { useSession } from "../state/SessionContext";
 import { setOverride } from "../lib/exercise-overrides";
 import { MUSCLE_GROUPS, FLOORS, floorLabel } from "../data/exercise-options";
 import type { Day, Exercise, SetResult } from "../types";
@@ -20,6 +21,12 @@ export function EjercicioPreviewScreen() {
   const { day: dayParam, exerciseId = "" } = useParams();
   const day = Number(dayParam) as Day;
   const navigate = useNavigate();
+  const { currentWeek } = useSession();
+  // Desde la rutina en curso solo se abre el calentamiento: volver a la rutina
+  // y pasar solo entre ejercicios de calentamiento.
+  const [searchParams] = useSearchParams();
+  const fromRutina = searchParams.get("desde") === "rutina";
+  const query = fromRutina ? "?desde=rutina" : "";
 
   const [lastSets, setLastSets] = useState<SetResult[]>([]);
   const [myNote, setMyNote] = useState("");
@@ -36,8 +43,10 @@ export function EjercicioPreviewScreen() {
     setEditingNote(false);
   }, [exerciseId]);
 
-  const prescription = getPrescription(day).find((p) => p.exerciseId === exerciseId);
-  const order = getPrescription(day).map((p) => p.exerciseId);
+  const prescription = getPrescription(currentWeek, day).find((p) => p.exerciseId === exerciseId);
+  const order = getPrescription(currentWeek, day)
+    .filter((p) => !fromRutina || p.isWarmup)
+    .map((p) => p.exerciseId);
   const currentIndex = order.indexOf(exerciseId);
   const prevId = currentIndex > 0 ? order[currentIndex - 1] : null;
   const nextId = currentIndex < order.length - 1 ? order[currentIndex + 1] : null;
@@ -69,22 +78,22 @@ export function EjercicioPreviewScreen() {
   return (
     <div className="screen">
       <div className="exercise-nav">
-        <button className="exercise-nav__back" onClick={() => navigate(`/dia/${day}`)}>
+        <button className="exercise-nav__back" onClick={() => navigate(fromRutina ? "/rutina" : `/dia/${day}`)}>
           <Icon name="chevron-left" size={19} strokeWidth={2.6} />
-          Día {day}
+          {fromRutina ? "Rutina" : `Día ${day}`}
         </button>
         <div className="exercise-nav__pager">
-          <button className="icon-btn" aria-label="Ejercicio anterior" disabled={!prevId} onClick={() => prevId && navigate(`/dia/${day}/ejercicio/${prevId}`)}>
+          <button className="icon-btn" aria-label="Ejercicio anterior" disabled={!prevId} onClick={() => prevId && navigate(`/dia/${day}/ejercicio/${prevId}${query}`)}>
             <Icon name="chevron-left" size={18} strokeWidth={2.6} />
           </button>
           <span className="exercise-nav__count">{currentIndex + 1} de {order.length}</span>
-          <button className="icon-btn" aria-label="Ejercicio siguiente" disabled={!nextId} onClick={() => nextId && navigate(`/dia/${day}/ejercicio/${nextId}`)}>
+          <button className="icon-btn" aria-label="Ejercicio siguiente" disabled={!nextId} onClick={() => nextId && navigate(`/dia/${day}/ejercicio/${nextId}${query}`)}>
             <Icon name="chevron-right" size={18} strokeWidth={2.6} />
           </button>
         </div>
       </div>
 
-      <div className="eyebrow">Vista informativa · {exercise.muscleGroup ? `${exercise.muscleGroup} · ` : ""}{floorLabel(exercise.floor)}</div>
+      <div className="eyebrow">{prescription.isWarmup ? "Calentamiento · solo para mirar" : "Vista informativa"} · {exercise.muscleGroup ? `${exercise.muscleGroup} · ` : ""}{floorLabel(exercise.floor)}</div>
       <h1 style={{ fontSize: 27 }}>{exercise.name}</h1>
 
       <DemoPlayer

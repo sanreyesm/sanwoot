@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useSession } from "../state/SessionContext";
 import { getExercise } from "../data/exercises";
 import { getPrescription } from "../data/prescription";
+import { sessionWeek, trainingOrder } from "../lib/weeks";
 import { resolveDemo } from "../data/demo-map";
 import { DemoPlayer } from "../components/DemoPlayer";
 import { DemoPicker } from "../components/DemoPicker";
@@ -19,7 +20,7 @@ import type { PersonalClip, SetResult } from "../types";
 export function EjercicioScreen() {
   const { exerciseId = "" } = useParams();
   const navigate = useNavigate();
-  const { session, sets, feedback, addSet, removeSet, setFeedback, toggleSkip } = useSession();
+  const { session, sets, feedback, addSet, removeSet, setFeedback, toggleSkip, currentWeek } = useSession();
 
   const [lastSets, setLastSets] = useState<SetResult[]>([]);
   const [reps, setReps] = useState("");
@@ -53,9 +54,13 @@ export function EjercicioScreen() {
   }
 
   const exercise = getExercise(exerciseId);
-  const prescription = getPrescription(session.day).find((p) => p.exerciseId === exerciseId);
+  const prescription = getPrescription(sessionWeek(session) ?? currentWeek, session.day).find((p) => p.exerciseId === exerciseId);
   if (!exercise || !prescription) {
     return <p className="screen">Ejercicio no encontrado en la pauta de este día.</p>;
+  }
+  // El calentamiento no se registra: se abre en la vista informativa.
+  if (prescription.isWarmup) {
+    return <Navigate to={`/dia/${session.day}/ejercicio/${exerciseId}?desde=rutina`} replace />;
   }
 
   const demo = resolveDemo(exerciseId);
@@ -67,7 +72,7 @@ export function EjercicioScreen() {
   const setsDone = mySets.length >= prescription.sets;
   const extraCount = Math.max(0, mySets.length - prescription.sets);
 
-  const order = session.exerciseOrder;
+  const order = trainingOrder(session);
   const currentIndex = order.indexOf(exerciseId);
   const prevId = currentIndex > 0 ? order[currentIndex - 1] : null;
   const nextId = currentIndex < order.length - 1 ? order[currentIndex + 1] : null;

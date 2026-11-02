@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useSession } from "../state/SessionContext";
 import { getExercise } from "../data/exercises";
 import { getPrescription } from "../data/prescription";
+import { sessionWeek } from "../lib/weeks";
 import { Icon } from "../components/Icon";
 import { Badge } from "../components/Badge";
 import { buildSessionSummaryText, shareSessionSummary } from "../lib/session-summary";
@@ -22,7 +23,7 @@ const RPE_LABELS: Record<number, string> = {
 };
 
 export function CierreScreen() {
-  const { session, sets, feedback, finishSession, discardActiveSessionView } = useSession();
+  const { session, sets, feedback, finishSession, discardActiveSessionView, currentWeek } = useSession();
   const navigate = useNavigate();
   const [rpe, setRpe] = useState(session?.rpe ?? 5);
   const [note, setNote] = useState(session?.sessionNote ?? "");
@@ -39,7 +40,8 @@ export function CierreScreen() {
     );
   }
 
-  const prescription = getPrescription(session.day);
+  // El calentamiento no se registra, así que no cuenta para completa/parcial.
+  const prescription = getPrescription(sessionWeek(session) ?? currentWeek, session.day).filter((p) => !p.isWarmup);
   const doneExercises = new Set(sets.map((s) => s.exerciseId));
 
   const complete = prescription.filter((p) => doneExercises.has(p.exerciseId) && !session.skippedExerciseIds.includes(p.exerciseId));

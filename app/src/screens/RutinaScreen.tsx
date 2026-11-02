@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useSession } from "../state/SessionContext";
 import { getExercise } from "../data/exercises";
 import { getPrescription } from "../data/prescription";
+import { sessionWeek, trainingOrder } from "../lib/weeks";
 import { Icon } from "../components/Icon";
 import { Badge } from "../components/Badge";
 import type { Exercise, Prescription } from "../types";
@@ -14,7 +15,7 @@ const FLOOR_LABEL: Record<string, string> = {
 };
 
 export function RutinaScreen() {
-  const { session, sets, reorder, toggleSkip } = useSession();
+  const { session, sets, reorder, toggleSkip, currentWeek } = useSession();
   const navigate = useNavigate();
 
   if (!session) {
@@ -28,8 +29,9 @@ export function RutinaScreen() {
     );
   }
 
-  const prescription = getPrescription(session.day);
-  const order = session.exerciseOrder;
+  const prescription = getPrescription(sessionWeek(session) ?? currentWeek, session.day);
+  const order = trainingOrder(session);
+  const warmups = prescription.filter((p) => p.isWarmup);
   const setsDone = (exerciseId: string) => sets.filter((s) => s.exerciseId === exerciseId).length;
   const doneExercises = new Set(sets.map((s) => s.exerciseId));
   const currentId = order.find((id) => !doneExercises.has(id) && !session.skippedExerciseIds.includes(id));
@@ -42,10 +44,8 @@ export function RutinaScreen() {
     reorder(next);
   };
 
-  // Agrupa por tramos consecutivos de calentamiento vs. entrenamiento principal,
-  // según el orden actual (que puede haberse reordenado). Cada tramo lleva su
-  // propio encabezado, pero el número de cada ejercicio sigue siendo su
-  // posición real en la sesión, no un reinicio por sección.
+  // El calentamiento va aparte y solo para mirar (no se registra ni se
+  // reordena); la lista numerada es lo que sí se registra en la sesión.
   type Row = { index: number; exerciseId: string; exercise: Exercise; presc: Prescription };
   const rows: Row[] = order
     .map((exerciseId, index) => {
@@ -55,16 +55,6 @@ export function RutinaScreen() {
       return { index, exerciseId, exercise, presc };
     })
     .filter((r): r is Row => r !== null);
-
-  const groups: { isWarmup: boolean; rows: Row[] }[] = [];
-  for (const row of rows) {
-    const last = groups[groups.length - 1];
-    if (last && last.isWarmup === row.presc.isWarmup) {
-      last.rows.push(row);
-    } else {
-      groups.push({ isWarmup: row.presc.isWarmup, rows: [row] });
-    }
-  }
 
   const renderRow = ({ index, exerciseId, exercise, presc }: Row) => {
     const skipped = session.skippedExerciseIds.includes(exerciseId);
@@ -136,14 +126,35 @@ export function RutinaScreen() {
       <h1>Rutina</h1>
       <p className="text-muted">Toca un ejercicio para abrirlo. Usa las flechas para cambiar el orden de hoy.</p>
 
-      {groups.map((group, gi) => (
-        <div key={gi} style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          <h2 className="eyebrow" style={{ margin: "3px 0 0" }}>
-            {group.isWarmup ? "🔸 Calentamiento" : "Entrenamiento principal"}
-          </h2>
-          <ol className="exercise-list">{group.rows.map(renderRow)}</ol>
+      {warmups.length > 0 && (
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          <h2 className="eyebrow" style={{ margin: "3px 0 0" }}>🔸 Calentamiento · solo para mirar</h2>
+          <ul className="exercise-list">
+            {warmups.map((p) => {
+              const exercise = getExercise(p.exerciseId);
+              if (!exercise) return null;
+              return (
+                <li key={p.exerciseId} className="exercise-list__item">
+                  <button className="exercise-list__top" onClick={() => navigate(`/dia/${session.day}/ejercicio/${p.exerciseId}?desde=rutina`)}>
+                    <span className="exercise-list__main">
+                      <span className="exercise-list__name">{exercise.name}</span>
+                      <span className="exercise-list__meta">
+                        {[`${p.sets} series`, p.repsText, p.loadText].filter(Boolean).join(" · ")}
+                      </span>
+                    </span>
+                    <Icon name="chevron-right" size={18} strokeWidth={2.4} />
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
         </div>
-      ))}
+      )}
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        <h2 className="eyebrow" style={{ margin: "3px 0 0" }}>Entrenamiento principal</h2>
+        <ol className="exercise-list">{rows.map(renderRow)}</ol>
+      </div>
 
       <button className="btn btn--primary btn--large" onClick={() => navigate("/cierre")}>
         Terminar y revisar

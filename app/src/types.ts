@@ -57,10 +57,8 @@ export interface Prescription {
   repsText: string | null;
   loadText: string | null;
   coachNote?: string;
-  /** Comentarios de celda que la coach dejó en el Sheet para este ejercicio. */
+  /** Comentarios de celda que la coach dejó en el Sheet para este ejercicio, en las columnas de esta semana. */
   coachComments?: string[];
-  /** Comentarios de la coach de semanas anteriores, que siguen visibles más abajo. */
-  previousCoachComments?: string[];
   isWarmup: boolean;
 }
 
@@ -70,6 +68,8 @@ export type ResultSource = "manual" | "coros";
 export interface WorkoutSession {
   id: string;
   day: Day;
+  /** Semana de la pauta. Las sesiones anteriores al 2 de noviembre no la tienen: se deduce de prescriptionVersion. */
+  week?: number;
   prescriptionVersion: string;
   startedAt: string;
   finishedAt?: string;

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { buildSessionSummaryText, shareSessionSummary } from "../lib/session-summary";
 import { listSessions, getSetsForSession, getFeedbackForSession, deleteSession } from "../lib/db";
 import { getExercise } from "../data/exercises";
+import { trainingOrder } from "../lib/weeks";
 import { buildBackup, buildSessionsCsv, downloadCsv, downloadJson } from "../lib/export";
 import { CopyButton } from "../components/CopyButton";
 import { Icon } from "../components/Icon";
@@ -255,7 +256,7 @@ export function HistorialScreen() {
             </div>
           )}
           <ul className="set-history">
-            {selectedSession.exerciseOrder.map((exerciseId) => {
+            {trainingOrder(selectedSession).map((exerciseId) => {
               const name = getExercise(exerciseId)?.name ?? exerciseId;
               const exSets = detail.sets.filter((s) => s.exerciseId === exerciseId);
               const fb = detail.feedback.find((f) => f.exerciseId === exerciseId);

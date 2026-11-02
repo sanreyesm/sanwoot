@@ -1,4 +1,5 @@
 import { getExercise } from "../data/exercises";
+import { trainingOrder } from "./weeks";
 import type { ExerciseFeedback, SetResult, WorkoutSession } from "../types";
 
 // Arma el texto de resumen de sesión que San comparte con su entrenadora
@@ -16,7 +17,7 @@ export function buildSessionSummaryText(
 
   const lines: string[] = [`Sesión Día ${session.day} · ${dateLabel}`];
 
-  for (const exerciseId of session.exerciseOrder) {
+  for (const exerciseId of trainingOrder(session)) {
     const exercise = getExercise(exerciseId);
     const name = exercise?.name ?? exerciseId;
     const isSkipped = session.skippedExerciseIds.includes(exerciseId);

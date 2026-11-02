@@ -7,8 +7,10 @@ import {
   getSetsForSession,
   upsertFeedback,
   getFeedbackForSession,
+  listSessions,
 } from "../lib/db";
-import { PRESCRIPTION_VERSION, getPrescription } from "../data/prescription";
+import { getPrescription, getWeekPlan } from "../data/prescription";
+import { computeCurrentWeek, trainingOrder } from "../lib/weeks";
 import type { Day, ExerciseFeedback, SetResult, WorkoutSession } from "../types";
 
 interface SessionState {
@@ -16,9 +18,13 @@ interface SessionState {
   sets: SetResult[];
   feedback: ExerciseFeedback[];
   loading: boolean;
+  /** Todas las sesiones guardadas, para saber qué días de cada semana ya se hicieron. */
+  allSessions: WorkoutSession[];
 }
 
 interface SessionApi extends SessionState {
+  currentWeek: number;
+  refreshSessions: () => Promise<void>;
   startSession: (day: Day) => Promise<WorkoutSession>;
   addSet: (exerciseId: string, reps: number | null, weightKg: number | null) => Promise<void>;
   removeSet: (setId: string) => Promise<void>;
@@ -36,7 +42,7 @@ function newId(): string {
 }
 
 export function SessionProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState<SessionState>({ session: null, sets: [], feedback: [], loading: true });
+  const [state, setState] = useState<SessionState>({ session: null, sets: [], feedback: [], loading: true, allSessions: [] });
 
   const loadSets = useCallback(async (sessionId: string) => {
     const [sets, feedback] = await Promise.all([getSetsForSession(sessionId), getFeedbackForSession(sessionId)]);
@@ -45,32 +51,44 @@ export function SessionProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     (async () => {
-      const existing = await getActiveSession();
+      const [existing, allSessions] = await Promise.all([getActiveSession(), listSessions()]);
       if (existing) {
         const [sets, feedback] = await Promise.all([getSetsForSession(existing.id), getFeedbackForSession(existing.id)]);
-        setState({ session: existing, sets, feedback, loading: false });
+        setState({ session: existing, sets, feedback, loading: false, allSessions });
       } else {
-        setState({ session: null, sets: [], feedback: [], loading: false });
+        setState({ session: null, sets: [], feedback: [], loading: false, allSessions });
       }
     })();
   }, []);
 
+  const currentWeek = useMemo(() => computeCurrentWeek(state.allSessions), [state.allSessions]);
+
+  const refreshSessions = useCallback(async () => {
+    const allSessions = await listSessions();
+    setState((s) => ({ ...s, allSessions }));
+  }, []);
+
+  // Solo se puede hacer la semana actual: las futuras se miran, no se hacen.
   const startSession = useCallback(async (day: Day): Promise<WorkoutSession> => {
-    const prescription = getPrescription(day);
+    const plan = getWeekPlan(currentWeek);
+    if (!plan) throw new Error(`La semana ${currentWeek} todavía no tiene pauta.`);
+    const prescription = getPrescription(currentWeek, day);
     const session: WorkoutSession = {
       id: newId(),
       day,
-      prescriptionVersion: PRESCRIPTION_VERSION,
+      week: currentWeek,
+      prescriptionVersion: plan.version,
       startedAt: new Date().toISOString(),
       status: "active",
       source: "manual",
-      exerciseOrder: prescription.map((p) => p.exerciseId),
+      // El calentamiento no entra: es solo informativo, no se registra.
+      exerciseOrder: prescription.filter((p) => !p.isWarmup).map((p) => p.exerciseId),
       skippedExerciseIds: [],
     };
     await saveSession(session);
-    setState({ session, sets: [], feedback: [], loading: false });
+    setState((s) => ({ session, sets: [], feedback: [], loading: false, allSessions: [session, ...s.allSessions] }));
     return session;
-  }, []);
+  }, [currentWeek]);
 
   const addSet = useCallback(
     async (exerciseId: string, reps: number | null, weightKg: number | null) => {
@@ -152,7 +170,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     setState((prev) => {
       if (!prev.session) return prev;
       const doneExercises = new Set(prev.sets.map((s) => s.exerciseId));
-      const allExercises = prev.session.exerciseOrder;
+      const allExercises = trainingOrder(prev.session);
       const allDone = allExercises.every(
         (id) => doneExercises.has(id) || prev.session!.skippedExerciseIds.includes(id)
       );
@@ -164,17 +182,20 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         sessionNote: note,
       };
       saveSession(nextSession);
-      return { ...prev, session: nextSession };
+      const allSessions = prev.allSessions.map((s) => (s.id === nextSession.id ? nextSession : s));
+      return { ...prev, session: nextSession, allSessions };
     });
   }, []);
 
   const discardActiveSessionView = useCallback(() => {
-    setState({ session: null, sets: [], feedback: [], loading: false });
+    setState((s) => ({ session: null, sets: [], feedback: [], loading: false, allSessions: s.allSessions }));
   }, []);
 
   const api = useMemo<SessionApi>(
     () => ({
       ...state,
+      currentWeek,
+      refreshSessions,
       startSession,
       addSet,
       removeSet,
@@ -184,7 +205,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       finishSession,
       discardActiveSessionView,
     }),
-    [state, startSession, addSet, removeSet, setFeedback, toggleSkip, reorder, finishSession, discardActiveSessionView]
+    [state, currentWeek, refreshSessions, startSession, addSet, removeSet, setFeedback, toggleSkip, reorder, finishSession, discardActiveSessionView]
   );
 
   // Se usa para refrescar sets/feedback desde otras pantallas si se navega y vuelve.
